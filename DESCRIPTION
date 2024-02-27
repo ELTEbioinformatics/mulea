@@ -56,7 +56,7 @@ biocViews: Annotation, DifferentialExpression, GeneExpression,
     Reactome, Software, Transcription, Visualization
 License: MIT + file LICENSE
 Depends:
-    R (>= 4.3.0)
+    R (>= 4.0.0)
 Imports:
     data.table (>= 1.13.0),
     dplyr,

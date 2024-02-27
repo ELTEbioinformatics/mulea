@@ -1,6 +1,10 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
 
+# Git
+.gitignore
+.github
+
 # README
 README.md
 README.Rmd

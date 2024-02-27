@@ -84,6 +84,7 @@ set.based.enrichment.test <- function(
             # envir = current_env
             clusterExport(cl,"seeds_per_thread", envir = current_env)
             clusterExport(cl,"steps_per_thread", envir = current_env)
+            clusterEvalQ(cl, devtools::load_all())
             result_of_paralel <- clusterApplyLB(cl=cl, seq_len(nthread), 
                 function(idx) {
                     simulation_result_tbl <-  tryCatch(

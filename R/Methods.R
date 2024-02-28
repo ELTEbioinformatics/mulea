@@ -27,7 +27,6 @@ checkIfPoolIncludeSample <-
     return(sampleVector)
     }
 
-
 cutGmtToPool <- function(gmt, pool) {
     cutDF <- plyr::ddply(
         .data = gmt,

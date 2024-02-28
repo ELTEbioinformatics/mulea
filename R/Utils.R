@@ -109,8 +109,8 @@ write_gmt <- function(gmt, file) {
 #'     package="mulea", "extdata", 
 #'     "Transcription_factor_RegulonDB_Escherichia_coli_GeneSymbol.gmt"))
 #' tf_gmt_filtered <- filter_ontology(gmt = tf_gmt,
-#'                                    min_nr_of_elements = 3,
-#'                                    max_nr_of_elements = 400)
+#'         min_nr_of_elements = 3,
+#'         max_nr_of_elements = 400)
 
 filter_ontology <- function(gmt,
     min_nr_of_elements = NULL,
@@ -124,7 +124,7 @@ filter_ontology <- function(gmt,
             terms_sizes <- plyr::laply(.data = gmt$list_of_values,
                 .fun = function(term) { length(term) })
             max_nr_of_elements <- 400
-  }
+        }
     filtered_input_gmt <- plyr::ddply(.data = gmt, 
         .variables = c("ontology_id"),
         .fun = function(df_row) {
@@ -138,12 +138,12 @@ filter_ontology <- function(gmt,
         .variables = c("ontology_id"),
         .fun = function(df_row) {
             if (length(df_row$list_of_values[[1]]) < max_nr_of_elements) {
-              df_row
+                df_row
             } else {
-              df_row[-1, ]
+                df_row[-1, ]
             }
         })
-  filtered_input_gmt
+    filtered_input_gmt
 }
 
 
@@ -200,7 +200,7 @@ decorateGmtByUnderOvenAndNoise <- function(
 #' 
 #' # creating a list of gene sets
 #' ontology_list <- list(gene_set1 = c("gene1", "gene2", "gene3"),
-#'                       gene_set2 = c("gene4", "gene5", "gene6"))
+#'         gene_set2 = c("gene4", "gene5", "gene6"))
 #'
 #' # converting the list to a ontology (GMT) object
 #' new_ontology_object <- list_to_gmt(ontology_list)
@@ -348,7 +348,7 @@ getMultipleTestsSummary <- function(tests_res, comparison_col_name,
                 'TP_size' = TP_size, 'FP' = I(list(FP)), 'FP_size' = FP_size,
                 'FN' = I(list(FN)), 'FN_size' = FN_size, 'TN' = I(list(TN)),
                 'TN_size' = TN_size, 'over_repr_terms' = I(list(over_repr_terms)
-                  ))
+                ))
         for (metadata_entry in names(tests_res[[i]]$metadata)) {
             if ('input_select' == metadata_entry) {
                 sumary_res_tmp <- cbind(sumary_res_tmp,
@@ -361,13 +361,11 @@ getMultipleTestsSummary <- function(tests_res, comparison_col_name,
         }
         sumary_res[i,] <- sumary_res_tmp
     }
-  
     sumary_res <- tibble::tibble(sumary_res) %>%
         dplyr::mutate(FPR = FP_size / (FP_size + TN_size)) %>%
         dplyr::mutate(TPR = TP_size / (TP_size + FN_size)) %>%
         dplyr::mutate(FDR = FP_size / (TP_size + FP_size)) %>%
         dplyr::mutate(NPV = TN_size / (FN_size + TN_size))
-  
     for (label_id in seq_along(labels)) {
         # IMPORTANT : Labels are as characters in datatable
         label_name <- as.character(names(labels)[[label_id]])
@@ -391,78 +389,49 @@ getMultipleTestsSummary <- function(tests_res, comparison_col_name,
 #' @importFrom magrittr %>%
 #' @importFrom plyr .
 #' @importFrom rlang .data
-getSummaryToRoc <- function(tests_res,
-                            cut_off_resolution = 0.01,
-                            methods_names = c('pValue', 'adjustedPValue', 
-                                              'adjustedPValueEmpirical')) {
-  print("mulea ROC data calculation time:")
-  tictoc::tic()
-  
-  number_of_tests <- length(tests_res)
-  data_to_roc <- data.frame(
-    "sample_label" = c(),
-    "pValue" = c(),
-    "adjustedPValue" = c(),
-    "adjustedPValueEmpirical" = c()
-  )
-  for (i in seq_len(number_of_tests)) {
-    tests_res[[i]]$mulea_res[, c("pValue", "adjustedPValue",
-                                 "adjustedPValueEmpirical")]
-    data_to_roc <-
-      rbind(
-        data_to_roc,
-        data.frame("sample_label" =
-                     tests_res[[i]]$test_data[, c("sample_label")],
-                   tests_res[[i]]$mulea_res[, c("pValue", "adjustedPValue",
-                                                "adjustedPValueEmpirical")])
-      )
-  }
-  
-  roc_stats <- tibble::tibble(
-    TP_val = numeric(),
-    TN_val = numeric(),
-    FP_val = numeric(),
-    FN_val = numeric(),
-    TPR = numeric(),
-    FPR = numeric(),
-    sum_test = numeric(),
-    cut_off = numeric(),
-    method = character()
-  )
-  
-  for (method_name in methods_names) {
-    for (cut_off in seq(0, 1, cut_off_resolution)) {
-      sim_mult_tests_res_to_roc_summary <- data_to_roc %>%
-        dplyr::mutate(PP = !!as.name(method_name) <= cut_off) %>%
-        dplyr::mutate(TP = (.data$PP == TRUE & .data$sample_label == 'over'),
-                      TN = (.data$PP == FALSE & .data$sample_label != 'over'),
-                      FP = (.data$PP == TRUE & .data$sample_label != 'over'),
-                      FN = (.data$PP == FALSE & .data$sample_label == 'over')
-        )
-
-       sim_sum <-
-         sim_mult_tests_res_to_roc_summary %>% dplyr::summarise(
-           TP_val = sum(.data$TP),
-           TN_val = sum(.data$TN),
-           FP_val = sum(.data$FP),
-           FN_val = sum(.data$FN)
-         )
-      
-      sim_sum_roc <- sim_sum %>% dplyr::mutate(
-        TPR = .data$TP_val / (.data$TP_val + .data$FN_val),
-        FPR = .data$FP_val / (.data$FP_val + .data$TN_val),
-        sum_test = .data$TP_val + .data$TN_val + .data$FP_val + .data$FN_val,
-        cut_off = cut_off,
-        method = method_name
-      )
-      
-      roc_stats <- roc_stats %>% tibble::add_row(sim_sum_roc)
+getSummaryToRoc <- function(tests_res, cut_off_resolution = 0.01,
+    methods_names = c('pValue', 'adjustedPValue', 'adjustedPValueEmpirical')) {
+        print("mulea ROC data calculation time:")
+        tictoc::tic()
+        number_of_tests <- length(tests_res)
+        data_to_roc <- data.frame("sample_label" = c(), "pValue" = c(), 
+            "adjustedPValue" = c(), "adjustedPValueEmpirical" = c())
+        for (i in seq_len(number_of_tests)) {
+            tests_res[[i]]$mulea_res[, c("pValue", "adjustedPValue",
+                "adjustedPValueEmpirical")]
+            data_to_roc <- rbind(data_to_roc, data.frame(
+                "sample_label" = tests_res[[i]]$test_data[, c("sample_label")],
+                    tests_res[[i]]$mulea_res[, c("pValue", "adjustedPValue",
+                        "adjustedPValueEmpirical")]))
+        }
+    roc_stats <- tibble::tibble(TP_val = numeric(), TN_val = numeric(),
+        FP_val = numeric(), FN_val = numeric(), TPR = numeric(),
+        FPR = numeric(), sum_test = numeric(), cut_off = numeric(),
+        method = character())
+    for (method_name in methods_names) {
+        for (cut_off in seq(0, 1, cut_off_resolution)) {
+            sim_mult_tests_res_to_roc_summary <- data_to_roc %>%
+                dplyr::mutate(PP = !!as.name(method_name) <= cut_off) %>%
+                dplyr::mutate(TP = (.data$PP == TRUE & 
+                    .data$sample_label == 'over'),
+                    TN = (.data$PP == FALSE & .data$sample_label != 'over'),
+                    FP = (.data$PP == TRUE & .data$sample_label != 'over'),
+                    FN = (.data$PP == FALSE & .data$sample_label == 'over'))
+            sim_sum <- sim_mult_tests_res_to_roc_summary %>% 
+                dplyr::summarise(TP_val = sum(.data$TP), TN_val = sum(.data$TN),
+                    FP_val = sum(.data$FP), FN_val = sum(.data$FN))
+            sim_sum_roc <- sim_sum %>% dplyr::mutate(
+                TPR = .data$TP_val / (.data$TP_val + .data$FN_val),
+                FPR = .data$FP_val / (.data$FP_val + .data$TN_val),
+                sum_test = .data$TP_val + 
+                    .data$TN_val + .data$FP_val + .data$FN_val,
+                cut_off = cut_off, method = method_name)
+            roc_stats <- roc_stats %>% 
+                tibble::add_row(sim_sum_roc)
+        }
     }
-  }
-  
-  tictoc::toc()
-  
-  return(roc_stats)
+    tictoc::toc()
+    return(roc_stats)
 }
 
 # PUBLIC API
@@ -476,38 +445,26 @@ getSummaryToRoc <- function(tests_res,
 #' @return Return data frame with FDR. TPRs per test.
 #' @noRd
 getMultipleTestsSummaryAcrossCutOff <- function(tests_res,
-                                                cut_off_range = seq(0, 1, 0.1)) 
-  {
-  tests_res_sum <- NULL
-  for (cut_off in cut_off_range) {
-    print(cut_off)
-    tests_res_sum_p <- getMultipleTestsSummary(
-      tests_res = tests_res,
-      comparison_col_name = 'pValue',
-      labels = list('method' = 'p', 'cut_off' = cut_off),
-      cut_off = cut_off
-    )
-    
-    tests_res_sum_bh <- getMultipleTestsSummary(
-      tests_res = tests_res,
-      comparison_col_name = 'adjustedPValue',
-      labels = list('method' = 'bh', 'cut_off' = cut_off),
-      cut_off = cut_off
-    )
-    
-    tests_res_sum_pt <- getMultipleTestsSummary(
-      tests_res = tests_res,
-      comparison_col_name = 'adjustedPValueEmpirical',
-      labels = list('method' = 'pt', 'cut_off' = cut_off),
-      cut_off = cut_off
-    )
-    
-    tests_res_sum <- rbind(tests_res_sum,
-                           tests_res_sum_p,
-                           tests_res_sum_pt,
-                           tests_res_sum_bh)
-  }
-  return(tests_res_sum)
+    cut_off_range = seq(0, 1, 0.1)) {
+    tests_res_sum <- NULL
+    for (cut_off in cut_off_range) {
+        print(cut_off)
+        tests_res_sum_p <- getMultipleTestsSummary(tests_res = tests_res,
+            comparison_col_name = 'pValue',
+            labels = list('method' = 'p', 'cut_off' = cut_off),
+            cut_off = cut_off)
+        tests_res_sum_bh <- getMultipleTestsSummary(tests_res = tests_res,
+            comparison_col_name = 'adjustedPValue',
+            labels = list('method' = 'bh', 'cut_off' = cut_off),
+            cut_off = cut_off)
+        tests_res_sum_pt <- getMultipleTestsSummary(tests_res = tests_res,
+            comparison_col_name = 'adjustedPValueEmpirical',
+            labels = list('method' = 'pt', 'cut_off' = cut_off),
+            cut_off = cut_off)
+        tests_res_sum <- rbind(tests_res_sum, tests_res_sum_p, tests_res_sum_pt,
+            tests_res_sum_bh)
+    }
+    return(tests_res_sum)
 }
 
 
@@ -527,67 +484,49 @@ getMultipleTestsSummaryAcrossCutOff <- function(tests_res,
 #' represent.
 #' @return Return data frame with FDR. TPRs per test.
 #' @noRd
-simulateMultipleTests <- function(
-    input_gmt_filtered, 
+simulateMultipleTests <- function(input_gmt_filtered, 
     number_of_tests = 10,
     noise_ratio = 0.35,
     over_repr_ratio  = 0.5,
     number_of_over_representation_groups = ceiling(nrow(
-      input_gmt_filtered) * 0.1),
+        input_gmt_filtered) * 0.1),
     number_of_under_representation_groups = 0,
     number_of_steps = 5000,
     nthreads = 16) {
-  print("mulea calculation time:")
-  tictoc::tic()
-  number_of_samples <- 1
-  tests_res <- vector("list", number_of_tests)
-  for (i in seq_len(number_of_tests)) {
-    print(i)
-    
-    input_gmt_decorated <-
-      decorateGmtByUnderOvenAndNoise(
-        input_gmt = input_gmt_filtered,
-        number_of_over_representation_groups = 
-            number_of_over_representation_groups,
-        number_of_under_representation_groups = 
-            number_of_under_representation_groups
-      )
-    
-    samples <- generateInputSamples(
-      input_gmt_decorated,
-      noise_ratio = noise_ratio,
-      over_repr_ratio = over_repr_ratio,
-      number_of_samples = number_of_samples
-    )
-    
-    if (length(samples) != 1) {
-      warning("sample is not size 1")
+        print("mulea calculation time:")
+        tictoc::tic()
+        number_of_samples <- 1
+        tests_res <- vector("list", number_of_tests)
+        for (i in seq_len(number_of_tests)) {
+            print(i)
+            input_gmt_decorated <- decorateGmtByUnderOvenAndNoise(
+                input_gmt = input_gmt_filtered,
+                number_of_over_representation_groups = 
+                    number_of_over_representation_groups,
+                number_of_under_representation_groups = 
+                    number_of_under_representation_groups)
+            samples <- generateInputSamples(input_gmt_decorated,
+                noise_ratio = noise_ratio, over_repr_ratio = over_repr_ratio,
+                number_of_samples = number_of_samples)
+            if (length(samples) != 1) { warning("sample is not size 1") }
+            input_select <- unlist(samples)
+            mulea_ora_model <- ora(gmt = input_gmt_filtered,
+                element_names = input_select,
+                p_value_adjustment_method = "eFDR",
+                number_of_permutations = number_of_steps,
+                nthreads = nthreads)
+            mulea_ora_results <- run_test(mulea_ora_model)
+                tests_res[[i]]$mulea_res <- mulea_ora_results
+                tests_res[[i]]$test_data <- input_gmt_decorated
+                tests_res[[i]]$metadata <- list("noise_ratio" = noise_ratio,
+                    "number_of_tests" = number_of_tests,
+                    "over_repr_ratio" = over_repr_ratio,
+                    "number_of_over_representation_groups" =
+                        number_of_over_representation_groups,
+                    "input_select" = input_select)
     }
-    
-    input_select <- unlist(samples)
-    
-    mulea_ora_model <- ora(
-      gmt = input_gmt_filtered,
-      element_names = input_select,
-      p_value_adjustment_method = "eFDR",
-      number_of_permutations = number_of_steps,
-      nthreads = nthreads
-    )
-    
-    mulea_ora_results <- run_test(mulea_ora_model)
-    tests_res[[i]]$mulea_res <- mulea_ora_results
-    tests_res[[i]]$test_data <- input_gmt_decorated
-    tests_res[[i]]$metadata <- list(
-      'noise_ratio' = noise_ratio,
-      'number_of_tests' = number_of_tests,
-      'over_repr_ratio' = over_repr_ratio,
-      'number_of_over_representation_groups' =
-          number_of_over_representation_groups,
-      'input_select' = input_select
-    )
-  }
-  tictoc::toc()
-  return(tests_res)
+    tictoc::toc()
+    return(tests_res)
 }
 
 
@@ -607,36 +546,31 @@ simulateMultipleTests <- function(
 #' @param number_of_steps number of steps.
 #' @return Return data frame with FDR. TPRs per test.
 #' @noRd
-simulateMultipleTestsWithRatioParam <- function(
-    input_gmt_filtered,
+simulateMultipleTestsWithRatioParam <- function(input_gmt_filtered,
     noise_ratio_range = seq(0.1, 0.5, 0.1),
     number_of_tests = 100,
     over_repr_ratio = 0.5,
     number_of_over_representation_groups = ceiling(nrow(
-      input_gmt_filtered) * 0.2),
+        input_gmt_filtered) * 0.2),
     number_of_steps = 5000,
     nthreads = 16) {
-  tictoc::tic()
-  sim_mult_tests <- list()
-  for (noise_ratio in noise_ratio_range) {
-    print("noise_ratio")
-    print(noise_ratio)
-    sim_mult_tests <- c(
-      sim_mult_tests,
-      simulateMultipleTests(
-        input_gmt_filtered = input_gmt_filtered,
-        number_of_tests = number_of_tests,
-        noise_ratio = noise_ratio,
-        over_repr_ratio = over_repr_ratio,
-        number_of_over_representation_groups = 
-          number_of_over_representation_groups,
-        number_of_under_representation_groups = 0,
-        number_of_steps = number_of_steps,
-        nthreads = nthreads
-      )
-    )
-  }
-  print('mulea : ratio search calculation time:')
-  tictoc::toc()
-  return(sim_mult_tests)
+        tictoc::tic()
+        sim_mult_tests <- list()
+        for (noise_ratio in noise_ratio_range) {
+            print("noise_ratio")
+            print(noise_ratio)
+            sim_mult_tests <- c(sim_mult_tests,
+                simulateMultipleTests(input_gmt_filtered = input_gmt_filtered,
+                    number_of_tests = number_of_tests,
+                    noise_ratio = noise_ratio,
+                    over_repr_ratio = over_repr_ratio,
+                    number_of_over_representation_groups = 
+                        number_of_over_representation_groups,
+                    number_of_under_representation_groups = 0,
+                    number_of_steps = number_of_steps,
+                    nthreads = nthreads))
+        }
+        print('mulea : ratio search calculation time:')
+        tictoc::toc()
+    return(sim_mult_tests)
 }

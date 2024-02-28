@@ -55,11 +55,10 @@ filterRelaxedResultsForPlotting <- function(
 #' library(mulea)
 #' 
 #' # loading and filtering the example ontology from a GMT file
-#' tf_gmt <- read_gmt(file = system.file(
-#'     package="mulea", "extdata", 
+#' tf_gmt <- read_gmt(file = system.file(package="mulea", "extdata", 
 #'     "Transcription_factor_RegulonDB_Escherichia_coli_GeneSymbol.gmt"))
 #' tf_gmt_filtered <- filter_ontology(gmt = tf_gmt, min_nr_of_elements = 3, 
-#'                                    max_nr_of_elements = 400)
+#'     max_nr_of_elements = 400)
 #' 
 #' # loading the example data
 #' sign_genes <- readLines(system.file(
@@ -69,22 +68,21 @@ filterRelaxedResultsForPlotting <- function(
 #'
 #' # creating the ORA model
 #' ora_model <- ora(gmt = tf_gmt_filtered,
-#'                 # the test set variable
-#'                 element_names = sign_genes, 
-#'                 # the background set variable
-#'                 background_element_names = background_genes, 
-#'                 # the p-value adjustment method
-#'                 p_value_adjustment_method = "eFDR", 
-#'                 # the number of permutations
-#'                 number_of_permutations = 10000,
-#'                 # the number of processor threads to use
-#'                 nthreads = 2)
+#'     # the test set variable
+#'     element_names = sign_genes, 
+#'     # the background set variable
+#'     background_element_names = background_genes, 
+#'     # the p-value adjustment method
+#'     p_value_adjustment_method = "eFDR", 
+#'     # the number of permutations
+#'     number_of_permutations = 10000,
+#'     # the number of processor threads to use
+#'     nthreads = 2)
 #' # running the ORA
 #' ora_results <- run_test(ora_model)
 #' 
 #' # reshaping results for visualisation
-#' ora_reshaped_results <- reshape_results(
-#'     model = ora_model,
+#' ora_reshaped_results <- reshape_results(model = ora_model,
 #'     model_results = ora_results,
 #'     # choosing which column to use for the indication of significance
 #'     p_value_type_colname = "eFDR")
@@ -177,11 +175,10 @@ reshape_results <-
 #' library(mulea)
 #' 
 #' # loading and filtering the example ontology from a GMT file
-#' tf_gmt <- read_gmt(file = system.file(
-#'     package="mulea", "extdata", 
+#' tf_gmt <- read_gmt(file = system.file(package="mulea", "extdata", 
 #'     "Transcription_factor_RegulonDB_Escherichia_coli_GeneSymbol.gmt"))
 #' tf_gmt_filtered <- filter_ontology(gmt = tf_gmt, min_nr_of_elements = 3, 
-#'                                    max_nr_of_elements = 400)
+#'     max_nr_of_elements = 400)
 #' 
 #' # loading the example data
 #' sign_genes <- readLines(system.file(package = "mulea", "extdata", 
@@ -191,16 +188,16 @@ reshape_results <-
 #'
 #' # creating the ORA model
 #' ora_model <- ora(gmt = tf_gmt_filtered,
-#'                 # the test set variable
-#'                 element_names = sign_genes, 
-#'                 # the background set variable
-#'                 background_element_names = background_genes, 
-#'                 # the p-value adjustment method
-#'                 p_value_adjustment_method = "eFDR", 
-#'                 # the number of permutations
-#'                 number_of_permutations = 10000,
-#'                 # the number of processor threads to use
-#'                 nthreads = 2)
+#'     # the test set variable
+#'     element_names = sign_genes, 
+#'     # the background set variable
+#'     background_element_names = background_genes, 
+#'     # the p-value adjustment method
+#'     p_value_adjustment_method = "eFDR", 
+#'     # the number of permutations
+#'     number_of_permutations = 10000,
+#'     # the number of processor threads to use
+#'     nthreads = 2)
 #' # running the ORA
 #' ora_results <- run_test(ora_model)
 #' 
@@ -213,12 +210,12 @@ reshape_results <-
 #'
 #' # Plot graph
 #' plot_graph(reshaped_results = ora_reshaped_results,
-#'            # the column containing the names we wish to plot
-#'            ontology_id_colname = "ontology_id",
-#'            # upper threshold for the value indicating the significance
-#'            p_value_max_threshold = 0.05,
-#'            # column that indicates the significance values
-#'            p_value_type_colname = "eFDR")
+#'     # the column containing the names we wish to plot
+#'     ontology_id_colname = "ontology_id",
+#'     # upper threshold for the value indicating the significance
+#'     p_value_max_threshold = 0.05,
+#'     # column that indicates the significance values
+#'     p_value_type_colname = "eFDR")
 
 plot_graph <- function(reshaped_results,
     ontology_id_colname = 'ontology_id',
@@ -337,72 +334,48 @@ plot_graph <- function(reshaped_results,
 #' 
 #' @examples 
 #' library(mulea)
-#' library(tidyverse)
-#' geo2r_result_tab <- readr::read_tsv(file = system.file(
-#'     package="mulea", "extdata", "GSE55662.table_wt_non_vs_cipro.tsv"))
-#' geo2r_result_tab %<>% 
-#' # extracting the first gene symbol from the Gene.symbol column
-#' dplyr::mutate(Gene.symbol = str_remove(string = Gene.symbol,
-#'                                 pattern = "\\/.*")) %>% 
-#'  # removing rows where Gene.symbol is NA
-#'  filter(!is.na(Gene.symbol)) %>% 
-#'  # ordering by logFC
-#'  dplyr::arrange(desc(logFC))
-#'  
-#'  sign_genes <- geo2r_result_tab %>% 
-#' # filtering for adjusted p-value < 0.05 and logFC > 1
-#' filter(adj.P.Val < 0.05 & logFC > 1) %>% 
-#'  # selecting the Gene.symbol column
-#'  select(Gene.symbol) %>% 
-#'  # converting the tibble to a vector
-#'  pull() %>% 
-#'  # removing duplicates
-#'  unique()
-#'  
-#'  background_genes <- geo2r_result_tab %>% 
-#' # selecting the Gene.symbol column
-#' select(Gene.symbol) %>% 
-#'  # convertin the tibble to a vector
-#'  pull() %>% 
-#'  # removing duplicates
-#'  unique()
-#'  
-#' tf_gmt <- read_gmt(file = system.file(
-#'     package="mulea", "extdata", 
+#' 
+#' # loading and filtering the example ontology from a GMT file
+#' tf_gmt <- read_gmt(file = system.file(package="mulea", "extdata", 
 #'     "Transcription_factor_RegulonDB_Escherichia_coli_GeneSymbol.gmt"))
-#' tf_gmt_filtered <- filter_ontology(gmt = tf_gmt,
-#'                           min_nr_of_elements = 3,
-#'                           max_nr_of_elements = 400)
+#' tf_gmt_filtered <- filter_ontology(gmt = tf_gmt, min_nr_of_elements = 3, 
+#'     max_nr_of_elements = 400)
+#' 
+#' # loading the example data
+#' sign_genes <- readLines(system.file(package = "mulea", "extdata", 
+#'     "sign_genes.csv"))
+#' background_genes <- readLines(system.file(
+#'     package="mulea", "extdata", "background_genes.csv"))
 #'
-#' # creating the ORA model using the GMT variable
-#' ora_model <- ora(gmt = tf_gmt_filtered, 
-#'                 # the test set variable
-#'                 element_names = sign_genes, 
-#'                 # the background set variable
-#'                 background_element_names = background_genes, 
-#'                 # the p-value adjustment method
-#'                 p_value_adjustment_method = "eFDR", 
-#'                 # the number of permutations
-#'                 number_of_permutations = 10000,
-#'                 # the number of processor threads to use
-#'                 nthreads = 2) 
+#' # creating the ORA model
+#' ora_model <- ora(gmt = tf_gmt_filtered,
+#'     # the test set variable
+#'     element_names = sign_genes, 
+#'     # the background set variable
+#'     background_element_names = background_genes, 
+#'     # the p-value adjustment method
+#'     p_value_adjustment_method = "eFDR", 
+#'     # the number of permutations
+#'     number_of_permutations = 10000,
+#'     # the number of processor threads to use
+#'     nthreads = 2)
 #' # running the ORA
 #' ora_results <- run_test(ora_model)
-#' # reshape results for visualisation
-#' ora_reshaped_results <- reshape_results(
-#'     model = ora_model,
+#' 
+#' # reshaping results for visualisation
+#' ora_reshaped_results <- reshape_results(model = ora_model,
 #'     model_results = ora_results,
 #'     # choosing which column to use for the indication of significance
 #'     p_value_type_colname = "eFDR")
 #' 
 #' # Plot barplot
 #' plot_barplot(reshaped_results = ora_reshaped_results,
-#'              # the column containing the names we wish to plot
-#'              ontology_id_colname = "ontology_id",
-#'              # upper threshold for the value indicating the significance
-#'              p_value_max_threshold = 0.05,
-#'              # column that indicates the significance values
-#'              p_value_type_colname = "eFDR")
+#'     # the column containing the names we wish to plot
+#'     ontology_id_colname = "ontology_id",
+#'     # upper threshold for the value indicating the significance
+#'     p_value_max_threshold = 0.05,
+#'     # column that indicates the significance values
+#'     p_value_type_colname = "eFDR")
 
 plot_barplot <-
     function(reshaped_results,
@@ -474,71 +447,49 @@ plot_barplot <-
 #' 
 #' @examples 
 #' library(mulea)
-#' library(tidyverse)
-#' geo2r_result_tab <- readr::read_tsv(file = system.file(
-#'     package="mulea", "extdata", "GSE55662.table_wt_non_vs_cipro.tsv"))
-#' geo2r_result_tab %<>% 
-#' # extracting the first gene symbol from the Gene.symbol column
-#' mutate(Gene.symbol = str_remove(string = Gene.symbol,
-#'                                 pattern = "\\/.*")) %>% 
-#'  # removing rows where Gene.symbol is NA
-#'  filter(!is.na(Gene.symbol)) %>% 
-#'  # ordering by logFC
-#'  arrange(desc(logFC))
-#'  
-#'  sign_genes <- geo2r_result_tab %>% 
-#' # filtering for adjusted p-value < 0.05 and logFC > 1
-#' filter(adj.P.Val < 0.05 & logFC > 1) %>% 
-#'  # selecting the Gene.symbol column
-#'  select(Gene.symbol) %>% 
-#'  # converting the tibble to a vector
-#'  pull() %>% 
-#'  # removing duplicates
-#'  unique()
-#'  
-#'  background_genes <- geo2r_result_tab %>% 
-#' # selecting the Gene.symbol column
-#' select(Gene.symbol) %>% 
-#'  # convertin the tibble to a vector
-#'  pull() %>% 
-#'  # removing duplicates
-#'  unique()
-#'  
-#' tf_gmt <- read_gmt(file = system.file(
-#'     package="mulea", "extdata", 
+#' 
+#' # loading and filtering the example ontology from a GMT file
+#' tf_gmt <- read_gmt(file = system.file(package="mulea", "extdata", 
 #'     "Transcription_factor_RegulonDB_Escherichia_coli_GeneSymbol.gmt"))
-#' tf_gmt_filtered <- filter_ontology(gmt = tf_gmt,
-#'                           min_nr_of_elements = 3,
-#'                           max_nr_of_elements = 400)
+#' tf_gmt_filtered <- filter_ontology(gmt = tf_gmt, min_nr_of_elements = 3, 
+#'     max_nr_of_elements = 400)
+#' 
+#' # loading the example data
+#' sign_genes <- readLines(system.file(package = "mulea", "extdata", 
+#'     "sign_genes.csv"))
+#' background_genes <- readLines(system.file(
+#'     package="mulea", "extdata", "background_genes.csv"))
 #'
-#' # creating the ORA model using the GMT variable
-#' ora_model <- ora(gmt = tf_gmt_filtered, 
-#'                 # the test set variable
-#'                 element_names = sign_genes, 
-#'                 # the background set variable
-#'                 background_element_names = background_genes, 
-#'                 # the p-value adjustment method
-#'                 p_value_adjustment_method = "eFDR", 
-#'                 # the number of permutations
-#'                 number_of_permutations = 10000,
-#'                 # the number of processor threads to use
-#'                 nthreads = 2)
+#' # creating the ORA model
+#' ora_model <- ora(gmt = tf_gmt_filtered,
+#'     # the test set variable
+#'     element_names = sign_genes, 
+#'     # the background set variable
+#'     background_element_names = background_genes, 
+#'     # the p-value adjustment method
+#'     p_value_adjustment_method = "eFDR", 
+#'     # the number of permutations
+#'     number_of_permutations = 10000,
+#'     # the number of processor threads to use
+#'     nthreads = 2)
 #' # running the ORA
 #' ora_results <- run_test(ora_model)
-#' # reshape results for visualisation
+#' 
+#' # reshaping results for visualisation
 #' ora_reshaped_results <- reshape_results(
 #'     model = ora_model,
 #'     model_results = ora_results,
 #'     # choosing which column to use for the indication of significance
 #'     p_value_type_colname = "eFDR")
+#'         
 #' # Plot lollipop
 #' plot_lollipop(reshaped_results = ora_reshaped_results,
-#'               # the column containing the names we wish to plot
-#'               ontology_id_colname = "ontology_id",
-#'               # upper threshold for the value indicating the significance
-#'               p_value_max_threshold = 0.05,
-#'               # column that indicates the significance values
-#'               p_value_type_colname = "eFDR")
+#'     # the column containing the names we wish to plot
+#'     ontology_id_colname = "ontology_id",
+#'     # upper threshold for the value indicating the significance
+#'     p_value_max_threshold = 0.05,
+#'     # column that indicates the significance values
+#'     p_value_type_colname = "eFDR")
 #' 
 plot_lollipop <- function(reshaped_results,
     ontology_id_colname = 'ontology_id',
@@ -613,69 +564,47 @@ plot_lollipop <- function(reshaped_results,
 #' 
 #' @examples 
 #' library(mulea)
-#' library(tidyverse)
-#' geo2r_result_tab <- readr::read_tsv(file = system.file(
-#'     package="mulea", "extdata", "GSE55662.table_wt_non_vs_cipro.tsv"))
-#' geo2r_result_tab %<>% 
-#' # extracting the first gene symbol from the Gene.symbol column
-#' mutate(Gene.symbol = str_remove(string = Gene.symbol,
-#'                                 pattern = "\\/.*")) %>% 
-#'  # removing rows where Gene.symbol is NA
-#'  filter(!is.na(Gene.symbol)) %>% 
-#'  # ordering by logFC
-#'  arrange(desc(logFC))
-#'  
-#'  sign_genes <- geo2r_result_tab %>% 
-#' # filtering for adjusted p-value < 0.05 and logFC > 1
-#' filter(adj.P.Val < 0.05 & logFC > 1) %>% 
-#'  # selecting the Gene.symbol column
-#'  select(Gene.symbol) %>% 
-#'  # converting the tibble to a vector
-#'  pull() %>% 
-#'  # removing duplicates
-#'  unique()
-#'  
-#'  background_genes <- geo2r_result_tab %>% 
-#' # selecting the Gene.symbol column
-#' select(Gene.symbol) %>% 
-#'  # convertin the tibble to a vector
-#'  pull() %>% 
-#'  # removing duplicates
-#'  unique()
-#'  
-#' tf_gmt <- read_gmt(file = system.file(
-#'     package="mulea", "extdata", 
+#' 
+#' # loading and filtering the example ontology from a GMT file
+#' tf_gmt <- read_gmt(file = system.file(package="mulea", "extdata", 
 #'     "Transcription_factor_RegulonDB_Escherichia_coli_GeneSymbol.gmt"))
-#' tf_gmt_filtered <- filter_ontology(gmt = tf_gmt,
-#'                           min_nr_of_elements = 3,
-#'                           max_nr_of_elements = 400)
+#' tf_gmt_filtered <- filter_ontology(gmt = tf_gmt, min_nr_of_elements = 3, 
+#'     max_nr_of_elements = 400)
+#' 
+#' # loading the example data
+#' sign_genes <- readLines(system.file(package = "mulea", "extdata", 
+#'     "sign_genes.csv"))
+#' background_genes <- readLines(system.file(
+#'     package="mulea", "extdata", "background_genes.csv"))
 #'
-#' # creating the ORA model using the GMT variable
-#' ora_model <- ora(gmt = tf_gmt_filtered, 
-#'                 # the test set variable
-#'                 element_names = sign_genes, 
-#'                 # the background set variable
-#'                 background_element_names = background_genes, 
-#'                 # the p-value adjustment method
-#'                 p_value_adjustment_method = "eFDR", 
-#'                 # the number of permutations
-#'                 number_of_permutations = 10000,
-#'                 # the number of processor threads to use
-#'                 nthreads = 2)
+#' # creating the ORA model
+#' ora_model <- ora(gmt = tf_gmt_filtered,
+#'     # the test set variable
+#'     element_names = sign_genes, 
+#'     # the background set variable
+#'     background_element_names = background_genes, 
+#'     # the p-value adjustment method
+#'     p_value_adjustment_method = "eFDR", 
+#'     # the number of permutations
+#'     number_of_permutations = 10000,
+#'     # the number of processor threads to use
+#'     nthreads = 2)
 #' # running the ORA
 #' ora_results <- run_test(ora_model)
-#' # reshape results for visualisation
+#' 
+#' # reshaping results for visualisation
 #' ora_reshaped_results <- reshape_results(
 #'     model = ora_model,
 #'     model_results = ora_results,
 #'     # choosing which column to use for the indication of significance
 #'     p_value_type_colname = "eFDR")
-#'                                         
+#' 
+#' # Plot heatmap                                        
 #' plot_heatmap(reshaped_results = ora_reshaped_results,
-#'              # the column containing the names we wish to plot
-#'              ontology_id_colname = "ontology_id",
-#'              # column that indicates the significance values
-#'              p_value_type_colname = "eFDR")
+#'     # the column containing the names we wish to plot
+#'     ontology_id_colname = "ontology_id",
+#'     # column that indicates the significance values
+#'     p_value_type_colname = "eFDR")
 
 plot_heatmap <- function(reshaped_results,
     ontology_id_colname = 'ontology_id',

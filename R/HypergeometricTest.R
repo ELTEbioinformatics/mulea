@@ -51,7 +51,7 @@ setMethod("initialize", "MuleaHypergeometricTest",
                 modelGlobal <- model
 
                 # muleaSetBaseEnrichmentTestResult <<- 
-                #     run_test(muleaSetBaseEnrichmentTest)
+                #       run_test(muleaSetBaseEnrichmentTest)
                 # modelGlobal <<- model
 
                 testResults <- data.frame(

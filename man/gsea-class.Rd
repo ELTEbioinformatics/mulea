@@ -67,41 +67,40 @@ tf_gmt_filtered <- filter_ontology(gmt = tf_gmt, min_nr_of_elements = 3,
 
 # loading the example `data.frame`
 scored_gene_tab <- read.csv(file = system.file(package = "mulea", "extdata", 
-    "scored_genes.csv"))
+        "scored_genes.csv"))
 
 # creating the GSEA model
 gsea_model <- gsea(gmt = tf_gmt_filtered,
-                   # the names of elements to test
-                   element_names = scored_gene_tab$Gene.symbol,
-                   # the logFC-s of elements to test
-                   element_scores = scored_gene_tab$logFC,
-                   # consider elements having positive logFC values only
-                   element_score_type = "pos",
-                   # the number of permutations
-                   number_of_permutations = 10000)
+        # the names of elements to test
+        element_names = scored_gene_tab$Gene.symbol,
+        # the logFC-s of elements to test
+        element_scores = scored_gene_tab$logFC,
+        # consider elements having positive logFC values only
+        element_score_type = "pos",
+        # the number of permutations
+        number_of_permutations = 10000)
 library(mulea)
 
 # loading and filtering the example ontology from a GMT file
-tf_gmt <- read_gmt(file = system.file(
-    package="mulea", "extdata", 
-    "Transcription_factor_RegulonDB_Escherichia_coli_GeneSymbol.gmt"))
+tf_gmt <- read_gmt(file = system.file(package="mulea", "extdata", 
+        "Transcription_factor_RegulonDB_Escherichia_coli_GeneSymbol.gmt"))
 tf_gmt_filtered <- filter_ontology(gmt = tf_gmt, min_nr_of_elements = 3, 
-    max_nr_of_elements = 400)
+        max_nr_of_elements = 400)
 
 # loading the example `data.frame`
 scored_gene_tab <- read.csv(file = system.file(package = "mulea", "extdata", 
-    "scored_genes.csv"))
+        "scored_genes.csv"))
 
 # creating the GSEA model
 gsea_model <- gsea(gmt = tf_gmt_filtered,
-                   # the names of elements to test
-                   element_names = scored_gene_tab$Gene.symbol,
-                   # the logFC-s of elements to test
-                   element_scores = scored_gene_tab$logFC,
-                   # consider elements having positive logFC values only
-                   element_score_type = "pos",
-                   # the number of permutations
-                   number_of_permutations = 10000)
+        # the names of elements to test
+        element_names = scored_gene_tab$Gene.symbol,
+        # the logFC-s of elements to test
+        element_scores = scored_gene_tab$logFC,
+        # consider elements having positive logFC values only
+        element_score_type = "pos",
+        # the number of permutations
+        number_of_permutations = 10000)
 
 # running the test
 gsea_results <- run_test(gsea_model)

@@ -52,11 +52,10 @@ frame, which can be used for further analysis or visualization.
 library(mulea)
 
 # loading and filtering the example ontology from a GMT file
-tf_gmt <- read_gmt(file = system.file(
-    package="mulea", "extdata", 
+tf_gmt <- read_gmt(file = system.file(package="mulea", "extdata", 
     "Transcription_factor_RegulonDB_Escherichia_coli_GeneSymbol.gmt"))
 tf_gmt_filtered <- filter_ontology(gmt = tf_gmt, min_nr_of_elements = 3, 
-                                   max_nr_of_elements = 400)
+    max_nr_of_elements = 400)
 
 # loading the example data
 sign_genes <- readLines(system.file(
@@ -66,22 +65,21 @@ background_genes <- readLines(
 
 # creating the ORA model
 ora_model <- ora(gmt = tf_gmt_filtered,
-                # the test set variable
-                element_names = sign_genes, 
-                # the background set variable
-                background_element_names = background_genes, 
-                # the p-value adjustment method
-                p_value_adjustment_method = "eFDR", 
-                # the number of permutations
-                number_of_permutations = 10000,
-                # the number of processor threads to use
-                nthreads = 2)
+    # the test set variable
+    element_names = sign_genes, 
+    # the background set variable
+    background_element_names = background_genes, 
+    # the p-value adjustment method
+    p_value_adjustment_method = "eFDR", 
+    # the number of permutations
+    number_of_permutations = 10000,
+    # the number of processor threads to use
+    nthreads = 2)
 # running the ORA
 ora_results <- run_test(ora_model)
 
 # reshaping results for visualisation
-ora_reshaped_results <- reshape_results(
-    model = ora_model,
+ora_reshaped_results <- reshape_results(model = ora_model,
     model_results = ora_results,
     # choosing which column to use for the indication of significance
     p_value_type_colname = "eFDR")

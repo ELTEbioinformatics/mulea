@@ -56,17 +56,17 @@ setMethod("initialize", "SetBasedEnrichmentTest",
                         are from pool.",
                         "TestData vector is automatically cut off to 
                         pool vector.")
-              }
-              DB <- .Object@gmt[, 'list_of_values']
-              names(DB) <- .Object@gmt$ontology_id
-              testResults <- set.based.enrichment.test.wrapper(
-                  steps = .Object@number_of_permutations,
-                  pool = pool,
-                  select = element_names,
-                  DB = DB,
-                  only_hyper_geometric_test = model@only_hyper_geometric_test,
-                  nthreads = model@nthreads)
-              testResults
+                }
+                DB <- .Object@gmt[, 'list_of_values']
+                names(DB) <- .Object@gmt$ontology_id
+                testResults <- set.based.enrichment.test.wrapper(
+                    steps = .Object@number_of_permutations,
+                    pool = pool,
+                    select = element_names,
+                    DB = DB,
+                    only_hyper_geometric_test = model@only_hyper_geometric_test,
+                    nthreads = model@nthreads)
+                testResults
             }
             .Object
 })
@@ -88,17 +88,17 @@ setMethod("run_test",
 
 set.based.enrichment.test.wrapper <- function(
     steps, pool, select, DB, nthreads = 2, only_hyper_geometric_test = FALSE) {
-  # print("nthreads")
-  # print(nthreads)
-  # print("steps")
-  # print(steps)
-  # print("pool")
-  # print(pool)
-  # print("select")
-  # print(select)
-  # print("DB")
-  # print(DB)
-  
+    # print("nthreads")
+    # print(nthreads)
+    # print("steps")
+    # print(steps)
+    # print("pool")
+    # print(pool)
+    # print("select")
+    # print(select)
+    # print("DB")
+    # print(DB)
+
     setEnrTestRes <- set.based.enrichment.test(
         steps = steps,
         pool = pool,

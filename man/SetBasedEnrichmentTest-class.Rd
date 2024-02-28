@@ -31,9 +31,9 @@ mulea.
 \section{Slots}{
 
 \describe{
-\item{\code{gmt}}{A data.frame representing GMT's reprezentation of model.}
+\item{\code{gmt}}{A data.frame representing GMT's representation of model.}
 
-\item{\code{element_names}}{A data from expeciment to analize accross model.}
+\item{\code{element_names}}{A data from experiment to analyse across model.}
 
 \item{\code{pool}}{A background data to count test.}
 

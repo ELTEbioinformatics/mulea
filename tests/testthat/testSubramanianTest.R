@@ -32,7 +32,7 @@ test_that("GSEA : no element_scores vector.", {
 })
 
 test_that("GSEA : out of ontology elements.", {
-  set.seed(1)
+  set.seed(1, kind = "Mersenne-Twister", normal.kind = "Inversion")
   gmtMock <- data.frame(
     ontology_id = "GO:0000001",
     ontology_name = "Imagin gen ontology to tests.",
@@ -52,7 +52,7 @@ test_that("GSEA : out of ontology elements.", {
 })
 
 test_that("GSEA : DB1 + DB2.", {
-  set.seed(1)
+  set.seed(1, kind = "Mersenne-Twister", normal.kind = "Inversion")
   gmtMock1 <- data.frame(
     ontology_id = "GO:0000001",
     ontology_name = "Imagin gen ontology to tests.",
@@ -78,7 +78,7 @@ test_that("GSEA : DB1 + DB2.", {
 })
 
 test_that("GSEA : DB1 + DB2 out of background_element_names.", {
-  set.seed(1)
+  set.seed(1, kind = "Mersenne-Twister", normal.kind = "Inversion")
   gmtMock1 <- data.frame(
     ontology_id = "GO:0000001",
     ontology_name = "Imagin gen ontology to tests.",

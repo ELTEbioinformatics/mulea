@@ -1,7 +1,8 @@
 Package: mulea
 Type: Package
 Encoding: UTF-8
-Title: mulea - an R package for enrichment analysis using multiple ontologies and empirical FDR correction
+Title: mulea - an R package for enrichment analysis using multiple ontologies 
+    and empirical FDR correction
 Version: 0.99.10
 Date: 2016-04-08
 Authors@R: c(
@@ -25,8 +26,28 @@ Authors@R: c(
            comment = c(ORCID = "0000-0002-7820-1991")),
     person("Eszter", "Ari", role = c("aut", "ctb"), 
            comment = c(ORCID = "0000-0001-7774-1067")))
-Description: Traditional gene set enrichment analyses are typically limited to a few ontologies and do not account for the interdependence of gene sets or terms, resulting in overcorrected p-values. To address these chellenges, we introduce mulea, an R package offering comprehensive overrepresentation and functional enrichment analysis. mulea employs an innovative empirical false discovery rate (eFDR) correction method, specifically designed for interconnected biological data, to accurately identify significant terms within diverse ontologies. Beyond conventional tools, mulea incorporates a wide range of ontologies encompassing Gene Ontology, pathways, regulatory elements, genomic locations, and protein domains. This flexibility empowers researchers to tailor enrichment analysis to their specific questions, such as identifying enriched transcriptional regulators in gene expression data or overrepresented protein domains in protein sets. To facilitate seamless analysis, mulea provides gene sets (in standardized GMT format) for 27 model organisms, covering 16 databases and various identifiers. Additionally, the muleaData ExperimentData Bioconductor package simplifies access to these 879 pre-defined ontologies. Furthermore, mulea's architecture allows for easy integration of user-defined ontologies, expanding its applicability across diverse research areas.
-biocViews: Annotation, DifferentialExpression, GeneExpression, GeneSetEnrichment, GO, GraphAndNetwork, MultipleComparison, Pathways, Reactome, Software, Transcription, Visualization
+Description: Traditional gene set enrichment analyses are typically limited to 
+    a few ontologies and do not account for the interdependence of gene sets or 
+    terms, resulting in overcorrected p-values. To address these chellenges, we 
+    introduce mulea, an R package offering comprehensive overrepresentation and 
+    functional enrichment analysis. mulea employs an innovative empirical false 
+    discovery rate (eFDR) correction method, specifically designed for 
+    interconnected biological data, to accurately identify significant terms 
+    within diverse ontologies. Beyond conventional tools, mulea incorporates a 
+    wide range of ontologies encompassing Gene Ontology, pathways, regulatory 
+    elements, genomic locations, and protein domains. This flexibility empowers 
+    researchers to tailor enrichment analysis to their specific questions, such 
+    as identifying enriched transcriptional regulators in gene expression data 
+    or overrepresented protein domains in protein sets. To facilitate seamless 
+    analysis, mulea provides gene sets (in standardized GMT format) for 27 model 
+    organisms, covering 16 databases and various identifiers. Additionally, the 
+    muleaData ExperimentData Bioconductor package simplifies access to these 879 
+    pre-defined ontologies. Furthermore, mulea's architecture allows for easy 
+    integration of user-defined ontologies, expanding its applicability across 
+    diverse research areas.
+biocViews: Annotation, DifferentialExpression, GeneExpression, 
+    GeneSetEnrichment, GO, GraphAndNetwork, MultipleComparison, Pathways, 
+    Reactome, Software, Transcription, Visualization
 License: MIT + file LICENSE
 LazyData: TRUE
 Depends:

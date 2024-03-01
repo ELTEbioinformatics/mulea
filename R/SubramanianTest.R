@@ -15,10 +15,6 @@
 #' @return `data.frame` with presented columns 'ontology_id', 'ontology_name',
 #' 'nr_common_with_tested_elements',
 #' 'p_value', 'adjusted_p_value'
-#' @examples
-#' \dontrun{
-#' #It is a private s4 object. Look at GSEA's examples.
-#' }
 SubramanianTest <- setClass(
     "SubramanianTest",
     slots = list(
@@ -75,10 +71,6 @@ setMethod("initialize", "SubramanianTest",
 #' @param model Object of s4 class represents mulea Test.
 #' @return run_test method for SubramanianTest object. Used as private 
 #'   function.
-#' @examples
-#' \dontrun{
-#' #It is a private method. Look at run_test of GSEA's examples.
-#' }
 setMethod("run_test",
     signature(model = "SubramanianTest"),
     function(model) {

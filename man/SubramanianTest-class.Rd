@@ -51,11 +51,3 @@ Default value is "std".
 }}
 }}
 
-\examples{
-\dontrun{
-#It is a private s4 object. Look at GSEA's examples.
-}
-\dontrun{
-#It is a private method. Look at run_test of GSEA's examples.
-}
-}

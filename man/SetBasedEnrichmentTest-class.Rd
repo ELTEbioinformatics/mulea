@@ -40,11 +40,3 @@ mulea.
 \item{\code{nthreads}}{Number of processor's threads used in calculations.}
 }}
 
-\examples{
-\dontrun{
-#It is a private s4 object. Look at ora's examples.
-}
-\dontrun{
-#It is a private method. Look at run_test of ora's examples.
-}
-}

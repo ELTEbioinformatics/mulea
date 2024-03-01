@@ -19,7 +19,8 @@ A data frame with 13 rows and 3 variables:
 selectDf
 }
 \description{
-Data frame containing 13 genes in the "select" column and their scores in the
+Data frame containing 13 genes in the "select" column
+and their scores in the
 "score" column.
 }
 \keyword{datasets}

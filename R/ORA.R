@@ -84,107 +84,107 @@ setMethod("initialize", "ora",
             .Object@nthreads <- nthreads
             
             .Object@test <- function(setBasemodel) {
-                setBasedTestRes <- NULL
-
-                if (!identical(setBasemodel@p_value_adjustment_method, 
-                    character(0)) &&
-                    setBasemodel@p_value_adjustment_method == "eFDR") {
-                muleaSetBaseEnrichmentTest <-
-                    SetBasedEnrichmentTest(
-                        gmt = setBasemodel@gmt,
-                        element_names = setBasemodel@element_names,
-                        pool = setBasemodel@background_element_names,
-                        number_of_permutations = 
-                            setBasemodel@number_of_permutations,
-                        nthreads = setBasemodel@nthreads
-                    )
-                
-                muleaSetBaseEnrichmentTest <-
-                    run_test(muleaSetBaseEnrichmentTest)
-                
-                muleaSetBaseEnrichmentTest <- merge(
-                    setBasemodel@gmt[c('ontology_id', 'ontology_name')],
-                    muleaSetBaseEnrichmentTest,
-                    by.x = "ontology_id",
-                    by.y = "DB_names",
-                    all = TRUE
-                    )
-                
-                for (i in seq_along(muleaSetBaseEnrichmentTest$FDR)) {
-                    if (!is.nan(muleaSetBaseEnrichmentTest$FDR[i])
-                        && muleaSetBaseEnrichmentTest$FDR[i] > 1.0) {
-                            muleaSetBaseEnrichmentTest$FDR[i] <- 1.0e+00
-                    }
-                }
-                
-                names(muleaSetBaseEnrichmentTest) <-
-                    c(
-                        'ontology_id',
-                        'ontology_name',
-                        'nr_common_with_tested_elements',
-                        'nr_common_with_background_elements',
-                        'Genes_in_DB',
-                        'p_value',
-                        'P_adj_Bonf',
-                        'adjustedPValue',
-                        'R_obs',
-                        'R_exp',
-                        'eFDR'
-                    )
-                
-                setBasedTestRes <-
-                    muleaSetBaseEnrichmentTest[
-                        , !names(muleaSetBaseEnrichmentTest) %in%
-                            c('Genes_in_DB', 'P_adj_Bonf',
-                                'R_obs', 'R_exp', 'adjustedPValue')]
-                } else {
-                    MuleaHypergeometricTest <-
-                        MuleaHypergeometricTest(
-                            gmt = setBasemodel@gmt,
-                            element_names = setBasemodel@element_names,
-                            pool = setBasemodel@background_element_names,
-                            nthreads = setBasemodel@nthreads
-                    )
-                setBasedTestRes <- run_test(MuleaHypergeometricTest)
-                
-                muleaSetBaseEnrichmentTest <- merge(
-                    setBasemodel@gmt[c('ontology_id', 'ontology_name')],
-                    setBasedTestRes,
-                    by.x = "ontology_id",
-                    by.y = "ontology_name",
-                    all = TRUE
-                )
-                
-                names(muleaSetBaseEnrichmentTest) <-
-                    c(
-                        'ontology_id',
-                        'ontology_name',
-                        'list_of_values',
-                        'p_value'
-                    )
-                if (!identical(setBasemodel@p_value_adjustment_method, 
-                    character(0)) &&
-                        setBasemodel@p_value_adjustment_method != "eFDR") {
-                    muleaSetBaseEnrichmentTest <-
-                        data.frame(
-                            muleaSetBaseEnrichmentTest,
-                            "adjusted_p_value" = stats::p.adjust(
-                            muleaSetBaseEnrichmentTest$p_value,
-                            method = setBasemodel@p_value_adjustment_method)
-                    )
-                    setBasedTestRes <-
-                        muleaSetBaseEnrichmentTest[
-                            , !names(muleaSetBaseEnrichmentTest) %in%
-                                c('list_of_values')]
-                    }
-                }
-
+                setBasedTestRes <- computeSetBasedTestRes(setBasemodel)
                 setBasedTestRes
             }
-            
             .Object
             
         })
+
+performSetBasedEnrichmentTest <- function(setBasemodel) {
+    muleaSetBaseEnrichmentTest <-
+      SetBasedEnrichmentTest(
+        gmt = setBasemodel@gmt,
+        element_names = setBasemodel@element_names,
+        pool = setBasemodel@background_element_names,
+        number_of_permutations = 
+          setBasemodel@number_of_permutations,
+        nthreads = setBasemodel@nthreads
+      )
+    
+    muleaSetBaseEnrichmentTest <-
+      run_test(muleaSetBaseEnrichmentTest)
+    
+    muleaSetBaseEnrichmentTest <- merge(
+      setBasemodel@gmt[c('ontology_id', 'ontology_name')],
+      muleaSetBaseEnrichmentTest,
+      by.x = "ontology_id",
+      by.y = "DB_names",
+      all = TRUE
+    )
+    
+    return(muleaSetBaseEnrichmentTest)
+}
+
+performSetBasedEnrichmentTestElse <- function(setBasemodel) {
+    MuleaHypergeometricTest <-
+      MuleaHypergeometricTest(
+        gmt = setBasemodel@gmt,
+        element_names = setBasemodel@element_names,
+        pool = setBasemodel@background_element_names,
+        nthreads = setBasemodel@nthreads
+      )
+    setBasedTestRes <- run_test(MuleaHypergeometricTest)
+    
+    muleaSetBaseEnrichmentTest <- merge(
+      setBasemodel@gmt[c('ontology_id', 'ontology_name')],
+      setBasedTestRes,
+      by.x = "ontology_id",
+      by.y = "ontology_name",
+      all = TRUE
+    )
+    res <- list("setBasedTestRes"=setBasedTestRes,
+                "muleaSetBaseEnrichmentTest"=muleaSetBaseEnrichmentTest)
+    return(res)
+}
+
+computeSetBasedTestRes <- function(setBasemodel) {
+    setBasedTestRes <- NULL
+    if (!identical(setBasemodel@p_value_adjustment_method, 
+                   character(0)) &&
+        setBasemodel@p_value_adjustment_method == "eFDR") {
+        muleaSetBaseEnrichmentTest <- 
+          performSetBasedEnrichmentTest(setBasemodel)
+        for (i in seq_along(muleaSetBaseEnrichmentTest$FDR)) {
+          if (!is.nan(muleaSetBaseEnrichmentTest$FDR[i])
+              && muleaSetBaseEnrichmentTest$FDR[i] > 1.0) {
+            muleaSetBaseEnrichmentTest$FDR[i] <- 1.0e+00
+          }
+        }
+        names(muleaSetBaseEnrichmentTest) <-
+          c('ontology_id','ontology_name', 
+            'nr_common_with_tested_elements',
+            'nr_common_with_background_elements',
+            'Genes_in_DB','p_value','P_adj_Bonf',
+            'adjustedPValue','R_obs','R_exp','eFDR')
+        setBasedTestRes <- muleaSetBaseEnrichmentTest[, 
+            !names(muleaSetBaseEnrichmentTest) %in%
+                c('Genes_in_DB', 'P_adj_Bonf',
+                'R_obs', 'R_exp', 'adjustedPValue')]
+    } else {
+        res <- performSetBasedEnrichmentTestElse(setBasemodel)
+        muleaSetBaseEnrichmentTest <- res$muleaSetBaseEnrichmentTest
+        setBasedTestRes <- res$setBasedTestRes
+        names(muleaSetBaseEnrichmentTest) <-
+          c('ontology_id','ontology_name',
+            'list_of_values','p_value')
+        if (!identical(setBasemodel@p_value_adjustment_method, 
+                       character(0)) &&
+            setBasemodel@p_value_adjustment_method != "eFDR") {
+          muleaSetBaseEnrichmentTest <-
+            data.frame(muleaSetBaseEnrichmentTest,
+              "adjusted_p_value" = stats::p.adjust(
+                  muleaSetBaseEnrichmentTest$p_value,
+                  method = setBasemodel@p_value_adjustment_method)
+            )
+          setBasedTestRes <-
+            muleaSetBaseEnrichmentTest[
+              , !names(muleaSetBaseEnrichmentTest) %in%
+                c('list_of_values')]
+        }
+    }
+    return(setBasedTestRes)
+}
 
 #' @describeIn run_test ora test.
 #' @param model Object of S4 class representing the mulea test.

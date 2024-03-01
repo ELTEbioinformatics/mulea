@@ -1,6 +1,7 @@
 #' Ontology Example
 #'
-#' Data frame parsed from a Gene Matrix Transposed (GMT) file containing 7 gene
+#' Data frame parsed from a Gene Matrix Transposed (GMT) 
+#' file containing 7 gene
 #' sets. Each row represents a gene set. 
 #'
 #' @format A data frame with 7 rows and 3 variables:
@@ -14,7 +15,8 @@
 
 #' Genes and scores for ora and gsea analyses
 #'
-#' Data frame containing 13 genes in the "select" column and their scores in the
+#' Data frame containing 13 genes in the "select" column 
+#' and their scores in the
 #' "score" column.
 #'
 #' @format A data frame with 13 rows and 3 variables:

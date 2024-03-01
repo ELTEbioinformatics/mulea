@@ -7,7 +7,8 @@ test_that("Methods : checkIfPoolIncludeSample false", {
   )
   testDataMock <- c("a", "b", "e", "f")
   
-  testthat::expect_warning(checkIfPoolIncludeSample(model = gmtMock, sampleVector = testDataMock))
+  testthat::expect_warning(checkIfPoolIncludeSample(
+    model = gmtMock, sampleVector = testDataMock))
 })
 
 test_that("Methods : checkIfPoolIncludeSample false", {
@@ -35,7 +36,8 @@ test_that("Methods : cutGmtToPool", {
   )
   poolMock <- c("a", "b", "e", "f", "g", "h")
   
-  testthat::expect_equal(cutGmtToPool(gmt = gmtMock, pool = poolMock)[['list_of_values']][[1]],
+  testthat::expect_equal(cutGmtToPool(
+    gmt = gmtMock, pool = poolMock)[['list_of_values']][[1]],
                          list(c("a", "b"))[[1]])
 })
 
@@ -43,7 +45,9 @@ test_that("Methods : cutGmtToPool", {
 test_that("Utils : read_gmt", {
   filePath <- tempfile(fileext=".gmt")
   fileConn <- file(filePath)
-  writeLines(c('ID:0000001	"mitochondrion inheritance"	FBgn0033690	FBgn0261618'), fileConn)
+  writeLines(
+    c('ID:0000001	"mitochondrion inheritance"	FBgn0033690	FBgn0261618'), 
+    fileConn)
   close(fileConn)
   modelDfFromFile <- read_gmt(file = filePath)
   
@@ -167,7 +171,8 @@ test_that("Utils : filter_ontology above min", {
   )
   
   testthat::expect_equal(nrow(gmt_filtered_model), 2)
-  testthat::expect_equal(gmt_filtered_model$ontology_id, c("GO:0000002", "GO:0000003"))
+  testthat::expect_equal(
+    gmt_filtered_model$ontology_id, c("GO:0000002", "GO:0000003"))
 })
 
 

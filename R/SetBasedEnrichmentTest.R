@@ -1,6 +1,6 @@
-###############################################################################
+################################################
 # Function for FDR corrected hypergeometric enrichment test
-###############################################################################
+################################################
 
 #' PRIVATE class : An S4 class to represent a Hypergeometric tests in 
 #'   mulea.
@@ -10,10 +10,6 @@
 #' @slot pool A background data to count test.
 #' @slot nthreads Number of processor's threads used in calculations.
 #' @return SetBasedEnrichmentTest object. Used as private function.
-#' @examples
-#' \dontrun{
-#' #It is a private s4 object. Look at ora's examples.
-#' }
 SetBasedEnrichmentTest <- setClass(
     "SetBasedEnrichmentTest",
     slots = list(
@@ -51,20 +47,17 @@ setMethod("initialize", "SetBasedEnrichmentTest",
                 element_names <- .Object@element_names
                 if (!all(element_names %in% pool)) {
                     element_names <- element_names[element_names %in% pool]
-                    warning(
-                        "Not all elements of element_names (sample) 
-                        are from pool.",
-                        "TestData vector is automatically cut off to 
-                        pool vector.")
+                    warning("Not all elements of element_names (sample) 
+                        are from pool.", "TestData vector is automatically 
+                        cut off to pool vector.")
                 }
                 DB <- .Object@gmt[, 'list_of_values']
                 names(DB) <- .Object@gmt$ontology_id
                 testResults <- set.based.enrichment.test.wrapper(
                     steps = .Object@number_of_permutations,
-                    pool = pool,
-                    select = element_names,
-                    DB = DB,
-                    only_hyper_geometric_test = model@only_hyper_geometric_test,
+                    pool = pool, select = element_names, DB = DB,
+                    only_hyper_geometric_test = 
+                      model@only_hyper_geometric_test,
                     nthreads = model@nthreads)
                 testResults
             }
@@ -75,10 +68,6 @@ setMethod("initialize", "SetBasedEnrichmentTest",
 #' @param model Object of s4 class represents mulea Test.
 #' @return run_test method for SetBasedEnrichmentTest object. Used as private 
 #' function.
-#' @examples
-#' \dontrun{
-#' #It is a private method. Look at run_test of ora's examples.
-#' }
 setMethod("run_test",
     signature(model = "SetBasedEnrichmentTest"),
     function(model) {
@@ -87,17 +76,8 @@ setMethod("run_test",
 
 
 set.based.enrichment.test.wrapper <- function(
-    steps, pool, select, DB, nthreads = 2, only_hyper_geometric_test = FALSE) {
-    # print("nthreads")
-    # print(nthreads)
-    # print("steps")
-    # print(steps)
-    # print("pool")
-    # print(pool)
-    # print("select")
-    # print(select)
-    # print("DB")
-    # print(DB)
+    steps, pool, select, DB, nthreads = 2, 
+    only_hyper_geometric_test = FALSE) {
 
     setEnrTestRes <- set.based.enrichment.test(
         steps = steps,

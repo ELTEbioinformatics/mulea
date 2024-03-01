@@ -19,7 +19,8 @@ A data frame with 7 rows and 3 variables:
 geneSet
 }
 \description{
-Data frame parsed from a Gene Matrix Transposed (GMT) file containing 7 gene
+Data frame parsed from a Gene Matrix Transposed (GMT)
+file containing 7 gene
 sets. Each row represents a gene set.
 }
 \keyword{datasets}

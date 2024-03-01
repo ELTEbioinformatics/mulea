@@ -5,10 +5,6 @@
 #' @slot element_names Data to be analysed across the model.
 #' @slot background_element_names Background data used for the test.
 #' @return MuleaHypergeometricTest object. Used as private function.
-#' @examples
-#' \dontrun{
-#' #It is a private s4 object. Look at ora's examples.
-#' }
 MuleaHypergeometricTest <- setClass(
     "MuleaHypergeometricTest",
     slots = list(
@@ -45,15 +41,9 @@ setMethod("initialize", "MuleaHypergeometricTest",
                         only_hyper_geometric_test = TRUE,
                         nthreads = model@nthreads
                         )
-
                 muleaSetBaseEnrichmentTestResult <- run_test(
                     muleaSetBaseEnrichmentTest)
                 modelGlobal <- model
-
-                # muleaSetBaseEnrichmentTestResult <<- 
-                #       run_test(muleaSetBaseEnrichmentTest)
-                # modelGlobal <<- model
-
                 testResults <- data.frame(
                     'ontology_name' = 
                         muleaSetBaseEnrichmentTestResult$DB_names,
@@ -61,22 +51,15 @@ setMethod("initialize", "MuleaHypergeometricTest",
                     'p.value' = muleaSetBaseEnrichmentTestResult$P_val,
                     row.names = NULL
                     )
-
                 testResults
             }
-            
             .Object
-            
         })
 
 #' @describeIn MuleaHypergeometricTest runs test calculations.
 #' @param model Object of s4 class represents mulea Test.
 #' @return run_test method for MuleaHypergeometricTest object. Used as private
 #' function.
-#' @examples
-#' \dontrun{
-#' #It is a private method. Look at run_test of ora's examples.
-#' }
 setMethod("run_test",
     signature(model = "MuleaHypergeometricTest"),
     function(model) {

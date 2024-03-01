@@ -22,7 +22,7 @@ associated lists of values) and writes it to a file in a standardized Gene
 Matrix Transposed (GMT) file format.
 }
 \examples{
-#' library(mulea)
+library(mulea)
 
 # loading and filtering the example ontology from a GMT file
 tf_gmt <- read_gmt(file = system.file(

@@ -6,7 +6,4 @@
 # * https://r-pkgs.org/tests.html
 # * https://testthat.r-lib.org/reference/test_package.html#special-files
 
-library(testthat)
-library(mulea)
-
-test_check("mulea")
+testthat::test_check("mulea")

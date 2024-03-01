@@ -13,7 +13,8 @@ filterRelaxedResultsForPlotting <- function(
     reshaped_results_filtered_na <- reshaped_results[include,]
     include <- reshaped_results_filtered_na[[
         p_value_type_colname]] <= p_value_max_threshold
-    reshaped_results_filtered_cutoff <- reshaped_results_filtered_na[include, ]
+    reshaped_results_filtered_cutoff <- 
+      reshaped_results_filtered_na[include, ]
     reshaped_results_filtered_cutoff
 }
 
@@ -107,27 +108,30 @@ reshape_results <-
             }
             model_with_res_dt_relaxed <- data.table::data.table(
             ontology_id = rep('a', length.out = model_with_res_dt_size),
-            genIdInOntology = rep('a', length.out = model_with_res_dt_size),
-            ontologyStatValue = rep(1.0, length.out = model_with_res_dt_size))
+            genIdInOntology = rep('a',length.out = model_with_res_dt_size),
+            ontologyStatValue = rep(1.0,length.out = model_with_res_dt_size))
             p_value_type_colname <- match.arg(p_value_type_colname,
                 choices = names(model_with_res_dt))
             model_with_res_dt_relaxed_counter <- 1
             for (i in seq_len(nrow(model_with_res_dt))) {
-                category_name <- model_with_res_dt[[i, 'ontology_id']]
-                category_p_stat <- model_with_res_dt[[i, p_value_type_colname]]
+                category_name <- 
+                  model_with_res_dt[[i, 'ontology_id']]
+                category_p_stat <- 
+                  model_with_res_dt[[i, p_value_type_colname]]
                 for (item_name in model_with_res_dt[[i, 'list_of_values']]) {
-# THE LINE BELOW DOES NOT UPDATE THE OBJECT
-                    model_with_res_dt_relaxed[model_with_res_dt_relaxed_counter,
+                    model_with_res_dt_relaxed[
+                      model_with_res_dt_relaxed_counter,
                     c("ontology_id", "genIdInOntology", 
-                        "ontologyStatValue") := list(category_name, item_name, 
-                            category_p_stat)]
+                        "ontologyStatValue") := list(
+                          category_name, item_name, category_p_stat)]
                     model_with_res_dt_relaxed_counter  <- 
                         model_with_res_dt_relaxed_counter + 1
                 }
             }
         if (p_value_max_threshold) {
             model_with_res_dt_relaxed <-
-            model_with_res_dt_relaxed[genIdInOntology %in% model@element_names]
+            model_with_res_dt_relaxed[
+              genIdInOntology %in% model@element_names]
         }
         names(model_with_res_dt_relaxed) <-
             c('ontology_id', 'element_id_in_ontology', p_value_type_colname)
@@ -217,16 +221,15 @@ reshape_results <-
 #'     # column that indicates the significance values
 #'     p_value_type_colname = "eFDR")
 
-plot_graph <- function(reshaped_results,
-    ontology_id_colname = 'ontology_id',
-    ontology_element_colname = 'element_id_in_ontology',
+plot_graph <- function(reshaped_results, ontology_id_colname='ontology_id',
+    ontology_element_colname='element_id_in_ontology',
     shared_elements_min_threshold = 0,
-    p_value_type_colname = 'eFDR',
-    p_value_max_threshold = 0.05) {
+    p_value_type_colname = 'eFDR', p_value_max_threshold = 0.05) {
         ontology_id <- ontology_id_colname
         edges <- NULL
-        validate_column_names_and_function_args(data = reshaped_results,
-            p_value_type_colname, ontology_id_colname, ontology_element_colname)
+        validate_column_names_and_function_args(
+          data = reshaped_results, p_value_type_colname, 
+          ontology_id_colname, ontology_element_colname)
         reshaped_results <- data.table::setDT(reshaped_results)
         model_with_res_dt_relaxed <- filterRelaxedResultsForPlotting(
                 reshaped_results = reshaped_results,
@@ -234,44 +237,13 @@ plot_graph <- function(reshaped_results,
                 p_value_max_threshold = p_value_max_threshold)
         ontologies <- unique(
             model_with_res_dt_relaxed[, ontology_id_colname, with = FALSE])
-        ontologies_graph_edges_num <- sum(seq_len(nrow(ontologies) - 1))
-        ontologies_graph_edges <- data.table::data.table(
-            from = rep('a', length.out = ontologies_graph_edges_num),
-            to = rep('a', length.out = ontologies_graph_edges_num),
-            weight = rep(0, length.out = ontologies_graph_edges_num))
-        if (0 == ontologies_graph_edges_num) {
-            stop('No edges at all. Wrong data.table or manipulate 
-                p_value_max_threshold please.')
-        }
-        ontologies_graph_edges_counter <- 1
-        for (i in seq_len(nrow(ontologies) - 1)) {
-            ontology_name_i <- ontologies[[i, ontology_id]]
-            filter_model_row_select <- model_with_res_dt_relaxed[[
-                ontology_id]] == ontology_name_i
-            genes_in_ontology_i <- model_with_res_dt_relaxed[
-                filter_model_row_select][[ontology_element_colname]]
-            for (j in (i + 1):nrow(ontologies)) {
-                ontology_name_j <- ontologies[[j, ontology_id]]
-                filter_model_row_select_j <- model_with_res_dt_relaxed[[
-                    ontology_id]] == ontology_name_j
-                genes_in_ontology_j <- model_with_res_dt_relaxed[
-                    filter_model_row_select_j][[ontology_element_colname]]
-                genes_in_ontology_i_j_intersection_num <-
-                    length(intersect(genes_in_ontology_i, genes_in_ontology_j))
-                if (shared_elements_min_threshold < 
-                        genes_in_ontology_i_j_intersection_num) 
-                {
-                    ontologies_graph_edges[ontologies_graph_edges_counter,
-                        c('from', 'to', 'weight') := list(
-                        ontology_name_i, ontology_name_j,
-                        genes_in_ontology_i_j_intersection_num)]
-                    ontologies_graph_edges_counter <- 
-                        ontologies_graph_edges_counter + 1
-                }
-            }
-        }
-        ontologies_graph_edges <- ontologies_graph_edges[
-            0:(ontologies_graph_edges_counter - 1), ]
+        ontologies_graph_edges <- getOntologiesGraphEdgesTemplate(ontologies)
+        ontologies_graph_edges <- fillOntologiesGrapgEdge(
+            ontologies=ontologies, ontology_id=ontology_id, 
+            model_with_res_dt_relaxed=model_with_res_dt_relaxed, 
+            ontology_element_colname=ontology_element_colname, 
+            ontologies_graph_edges=ontologies_graph_edges,
+            shared_elements_min_threshold=shared_elements_min_threshold)
         nodes_ids <- model_with_res_dt_relaxed[[ontology_id]]
         nodes_p_stat <- model_with_res_dt_relaxed[[p_value_type_colname]]
         ontologies_graph_nodes <- data.table::data.table(id = nodes_ids,
@@ -286,23 +258,82 @@ plot_graph <- function(reshaped_results,
                 graph_plot <- graph_plot + 
                 ggraph::geom_edge_arc(aes(width = .data$weight), alpha = 0.5)
             }
-
-        graph_plot <- graph_plot + 
-        ggraph::scale_edge_width(breaks = scales::pretty_breaks(n = 5), 
-            range = c(0, 3), name="Nr. of shared elements") +
-        ggraph::geom_node_point(aes(color = .data$p_stat)) +
-        ggraph::geom_node_point(aes(color = .data$p_stat, 
-            size = (1 - .data$p_stat)), show.legend = FALSE) +
-        scale_size_area(max_size = 10) +
-        scale_color_gradient2(mid =  '#ff6361', high = 'grey90',
-            limits = c(0.0,p_value_max_threshold),
-            name = p_value_type_colname) + 
-        ggraph::geom_node_text(aes(label = .data$label), repel = TRUE) +
-        ggraph::theme_graph()+ 
-        theme(text=element_text(family="Helvetica"))
+        graph_plot <- addExtraParamsToPlt(graph_plot=graph_plot, 
+            p_value_max_threshold=p_value_max_threshold,
+            p_value_type_colname=p_value_type_colname)
         graph_plot
 }
 
+getOntologiesGraphEdgesTemplate <- function(ontologies){
+  ontologies_graph_edges_num <- sum(seq_len(nrow(ontologies) - 1))
+  ontologies_graph_edges <- data.table::data.table(
+    from = rep('a', length.out = ontologies_graph_edges_num),
+    to = rep('a', length.out = ontologies_graph_edges_num),
+    weight = rep(0, length.out = ontologies_graph_edges_num))
+  if (0 == ontologies_graph_edges_num) {
+    stop('No edges at all. Wrong data.table or manipulate 
+                p_value_max_threshold please.')
+  }
+  return(ontologies_graph_edges)
+}
+
+fillOntologiesGrapgEdge <- function(ontologies, ontology_id, 
+    model_with_res_dt_relaxed, ontology_element_colname, 
+    ontologies_graph_edges, shared_elements_min_threshold) {
+  ontologies_graph_edges_counter <- 1
+  for (i in seq_len(nrow(ontologies) - 1)) {
+    ontology_name_i <- ontologies[[i, ontology_id]]
+    filter_model_row_select <- model_with_res_dt_relaxed[[
+      ontology_id]] == ontology_name_i
+    genes_in_ontology_i <- model_with_res_dt_relaxed[
+      filter_model_row_select][[ontology_element_colname]]
+    for (j in (i + 1):nrow(ontologies)) {
+      ontology_name_j <- ontologies[[j, ontology_id]]
+      filter_model_row_select_j <- model_with_res_dt_relaxed[[
+        ontology_id]] == ontology_name_j
+      genes_in_ontology_j <- model_with_res_dt_relaxed[
+        filter_model_row_select_j][[ontology_element_colname]]
+      genes_in_ontology_i_j_intersection_num <-
+        length(
+          intersect(genes_in_ontology_i, genes_in_ontology_j))
+      if (shared_elements_min_threshold < 
+          genes_in_ontology_i_j_intersection_num) 
+      {
+        ontologies_graph_edges[ontologies_graph_edges_counter,
+                               c('from', 'to', 'weight') := list(
+                                 ontology_name_i, ontology_name_j,
+                                 genes_in_ontology_i_j_intersection_num)]
+        ontologies_graph_edges_counter <- 
+          ontologies_graph_edges_counter + 1
+      }
+    }
+  }
+  
+  ontologies_graph_edges <- ontologies_graph_edges[
+    0:(ontologies_graph_edges_counter - 1), ]
+  
+  return(ontologies_graph_edges)
+}
+
+addExtraParamsToPlt <- function(graph_plot, p_value_max_threshold,
+                                p_value_type_colname) {
+    graph_plot <- graph_plot + 
+        ggraph::scale_edge_width(
+            breaks = scales::pretty_breaks(n = 5), 
+            range = c(0, 3), name="Nr. of shared elements") +
+        ggraph::geom_node_point(aes(color = .data$p_stat)) +
+        ggraph::geom_node_point(
+            aes(color = .data$p_stat, 
+                size = (1 - .data$p_stat)), show.legend = FALSE) +
+        scale_size_area(max_size = 10) +
+        scale_color_gradient2(mid =  '#ff6361', high = 'grey90',
+                              limits = c(0.0,p_value_max_threshold),
+                              name = p_value_type_colname) + 
+        ggraph::geom_node_text(aes(label = .data$label), repel = TRUE) +
+        ggraph::theme_graph()+ 
+        theme(text=element_text(family="Helvetica"))
+    return(graph_plot)
+}
 
 #' Plot Barplot
 #' 
@@ -619,8 +650,9 @@ plot_heatmap <- function(reshaped_results,
             p_value_type_colname = p_value_type_colname,
             p_value_max_threshold = p_value_max_threshold)
         model_with_res_dt_relaxed_sort_pval <- model_with_res_dt_relaxed %>%
-            dplyr::arrange(dplyr::desc((!!rlang::sym(p_value_type_colname))), 
-                .by_group = FALSE)
+            dplyr::arrange(
+                dplyr::desc((!!rlang::sym(p_value_type_colname))), 
+                    .by_group = FALSE)
         model_with_res_dt_relaxed_sort_pval[, 1] <- factor(
             model_with_res_dt_relaxed_sort_pval[[1]],
             levels = unique(model_with_res_dt_relaxed_sort_pval[[1]]))

@@ -58,7 +58,7 @@ read_gmt <- function(file) {
 #' @return Returns the input as a GMT file at a specific location.
 #' @export
 #' @examples
-#' #' library(mulea)
+#' library(mulea)
 #'
 #' # loading and filtering the example ontology from a GMT file
 #' tf_gmt <- read_gmt(file = system.file(
@@ -211,7 +211,6 @@ list_to_gmt <- function(gmt_list) {
     listAsGmtDataFrame <- plyr::ldply(.data = gmt_list,
         .id = c('ontology_id'),
         .fun = function(element) {
-            print(element)
             ontology_name <- stringi::stri_rand_strings(length = 5, n = 1)
             data.frame("ontology_name" = ontology_name,
                 "list_of_values" = I(list(element)),
@@ -251,8 +250,10 @@ generateInputSamples <- function(input_gmt_decorated,
                     input_gmt_decorated$sample_label == 'over', 
                         ]$list_of_values))
         } else {
-            all_genes_in_ontology <- unlist(input_gmt_decorated$list_of_values)
-            all_genes_in_enrichment <- unlist(input_gmt_decorated[
+            all_genes_in_ontology <- 
+              unlist(input_gmt_decorated$list_of_values)
+            all_genes_in_enrichment <- 
+              unlist(input_gmt_decorated[
                 input_gmt_decorated$sample_label == 'over', ]$list_of_values)
         }
         size_of_ontology <- length(all_genes_in_ontology)
@@ -264,7 +265,8 @@ generateInputSamples <- function(input_gmt_decorated,
             sample_noise <- all_genes_in_ontology[sample(seq_along(
                 all_genes_in_ontology), size_of_noise, replace = FALSE)]
             sample_enrichment <- all_genes_in_enrichment[
-                sample(seq_along(all_genes_in_enrichment), size_of_enrichment,
+                sample(seq_along(all_genes_in_enrichment), 
+                       size_of_enrichment,
                     replace = FALSE)]
             samples[[i]] <- unique(c(sample_noise, sample_enrichment))
         }
@@ -289,91 +291,106 @@ generateInputSamples <- function(input_gmt_decorated,
 #' @import tictoc
 getMultipleTestsSummary <- function(tests_res, comparison_col_name,
     labels = list(), cut_off = 0.05) {
-        # Summarize results.
-        print("mulea sumary time:")
-        tictoc::tic()
-        metadata_len <- length(tests_res[[1]]$metadata)
-        sumary_res <- data.frame(matrix(ncol = 10 + metadata_len, nrow = 0))
-        colnames(sumary_res) <- c("test_no", "TP", "TP_size", "FP", "FP_size",
-            "FN", "FN_size", "TN", "TN_size", "over_repr_terms", 
-            names(tests_res[[1]]$metadata))
+        sumary_res <- prepareSummaryDf(tests_res)
         number_of_tests <- length(tests_res)
         for (i in seq_len(number_of_tests)) {
-            # Actual condition
-            # Total population = P + N
             total_population <- tests_res[[i]]$test_data$ontology_id
             total_population_size <- length(total_population)
-            # Positive (P)
             P <- tests_res[[i]]$test_data[
-                tests_res[[i]]$test_data$sample_label == 'over', ]$ontology_id
+                tests_res[[i]]$test_data$sample_label == 'over', 
+                ]$ontology_id
             P_size <- length(P)
-            # Negative (N)
             N <- tests_res[[i]]$test_data[
-                tests_res[[i]]$test_data$sample_label != 'over', ]$ontology_id
+                tests_res[[i]]$test_data$sample_label != 'over', 
+                ]$ontology_id
             N_size <- length(N)
             if (P_size + N_size != total_population_size) {
-                warning("Not OK size of Actual in contingency table")
-            }
-            # Predicted condition
-            # Predicted Positive (PP)
+                warning("Not OK size of Actual in contingency table")}
             PP <- tests_res[[i]]$mulea_res[tests_res[[i]]$mulea_res[
                 , comparison_col_name] <= cut_off,]$ontology_id
             PP_size <- length(PP)
-            # Predicted Negative (PN)
             PN <- tests_res[[i]]$mulea_res[tests_res[[i]]$mulea_res[
                 , comparison_col_name] > cut_off,]$ontology_id
             PN_size <- length(PN)
             if (PP_size + PN_size != total_population_size) {
-                warning("Not OK size of Predicted in contingency table")
-            }
-            # True positive (TP) : hit
+                warning("Not OK size of Predicted in contingency table")}
             TP <- intersect(P, PP)
             TP_size <- length(TP)
-            # False positive (FP) : type I error, false alarm, overestimation
             FP <- intersect(N, PP)
             FP_size <- length(FP)
-            # False negative (FN) : type II error, miss, underestimation
             FN <- intersect(P, PN)
             FN_size <- length(FN)
-            # True negative (TN) : correct rejection
             TN <- intersect(N, PN)
             TN_size <- length(TN)
             if (TP_size + FP_size + FN_size + 
                 TN_size != total_population_size) {
-                warning("Not OK size of total  contingency table")
-            }
+                warning("Not OK size of total contingency table")}
             over_repr_terms <- tests_res[[i]]$test_data[
-                tests_res[[i]]$test_data$sample_label == 'over', ]$ontology_id
-            sumary_res_tmp <- data.frame('test_no' = i, 'TP' = I(list(TP)),
-                'TP_size' = TP_size, 'FP' = I(list(FP)), 'FP_size' = FP_size,
-                'FN' = I(list(FN)), 'FN_size' = FN_size, 'TN' = I(list(TN)),
-                'TN_size' = TN_size, 'over_repr_terms' = I(list(over_repr_terms)
-                ))
-        for (metadata_entry in names(tests_res[[i]]$metadata)) {
-            if ('input_select' == metadata_entry) {
-                sumary_res_tmp <- cbind(sumary_res_tmp,
-                    'input_select' = I(tests_res[[i]]$metadata[metadata_entry]))
-            } else {
-                sumary_res_tmp <- cbind(sumary_res_tmp,
-                    metadata_entry = as.character(tests_res[[i]]$metadata[
-                        metadata_entry]))
-            }
+                tests_res[[i]]$test_data$sample_label == 'over', 
+                ]$ontology_id
+            sumary_res_tmp <- getMetadata(i=i, TP=TP, TP_size=TP_size, 
+              FP=FP, FP_size=FP_size, FN=FN, FN_size=FN_size, TN=TN, 
+              TN_size=TN_size, over_repr_terms=over_repr_terms, 
+              tests_res=tests_res)
+            sumary_res[i,] <- sumary_res_tmp
         }
-        sumary_res[i,] <- sumary_res_tmp
-    }
-    sumary_res <- tibble::tibble(sumary_res) %>%
-        dplyr::mutate(FPR = FP_size / (FP_size + TN_size)) %>%
-        dplyr::mutate(TPR = TP_size / (TP_size + FN_size)) %>%
-        dplyr::mutate(FDR = FP_size / (TP_size + FP_size)) %>%
-        dplyr::mutate(NPV = TN_size / (FN_size + TN_size))
-    for (label_id in seq_along(labels)) {
-        # IMPORTANT : Labels are as characters in datatable
-        label_name <- as.character(names(labels)[[label_id]])
-        label_value <- as.character(labels[[label_id]])
-        sumary_res <- sumary_res %>% dplyr::mutate(!!label_name := label_value)
-    }
-    tictoc::toc()
+    sumary_res <- getSummaryRes(sumary_res=sumary_res, 
+        FP_size=FP_size, TN_size=TN_size, TP_size=TP_size, FN_size=FN_size)
+    sumary_res <- addLabelsToSummary(labels=labels, sumary_res=sumary_res)
     return(sumary_res)
+}
+
+prepareSummaryDf <- function(tests_res) {
+    metadata_len <- length(tests_res[[1]]$metadata)
+    sumary_res <- data.frame(matrix(ncol = 10 + metadata_len, nrow = 0))
+    colnames(sumary_res) <- c("test_no", "TP", "TP_size", "FP", "FP_size",
+        "FN", "FN_size", "TN", "TN_size", "over_repr_terms", 
+        names(tests_res[[1]]$metadata))
+    return(sumary_res)
+}
+
+getSummaryRes <- function(sumary_res, FP_size, TN_size,
+                          TP_size, FN_size) {
+  sumary_res <- tibble::tibble(sumary_res) %>%
+    dplyr::mutate(FPR = FP_size / (FP_size + TN_size)) %>%
+    dplyr::mutate(TPR = TP_size / (TP_size + FN_size)) %>%
+    dplyr::mutate(FDR = FP_size / (TP_size + FP_size)) %>%
+    dplyr::mutate(NPV = TN_size / (FN_size + TN_size))
+  sumary_res
+}
+
+getMetadata <- function(i, TP, TP_size, FP, FP_size, FN, FN_size,
+                        TN, TN_size, over_repr_terms, tests_res) {
+  sumary_res_tmp <- data.frame('test_no' = i, 'TP' = I(list(TP)),
+                               'TP_size' = TP_size, 'FP' = I(list(FP)), 
+                               'FP_size' = FP_size, 'FN' = I(list(FN)), 
+                               'FN_size' = FN_size, 'TN' = I(list(TN)),
+                               'TN_size' = TN_size, 
+                               'over_repr_terms' = I(list(over_repr_terms)
+                               ))
+  for (metadata_entry in names(tests_res[[i]]$metadata)) {
+    if ('input_select' == metadata_entry) {
+      sumary_res_tmp <- cbind(sumary_res_tmp,
+          'input_select' = I(tests_res[[i]]$metadata[metadata_entry]))
+    } else {
+      sumary_res_tmp <- cbind(sumary_res_tmp,
+                              metadata_entry = as.character(
+                                tests_res[[i]]$metadata[
+                                metadata_entry]))
+    }
+  }
+  sumary_res_tmp
+}
+
+addLabelsToSummary <- function(labels, sumary_res) {
+  for (label_id in seq_along(labels)) {
+    # IMPORTANT : Labels are as characters in datatable
+    label_name <- as.character(names(labels)[[label_id]])
+    label_value <- as.character(labels[[label_id]])
+    sumary_res <- sumary_res %>% 
+      dplyr::mutate(!!label_name := label_value)
+  }
+  sumary_res
 }
 
 # PUBLIC API
@@ -390,9 +407,8 @@ getMultipleTestsSummary <- function(tests_res, comparison_col_name,
 #' @importFrom plyr .
 #' @importFrom rlang .data
 getSummaryToRoc <- function(tests_res, cut_off_resolution = 0.01,
-    methods_names = c('pValue', 'adjustedPValue', 'adjustedPValueEmpirical')) {
-        print("mulea ROC data calculation time:")
-        tictoc::tic()
+    methods_names = c('pValue', 'adjustedPValue', 
+                      'adjustedPValueEmpirical')) {
         number_of_tests <- length(tests_res)
         data_to_roc <- data.frame("sample_label" = c(), "pValue" = c(), 
             "adjustedPValue" = c(), "adjustedPValueEmpirical" = c())
@@ -400,8 +416,10 @@ getSummaryToRoc <- function(tests_res, cut_off_resolution = 0.01,
             tests_res[[i]]$mulea_res[, c("pValue", "adjustedPValue",
                 "adjustedPValueEmpirical")]
             data_to_roc <- rbind(data_to_roc, data.frame(
-                "sample_label" = tests_res[[i]]$test_data[, c("sample_label")],
-                    tests_res[[i]]$mulea_res[, c("pValue", "adjustedPValue",
+                "sample_label" = 
+                  tests_res[[i]]$test_data[, c("sample_label")],
+                    tests_res[[i]]$mulea_res[, c("pValue", 
+                        "adjustedPValue",
                         "adjustedPValueEmpirical")]))
         }
     roc_stats <- tibble::tibble(TP_val = numeric(), TN_val = numeric(),
@@ -418,8 +436,10 @@ getSummaryToRoc <- function(tests_res, cut_off_resolution = 0.01,
                     FP = (.data$PP == TRUE & .data$sample_label != 'over'),
                     FN = (.data$PP == FALSE & .data$sample_label == 'over'))
             sim_sum <- sim_mult_tests_res_to_roc_summary %>% 
-                dplyr::summarise(TP_val = sum(.data$TP), TN_val = sum(.data$TN),
-                    FP_val = sum(.data$FP), FN_val = sum(.data$FN))
+                dplyr::summarise(TP_val = sum(.data$TP), 
+                                 TN_val = sum(.data$TN),
+                                 FP_val = sum(.data$FP), 
+                                 FN_val = sum(.data$FN))
             sim_sum_roc <- sim_sum %>% dplyr::mutate(
                 TPR = .data$TP_val / (.data$TP_val + .data$FN_val),
                 FPR = .data$FP_val / (.data$FP_val + .data$TN_val),
@@ -430,7 +450,6 @@ getSummaryToRoc <- function(tests_res, cut_off_resolution = 0.01,
                 tibble::add_row(sim_sum_roc)
         }
     }
-    tictoc::toc()
     return(roc_stats)
 }
 
@@ -448,7 +467,6 @@ getMultipleTestsSummaryAcrossCutOff <- function(tests_res,
     cut_off_range = seq(0, 1, 0.1)) {
     tests_res_sum <- NULL
     for (cut_off in cut_off_range) {
-        print(cut_off)
         tests_res_sum_p <- getMultipleTestsSummary(tests_res = tests_res,
             comparison_col_name = 'pValue',
             labels = list('method' = 'p', 'cut_off' = cut_off),
@@ -461,8 +479,8 @@ getMultipleTestsSummaryAcrossCutOff <- function(tests_res,
             comparison_col_name = 'adjustedPValueEmpirical',
             labels = list('method' = 'pt', 'cut_off' = cut_off),
             cut_off = cut_off)
-        tests_res_sum <- rbind(tests_res_sum, tests_res_sum_p, tests_res_sum_pt,
-            tests_res_sum_bh)
+        tests_res_sum <- rbind(tests_res_sum, tests_res_sum_p, 
+                               tests_res_sum_pt, tests_res_sum_bh)
     }
     return(tests_res_sum)
 }
@@ -493,12 +511,10 @@ simulateMultipleTests <- function(input_gmt_filtered,
     number_of_under_representation_groups = 0,
     number_of_steps = 5000,
     nthreads = 16) {
-        print("mulea calculation time:")
         tictoc::tic()
         number_of_samples <- 1
         tests_res <- vector("list", number_of_tests)
         for (i in seq_len(number_of_tests)) {
-            print(i)
             input_gmt_decorated <- decorateGmtByUnderOvenAndNoise(
                 input_gmt = input_gmt_filtered,
                 number_of_over_representation_groups = 
@@ -557,10 +573,9 @@ simulateMultipleTestsWithRatioParam <- function(input_gmt_filtered,
         tictoc::tic()
         sim_mult_tests <- list()
         for (noise_ratio in noise_ratio_range) {
-            print("noise_ratio")
-            print(noise_ratio)
             sim_mult_tests <- c(sim_mult_tests,
-                simulateMultipleTests(input_gmt_filtered = input_gmt_filtered,
+                simulateMultipleTests(
+                    input_gmt_filtered = input_gmt_filtered,
                     number_of_tests = number_of_tests,
                     noise_ratio = noise_ratio,
                     over_repr_ratio = over_repr_ratio,
@@ -570,7 +585,6 @@ simulateMultipleTestsWithRatioParam <- function(input_gmt_filtered,
                     number_of_steps = number_of_steps,
                     nthreads = nthreads))
         }
-        print('mulea : ratio search calculation time:')
         tictoc::toc()
     return(sim_mult_tests)
 }

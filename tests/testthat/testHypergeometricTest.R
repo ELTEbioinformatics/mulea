@@ -17,7 +17,8 @@ test_that("ora : object creation test.", {
   
   testthat::expect_equal(mulea_ora_model@gmt, gmtMock)
   testthat::expect_equal(mulea_ora_model@element_names, c("a", "b", "c"))
-  testthat::expect_equal(mulea_ora_model@background_element_names, c("a", "c", "d"))
+  testthat::expect_equal(mulea_ora_model@background_element_names, 
+                         c("a", "c", "d"))
   testthat::expect_equal(mulea_ora_model@p_value_adjustment_method, "eFDR")
 })
 
@@ -254,12 +255,22 @@ test_that("ora : DB1 + DB2 => pool, matrix 2,2,2,0 and 2,2,1,3.", {
 
 
 test_that("ora : DB1 + DB2 => pool, matrix 2,2,2,0 and 2,2,1,3.", {
-  gmtMock <- read_gmt(file = system.file(package="mulea", "extdata", "model.gmt"))
-  testDataMock <- c("FBgn0004407", "FBgn0010438", "FBgn0037044", "FBgn0002887", "FBgn0028434", "FBgn0030170", "FBgn0263831")
-  poolMock <- unique(c(c("FBgn0033690", "FBgn0261618", "FBgn0004407", "FBgn0010438", "FBgn0032154", "FBgn0039930", "FBgn0040268", "FBgn0013674",
-                         "FBgn0037008", "FBgn0003116", "FBgn0037743", "FBgn0035401", "FBgn0037044", "FBgn0051005", "FBgn0026737", "FBgn0026751",
-                         "FBgn0038704", "FBgn0002887", "FBgn0028434", "FBgn0030170", "FBgn0263831", "FBgn0000579"),
-                       c("FBgn0066666", "FBgn0000000", "FBgn0099999", "FBgn0011111", "FBgn0022222", "FBgn0777777", "FBgn0333333")))
+  gmtMock <- read_gmt(file = system.file(
+    package="mulea", "extdata", "model.gmt"))
+  testDataMock <- c("FBgn0004407", "FBgn0010438", "FBgn0037044", 
+                    "FBgn0002887", "FBgn0028434", "FBgn0030170", 
+                    "FBgn0263831")
+  poolMock <- unique(c(c("FBgn0033690", "FBgn0261618", "FBgn0004407", 
+                         "FBgn0010438", "FBgn0032154", "FBgn0039930", 
+                         "FBgn0040268", "FBgn0013674", "FBgn0037008", 
+                         "FBgn0003116", "FBgn0037743", "FBgn0035401", 
+                         "FBgn0037044", "FBgn0051005", "FBgn0026737", 
+                         "FBgn0026751", "FBgn0038704", "FBgn0002887", 
+                         "FBgn0028434", "FBgn0030170", "FBgn0263831", 
+                         "FBgn0000579"),
+                       c("FBgn0066666", "FBgn0000000", "FBgn0099999", 
+                         "FBgn0011111", "FBgn0022222", "FBgn0777777", 
+                         "FBgn0333333")))
   
   mulea_ora_model <- ora(
     gmt = gmtMock,
@@ -282,7 +293,7 @@ test_that("ora : private : matrix 2,2,2,2.", {
   testDataMock <- c("a", "b", "e", "f")
   poolMock <- c("a", "b", "c", "d", "e", "f", "g", "h")
   
-  mulea_hyper_test <- MuleaHypergeometricTest(
+  mulea_hyper_test <- mulea:::MuleaHypergeometricTest(
     gmt = gmtMock,
     element_names = testDataMock,
     pool = poolMock, 

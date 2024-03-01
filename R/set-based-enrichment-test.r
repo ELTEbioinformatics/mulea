@@ -1,7 +1,8 @@
-###############################################################################
+##########################################################
 # Function for FDR corrected hypergeometric enrichment test
-###############################################################################
+##########################################################
 #' @import parallel
+#' @import mulea
 set.based.enrichment.test <- function(
     steps, pool, select, DB, nthread=1, debug=FALSE) {
     ## convert the database and the select and pollt to sorted integer lists
@@ -40,13 +41,15 @@ set.based.enrichment.test <- function(
         result_df1$P_val <- 1-stats::phyper(
             result_df1$DB_in_select-1, result_df1$DB_in_pool, 
             size_pool-result_df1$DB_in_pool, size_select) 
-        # can change the digits, this is important for the precision of '0' is R
+        # can change the digits, this is important for 
+        # the precision of '0' is R
         P_val_round <- round(result_df1$P_val, digits=15)
         result_df1$R_obs <- rank(P_val_round, na.last = TRUE, 
             ties.method ="max")
         result_df1$P_adj_Bonf <- stats::p.adjust(result_df1$P_val, 
             method = "bonferroni")
-        result_df1$P_adj_BH <- stats::p.adjust(result_df1$P_val, method = "BH")
+        result_df1$P_adj_BH <- 
+            stats::p.adjust(result_df1$P_val, method = "BH")
         ################################################
         ############# simualtion
         if(length(select)==0 ) {
@@ -59,7 +62,7 @@ set.based.enrichment.test <- function(
         # simple call op C++ part of the code
         simulation_result_tbl <- tryCatch(enrichment_test_simulation(
             DB, list_of_all_genes, pool, length(select), steps, 0), 
-            error = print)  # RCPP calling
+            error = warning)  # RCPP calling
         } else if (nthread>1 && round(nthread) == nthread) {
             # parallel call of C++ 
             vv <- floor(steps / nthread)
@@ -84,13 +87,16 @@ set.based.enrichment.test <- function(
             # envir = current_env
             clusterExport(cl,"seeds_per_thread", envir = current_env)
             clusterExport(cl,"steps_per_thread", envir = current_env)
-            clusterEvalQ(cl, library(mulea))
+            clusterEvalQ(cl, c("mulea","stats","graphics","grDevices",
+                               "utils","datasets","methods","base"))
             result_of_paralel <- clusterApplyLB(cl=cl, seq_len(nthread), 
                 function(idx) {
                     simulation_result_tbl <-  tryCatch(
-                        enrichment_test_simulation(DB, list_of_all_genes, pool, 
+                        enrichment_test_simulation(
+                            DB, list_of_all_genes, pool, 
                             length(select), steps_per_thread[[idx]], 
-                            seeds_per_thread[[idx]]), error = print)  # RCPP
+                            seeds_per_thread[[idx]]), 
+                        error = warning)  # RCPP
                     return(simulation_result_tbl)
                 })
         stopCluster(cl)
@@ -157,7 +163,8 @@ set.based.enrichment.test <- function(
                 } else { a2<-a3 }
             }
             # at the end of the binary search the 
-            # simulation_result_tbl$cum_sum_multiplicity[[a1]] is the count of 
+            # simulation_result_tbl$cum_sum_multiplicity[[a1]] 
+            # is the count of 
             # p where p<=target
             # and a2=a1+1
             # R_exp[l]<-a2

@@ -73,8 +73,9 @@ set.based.enrichment.test <- function(
             rm(cc, vv)
             requireNamespace("parallel")
             if (interactive()) {
+                cl_outfile <- paste(tempdir(), 'paralell.log', sep = "\\")
                 cl <- makeCluster(spec = nthread, type = "PSOCK",
-                    outfile = paste(tempdir(), 'paralell.log', sep = "\\"))
+                    outfile = cl_outfile)
             } else {
                 cl <- makeCluster(spec = nthread, type = "PSOCK")
             }
@@ -112,7 +113,9 @@ set.based.enrichment.test <- function(
             length(pool)-simulation_result_tbl$DB_in_pool, length(select))
     # test consistency
     stopifnot(steps*length(DB)==sum(simulation_result_tbl$multiplicity))
-    if(! all(is.finite(simulation_result_tbl$p)) ) {stop("ERROR_002")}
+    if(! all(is.finite(simulation_result_tbl$p)) ) {
+      stop("ERROR_002")
+    }
     #############################
     # group by the equal p-values and summarise the multiplicities 
     simulation_result_tbl <- simulation_result_tbl[,c("multiplicity", "p")]

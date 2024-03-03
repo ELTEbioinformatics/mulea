@@ -56,8 +56,7 @@ setMethod("initialize", "SetBasedEnrichmentTest",
                 testResults <- set.based.enrichment.test.wrapper(
                     steps = .Object@number_of_permutations,
                     pool = pool, select = element_names, DB = DB,
-                    only_hyper_geometric_test = 
-                      model@only_hyper_geometric_test,
+                    only_hyper_geometric_test =model@only_hyper_geometric_test,
                     nthreads = model@nthreads)
                 testResults
             }

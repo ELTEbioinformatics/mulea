@@ -85,8 +85,7 @@ ora_model <- ora(gmt = tf_gmt_filtered,
 ora_results <- run_test(ora_model)
 
 # reshaping results for visualisation
-ora_reshaped_results <- reshape_results(
-    model = ora_model,
+ora_reshaped_results <- reshape_results(model = ora_model,
     model_results = ora_results,
     # choosing which column to use for the indication of significance
     p_value_type_colname = "eFDR")

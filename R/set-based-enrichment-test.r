@@ -3,60 +3,51 @@
 ##########################################################
 #' @import parallel
 #' @import mulea
-set.based.enrichment.test <- function(
-    steps, pool, select, DB, nthread=1, debug=FALSE) {
+set.based.enrichment.test <- function(steps, pool, select, DB, nthread=1, 
+    debug=FALSE) {
     ## convert the database and the select and pollt to sorted integer lists
-        list_of_all_genes <- unique(c(unlist(DB),pool))
-        select <- intersect(select, pool) 
-        ############
-        DB_names <- names(DB)
-        number_of_DB_categories <- length(DB)  # Number of DB categories
-        size_pool <- length(pool)
-        size_select <- length(select)
-        # init empty data frame with the row-size of DB 
-        # (number of DB categories) to store the result
-        result_df1 <- data.frame(DB_names = DB_names,
-            DB_in_select = as.integer(NA),
-            DB_in_pool = as.integer(NA),
-            Genes_in_DB = as.integer(NA),
-            P_val = as.double(NA),
-            R_obs = as.integer(NA))
-        # for every DB entity in the DB list
-        for (i in seq_len(number_of_DB_categories)) {
-            # create a vector of genes connected to the i-th DB category
-            current_DB_category <- DB[[i]]
-            # hypergometric test
-            #q: number of common genes between a DBterm and select
-            result_df1$DB_in_select[i] <- length(
-                intersect(select,current_DB_category))
-            # m: number of common genes between DBterm and BackGround
-            result_df1$DB_in_pool[i] <- length(
-                intersect(pool,current_DB_category))
-            result_df1$Genes_in_DB[i] <- length(current_DB_category)
-        }
+    list_of_all_genes <- unique(c(unlist(DB),pool))
+    select <- intersect(select, pool) 
+    ############
+    DB_names <- names(DB)
+    number_of_DB_categories <- length(DB)  # Number of DB categories
+    size_pool <- length(pool)
+    size_select <- length(select)
+    # init empty data frame with the row-size of DB 
+    # (number of DB categories) to store the result
+    result_df1 <- data.frame(DB_names = DB_names, DB_in_select = as.integer(NA),
+        DB_in_pool = as.integer(NA), Genes_in_DB = as.integer(NA),
+        P_val = as.double(NA), R_obs = as.integer(NA))
+    # for every DB entity in the DB list
+    for (i in seq_len(number_of_DB_categories)) {
+        # create a vector of genes connected to the i-th DB category
+        current_DB_category <- DB[[i]]
+        # hypergometric test
+        #q: number of common genes between a DBterm and select
+        result_df1$DB_in_select[i] <- length(intersect(select,
+            current_DB_category))
+        # m: number of common genes between DBterm and BackGround
+        result_df1$DB_in_pool[i] <- length(intersect(pool,
+            current_DB_category))
+        result_df1$Genes_in_DB[i] <- length(current_DB_category)}
         # compute the p values (raw p values without any corrections)
         # n: number of non-pool genes among DB
         # k: number of genes in select
         # phyper(q, m, n, k, lower.tail = TRUE, log.p = FALSE)
-        result_df1$P_val <- 1-stats::phyper(
-            result_df1$DB_in_select-1, result_df1$DB_in_pool, 
-            size_pool-result_df1$DB_in_pool, size_select) 
+        result_df1$P_val <- 1-stats::phyper(result_df1$DB_in_select-1, 
+            result_df1$DB_in_pool,size_pool-result_df1$DB_in_pool,size_select) 
         # can change the digits, this is important for 
         # the precision of '0' is R
         P_val_round <- round(result_df1$P_val, digits=15)
-        result_df1$R_obs <- rank(P_val_round, na.last = TRUE, 
-            ties.method ="max")
+        result_df1$R_obs <- rank(P_val_round,na.last = TRUE,ties.method ="max")
         result_df1$P_adj_Bonf <- stats::p.adjust(result_df1$P_val, 
             method = "bonferroni")
-        result_df1$P_adj_BH <- 
-            stats::p.adjust(result_df1$P_val, method = "BH")
+        result_df1$P_adj_BH <- stats::p.adjust(result_df1$P_val, method = "BH")
         ################################################
         ############# simualtion
-        if(length(select)==0 ) {
-            result_df1$R_exp <- NaN
+        if(length(select)==0 ) {result_df1$R_exp <- NaN
             result_df1$FDR <- NaN
-            return(result_df1)
-        }
+            return(result_df1)}
         names(DB) <- NULL
         if(nthread==1) {
         # simple call op C++ part of the code
@@ -66,7 +57,7 @@ set.based.enrichment.test <- function(
         } else if (nthread>1 && round(nthread) == nthread) {
             # parallel call of C++ 
             vv <- floor(steps / nthread)
-            cc<-steps %% nthread
+            cc <- steps %% nthread
             steps_per_thread <- c(rep(vv, nthread-cc), rep(vv+1 , cc))
             seeds_per_thread <- sample(2^15, nthread)
             stopifnot(sum(steps_per_thread)==steps)
@@ -76,9 +67,7 @@ set.based.enrichment.test <- function(
                 cl_outfile <- paste(tempdir(), 'paralell.log', sep = "\\")
                 cl <- makeCluster(spec = nthread, type = "PSOCK",
                     outfile = cl_outfile)
-            } else {
-                cl <- makeCluster(spec = nthread, type = "PSOCK")
-            }
+            } else { cl <- makeCluster(spec = nthread, type = "PSOCK")}
             current_env <- environment()
             clusterExport(cl,"DB", envir = current_env)
             clusterExport(cl,"list_of_all_genes", envir = current_env)
@@ -89,17 +78,13 @@ set.based.enrichment.test <- function(
             clusterExport(cl,"seeds_per_thread", envir = current_env)
             clusterExport(cl,"steps_per_thread", envir = current_env)
             clusterEvalQ(cl, c("mulea","stats","graphics","grDevices",
-                               "utils","datasets","methods","base"))
+                "utils","datasets","methods","base"))
             result_of_paralel <- clusterApplyLB(cl=cl, seq_len(nthread), 
-                function(idx) {
-                    simulation_result_tbl <-  tryCatch(
-                        enrichment_test_simulation(
-                            DB, list_of_all_genes, pool, 
-                            length(select), steps_per_thread[[idx]], 
-                            seeds_per_thread[[idx]]), 
-                        error = warning)  # RCPP
-                    return(simulation_result_tbl)
-                })
+                function(idx) {simulation_result_tbl <-  tryCatch(
+                    enrichment_test_simulation(DB, list_of_all_genes, pool, 
+                        length(select), steps_per_thread[[idx]], 
+                        seeds_per_thread[[idx]]), error = warning)  # RCPP
+                    return(simulation_result_tbl)})
         stopCluster(cl)
         simulation_result_tbl <- do.call(rbind, result_of_paralel)
         } else {
@@ -114,7 +99,7 @@ set.based.enrichment.test <- function(
     # test consistency
     stopifnot(steps*length(DB)==sum(simulation_result_tbl$multiplicity))
     if(! all(is.finite(simulation_result_tbl$p)) ) {
-      stop("ERROR_002")
+        stopifnot(all(is.finite(simulation_result_tbl$p)), "ERROR_002")
     }
     #############################
     # group by the equal p-values and summarise the multiplicities 
@@ -123,48 +108,33 @@ set.based.enrichment.test <- function(
     simulation_result_tbl <- simulation_result_tbl[order(
         simulation_result_tbl$p),]
     list11 <- split(simulation_result_tbl, simulation_result_tbl$p)
-    for(i in seq(list11)) {
-        if(nrow(list11[[i]])>1) {
-            list11[[i]] <- data.frame(
-                multiplicity = sum(list11[[i]]$multiplicity),
-                p = list11[[i]]$p[1])
-        }
-    }
+    for(i in seq(list11)) {if(nrow(list11[[i]])>1) {list11[[i]] <- data.frame(
+        multiplicity = sum(list11[[i]]$multiplicity), p = list11[[i]]$p[1])}}
     simulation_result_tbl <- do.call(rbind, list11)
     rownames(simulation_result_tbl) <- NULL
     rm(list11)
     ##############################################
     # some preparation to help the binary search
-    if(simulation_result_tbl$p[1]!=0) {
-        simulation_result_tbl <- rbind(data.frame(multiplicity = 0, p = 0),
-            simulation_result_tbl)
-    }
+    if(simulation_result_tbl$p[1]!=0) {simulation_result_tbl <- rbind(
+        data.frame(multiplicity = 0, p = 0), simulation_result_tbl)}
     if(simulation_result_tbl$p[nrow(simulation_result_tbl)]!=1) {
         simulation_result_tbl <- rbind(simulation_result_tbl, 
-            data.frame(multiplicity = 0, p = 1))
-    }
+            data.frame(multiplicity = 0, p = 1))}
     simulation_result_tbl$cum_sum_multiplicity <- cumsum(
         simulation_result_tbl$multiplicity)
     # init an empty vector. I  will store here the result
     R_exp <- integer(number_of_DB_categories)
     # this id the greatest/last in cumsum.multiplicity
-    NN <- simulation_result_tbl$cum_sum_multiplicity[nrow(
-        simulation_result_tbl)] 
-    for (i in seq_len(number_of_DB_categories)) {
-        if(P_val_round[i]>=1) {
+    NN<-simulation_result_tbl$cum_sum_multiplicity[nrow(simulation_result_tbl)] 
+    for (i in seq_len(number_of_DB_categories)) {if(P_val_round[i]>=1) {
             R_exp[i] <- NN  # it makes things much faster 
-        } else {
-            target <- P_val_round[i]
+        } else {target <- P_val_round[i]
             # binary search
             a1 <- 1
             a2 <- nrow(simulation_result_tbl) #-cnt.of.ones
-            while(a1+1 < a2) {
-                a3 <- floor((a1+a2)/2)
+            while(a1+1 < a2) {a3 <- floor((a1+a2)/2)
                 current <- simulation_result_tbl$p[a3]
-                if( current <= target) {
-                    a1 <- a3
-                } else { a2<-a3 }
-            }
+                if( current <= target) {a1 <- a3} else { a2<-a3 }}
             # at the end of the binary search the 
             # simulation_result_tbl$cum_sum_multiplicity[[a1]] 
             # is the count of 

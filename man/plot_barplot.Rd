@@ -13,22 +13,24 @@ plot_barplot(
 )
 }
 \arguments{
-\item{reshaped_results}{data.table in relaxed form, obtained as the output
-of the \code{reshape_results} function. The data source for generating the
-barplot.}
+\item{reshaped_results}{'data.table' in relaxed form, obtained as the
+output of the \code{reshape_results} function.
+The data source for generating the barplot.}
 
 \item{ontology_id_colname}{Character, specifies the column name that contains
 ontology IDs in the input data.}
 
 \item{selected_rows_to_plot}{A numeric vector specifying which rows of the
-reshaped results data frame should be included in the plot. Default is NULL.
-frame should be included in the plot?}
+reshaped results 'data.frame' should be included in the plot.
+Default is 'NULL'.}
 
-\item{p_value_type_colname}{Character, specifies the column name for p-values
-in the input data. Default is 'eFDR'.}
+\item{p_value_type_colname}{Character, specifies the column name for
+\emph{p}-values in the input data.
+Default is 'eFDR'.}
 
-\item{p_value_max_threshold}{Numeric, representing the maximum p-value
-threshold for filtering data. Default is 0.05.}
+\item{p_value_max_threshold}{Numeric, representing the maximum \emph{p}-value
+threshold for filtering data.
+Default is 0.05.}
 }
 \value{
 Returns a barplot.
@@ -37,8 +39,8 @@ Returns a barplot.
 Plots barplot of p-values.
 }
 \details{
-Create a customized barplot of p-values, facilitating visual exploration and
-analysis of statistical significance within ontology categories.
+Create a customized barplot of \emph{p}-values, facilitating visual exploration
+and analysis of statistical significance within ontology categories.
 }
 \examples{
 library(mulea)

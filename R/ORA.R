@@ -52,137 +52,92 @@
 #' # running the ORA
 #' ora_results <- run_test(ora_model)
 
-ora <- setClass(
-    "ora",
-    slots = list(
-        gmt = "data.frame",
-        element_names = "character",
-        background_element_names = "character",
-        p_value_adjustment_method = "character",
-        number_of_permutations = "numeric",
-        nthreads = "numeric",
-        test = "function"
-    )
-)
+ora <- setClass("ora", slots = list(
+    gmt = "data.frame",
+    element_names = "character",
+    background_element_names = "character",
+    p_value_adjustment_method = "character",
+    number_of_permutations = "numeric",
+    nthreads = "numeric",
+    test = "function"))
 
-setMethod("initialize", "ora",
-    function(.Object,
-        gmt = data.frame(),
-        element_names = character(),
-        background_element_names = character(),
-        p_value_adjustment_method = "eFDR",
-        number_of_permutations = 10000,
-        test = NULL,
-        nthreads = 4,
-        ...) {
-            adjustMethod <- NULL
-            .Object@gmt <- gmt
-            .Object@element_names <- element_names
-            .Object@background_element_names <- background_element_names
-            .Object@p_value_adjustment_method <- p_value_adjustment_method
-            .Object@number_of_permutations <- number_of_permutations
-            .Object@nthreads <- nthreads
-            
-            .Object@test <- function(setBasemodel) {
-                setBasedTestRes <- computeSetBasedTestRes(setBasemodel)
-                setBasedTestRes
-            }
-            .Object
-            
-        })
+setMethod("initialize", "ora", function(.Object, gmt = data.frame(), 
+    element_names = character(),
+    background_element_names = character(),
+    p_value_adjustment_method = "eFDR",
+    number_of_permutations = 10000,
+    test = NULL,
+    nthreads = 4,
+    ...) {
+        adjustMethod <- NULL
+        .Object@gmt <- gmt
+        .Object@element_names <- element_names
+        .Object@background_element_names <- background_element_names
+        .Object@p_value_adjustment_method <- p_value_adjustment_method
+        .Object@number_of_permutations <- number_of_permutations
+        .Object@nthreads <- nthreads
+        .Object@test <- function(setBasemodel) {
+            setBasedTestRes <- computeSetBasedTestRes(setBasemodel)
+            setBasedTestRes}
+        .Object})
 
 performSetBasedEnrichmentTest <- function(setBasemodel) {
-    muleaSetBaseEnrichmentTest <-
-      SetBasedEnrichmentTest(
-        gmt = setBasemodel@gmt,
+    muleaSetBaseEnrichmentTest <- SetBasedEnrichmentTest(gmt = setBasemodel@gmt,
         element_names = setBasemodel@element_names,
         pool = setBasemodel@background_element_names,
-        number_of_permutations = 
-          setBasemodel@number_of_permutations,
-        nthreads = setBasemodel@nthreads
-      )
-    
-    muleaSetBaseEnrichmentTest <-
-      run_test(muleaSetBaseEnrichmentTest)
-    
-    muleaSetBaseEnrichmentTest <- merge(
-      setBasemodel@gmt[c('ontology_id', 'ontology_name')],
-      muleaSetBaseEnrichmentTest,
-      by.x = "ontology_id",
-      by.y = "DB_names",
-      all = TRUE
-    )
-    
-    return(muleaSetBaseEnrichmentTest)
-}
+        number_of_permutations = setBasemodel@number_of_permutations,
+        nthreads = setBasemodel@nthreads)
+    muleaSetBaseEnrichmentTest <- run_test(muleaSetBaseEnrichmentTest)
+    muleaSetBaseEnrichmentTest <- merge(setBasemodel@gmt[c("ontology_id",
+        "ontology_name")], muleaSetBaseEnrichmentTest, by.x = "ontology_id",
+        by.y = "DB_names", all = TRUE)
+    return(muleaSetBaseEnrichmentTest)}
 
 performSetBasedEnrichmentTestElse <- function(setBasemodel) {
-    MuleaHypergeometricTest <-
-      MuleaHypergeometricTest(
-        gmt = setBasemodel@gmt,
+    MuleaHypergeometricTest <- MuleaHypergeometricTest(gmt = setBasemodel@gmt,
         element_names = setBasemodel@element_names,
         pool = setBasemodel@background_element_names,
-        nthreads = setBasemodel@nthreads
-      )
+        nthreads = setBasemodel@nthreads)
     setBasedTestRes <- run_test(MuleaHypergeometricTest)
-    
-    muleaSetBaseEnrichmentTest <- merge(
-      setBasemodel@gmt[c('ontology_id', 'ontology_name')],
-      setBasedTestRes,
-      by.x = "ontology_id",
-      by.y = "ontology_name",
-      all = TRUE
-    )
+    muleaSetBaseEnrichmentTest <- merge(setBasemodel@gmt[c("ontology_id",
+        "ontology_name")], setBasedTestRes, by.x = "ontology_id",
+        by.y = "ontology_name", all = TRUE)
     res <- list("setBasedTestRes"=setBasedTestRes,
                 "muleaSetBaseEnrichmentTest"=muleaSetBaseEnrichmentTest)
     return(res)
 }
 
-computeSetBasedTestRes <- function(setBasemodel) {
-    setBasedTestRes <- NULL
-    if (!identical(setBasemodel@p_value_adjustment_method, 
-                   character(0)) &&
+computeSetBasedTestRes <- function(setBasemodel) {setBasedTestRes <- NULL
+    if (!identical(setBasemodel@p_value_adjustment_method, character(0)) &&
         setBasemodel@p_value_adjustment_method == "eFDR") {
-        muleaSetBaseEnrichmentTest <- 
-          performSetBasedEnrichmentTest(setBasemodel)
+        muleaSetBaseEnrichmentTest<-performSetBasedEnrichmentTest(setBasemodel)
         for (i in seq_along(muleaSetBaseEnrichmentTest$FDR)) {
-          if (!is.nan(muleaSetBaseEnrichmentTest$FDR[i])
-              && muleaSetBaseEnrichmentTest$FDR[i] > 1.0) {
-            muleaSetBaseEnrichmentTest$FDR[i] <- 1.0e+00
-          }
-        }
-        names(muleaSetBaseEnrichmentTest) <-
-          c('ontology_id','ontology_name', 
-            'nr_common_with_tested_elements',
-            'nr_common_with_background_elements',
-            'Genes_in_DB','p_value','P_adj_Bonf',
-            'adjustedPValue','R_obs','R_exp','eFDR')
-        setBasedTestRes <- muleaSetBaseEnrichmentTest[, 
-            !names(muleaSetBaseEnrichmentTest) %in%
-                c('Genes_in_DB', 'P_adj_Bonf',
-                'R_obs', 'R_exp', 'adjustedPValue')]
-    } else {
-        res <- performSetBasedEnrichmentTestElse(setBasemodel)
-        muleaSetBaseEnrichmentTest <- res$muleaSetBaseEnrichmentTest
-        setBasedTestRes <- res$setBasedTestRes
-        names(muleaSetBaseEnrichmentTest) <-
-          c('ontology_id','ontology_name',
-            'list_of_values','p_value')
-        if (!identical(setBasemodel@p_value_adjustment_method, 
-                       character(0)) &&
-            setBasemodel@p_value_adjustment_method != "eFDR") {
-          muleaSetBaseEnrichmentTest <-
-            data.frame(muleaSetBaseEnrichmentTest,
-              "adjusted_p_value" = stats::p.adjust(
-                  muleaSetBaseEnrichmentTest$p_value,
-                  method = setBasemodel@p_value_adjustment_method)
-            )
-          setBasedTestRes <-
-            muleaSetBaseEnrichmentTest[
-              , !names(muleaSetBaseEnrichmentTest) %in%
-                c('list_of_values')]
-        }
-    }
+            if (!is.nan(muleaSetBaseEnrichmentTest$FDR[i])
+                && muleaSetBaseEnrichmentTest$FDR[i] > 1.0) {
+                muleaSetBaseEnrichmentTest$FDR[i] <- 1.0e+00}}
+            names(muleaSetBaseEnrichmentTest) <- c("ontology_id", 
+                "ontology_name", "nr_common_with_tested_elements", 
+                "nr_common_with_background_elements", "Genes_in_DB", "p_value", 
+                "P_adj_Bonf", "adjustedPValue", "R_obs", "R_exp", "eFDR")
+            setBasedTestRes <- muleaSetBaseEnrichmentTest[, 
+                !names(muleaSetBaseEnrichmentTest) %in% c("Genes_in_DB",
+                    "P_adj_Bonf", "R_obs", "R_exp", "adjustedPValue")]
+            } else { res <- performSetBasedEnrichmentTestElse(setBasemodel)
+                muleaSetBaseEnrichmentTest <- res$muleaSetBaseEnrichmentTest
+                setBasedTestRes <- res$setBasedTestRes
+                names(muleaSetBaseEnrichmentTest) <- c("ontology_id",
+                    "ontology_name", "list_of_values", "p_value")
+                if (!identical(setBasemodel@p_value_adjustment_method, 
+                    character(0)) && 
+                        setBasemodel@p_value_adjustment_method != "eFDR") {
+                        muleaSetBaseEnrichmentTest <- data.frame(
+                            muleaSetBaseEnrichmentTest, 
+                            "adjusted_p_value" = stats::p.adjust(
+                            muleaSetBaseEnrichmentTest$p_value,
+                            method = setBasemodel@p_value_adjustment_method))
+                        setBasedTestRes <- muleaSetBaseEnrichmentTest[, 
+                            !names(muleaSetBaseEnrichmentTest) %in% c(
+                                "list_of_values")]}}
     return(setBasedTestRes)
 }
 
@@ -221,8 +176,5 @@ computeSetBasedTestRes <- function(setBasemodel) {
 #' # running the ORA
 #' ora_results <- run_test(ora_model)
 
-setMethod("run_test",
-        signature(model = "ora"),
-        function(model) {
-            model@test(model)
-        })
+setMethod("run_test", signature(model = "ora"), function(model) {
+    model@test(model)})

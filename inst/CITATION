@@ -1,0 +1,24 @@
+citEntry(entry = "ARTICLE",
+    author = c(person("Cezary", "Turek"),
+        person("Marton", "Olbei"),
+        person("Tamas", "Stirling"),
+        person("Gergely", "Fekete"),
+        person("Ervin", "Tasnadi"),
+        person("Leila", "Gul"),
+        person("Balazs", "Bohar"),
+        person("Balazs", "Papp"),
+        person("Wiktor", "Jurkowski"),
+        person("Eszter", "Ari")),
+    title = "mulea - an R package for enrichment analysis using multiple 
+        ontologies and empirical FDR correction.",
+    year = "2024",
+    doi = "10.1101/2024.02.28.582444v1",
+    publisher = "Cold Spring Harbor Laboratory",
+    URL = "https://doi.org/10.1101/2024.02.28.582444",
+    journal = "bioRxiv",
+    textVersion = paste("C. Turek, M. Olbei, T. Stirling, G. Fekete, E. Tasnadi,
+        L. Gul, B. Bohar, B. Papp, W. Jurkowski, E. Ari:",
+        "mulea - an R package for enrichment analysis using multiple ontologies
+        and empirical FDR correction.",
+        "bioRxiv (2024), doi:10.1101/2024.02.28.582444v1")
+)

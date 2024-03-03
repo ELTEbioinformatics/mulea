@@ -755,7 +755,8 @@ sessionInfo()
 
 To cite package `mulea` in publications use:
 
-Turek C, Ölbei M, Stirling T, Fekete G, Tasnádi E, Gul L, Bohár B, Papp B, 
-Jurkowski W, Ari E (2024) mulea - an R package for enrichment analysis using 
-various ontologies and empirical FDR correction. R package version 0.99.0, 
-<https://github.com/ELTEbioinformatics/mulea>.
+C. Turek, M. Olbei, T. Stirling, G. Fekete, E. Tasnadi, L. Gul, B. Bohar, 
+B. Papp, W. Jurkowski, E. Ari: 
+mulea - an R package for enrichment analysis using multiple ontologies and 
+empirical FDR correction. *bioRxiv* (2024),
+[doi:10.1101/2024.02.28.582444](https://doi.org/10.1101/2024.02.28.582444).

@@ -5,11 +5,11 @@
 \title{Plot Heatmap}
 \usage{
 plot_heatmap(
-  reshaped_results,
-  ontology_id_colname = "ontology_id",
-  ontology_element_colname = "element_id_in_ontology",
-  p_value_type_colname = "eFDR",
-  p_value_max_threshold = 0.05
+    reshaped_results,
+    ontology_id_colname = "ontology_id",
+    ontology_element_colname = "element_id_in_ontology",
+    p_value_type_colname = "eFDR",
+    p_value_max_threshold = 0.05
 )
 }
 \arguments{

@@ -5,12 +5,12 @@
 \title{Reshape Results}
 \usage{
 reshape_results(
-  model = NULL,
-  model_results = NULL,
-  model_ontology_col_name = "ontology_id",
-  ontology_id_colname = "ontology_id",
-  p_value_type_colname = "eFDR",
-  p_value_max_threshold = TRUE
+    model = NULL,
+    model_results = NULL,
+    model_ontology_col_name = "ontology_id",
+    ontology_id_colname = "ontology_id",
+    p_value_type_colname = "eFDR",
+    p_value_max_threshold = TRUE
 )
 }
 \arguments{

@@ -1,69 +1,36 @@
+-   [Introduction](#introduction)
+-   [Installation](#installation)
+-   [Example Usage](#example-usage)
+    -   [Formatting the Differential Expression Results](#formatting-the-differential-expression-results)
+    -   [The Gene Set for Identifying Regulatory Transcription Factors](#the-gene-set-for-identifying-regulatory-transcription-factors)
+    -   [OverRepresentation Analysis (ORA)](#overrepresentation-analysis-ora)
+    -   [Gene Set Enrichment Analysis (GSEA)](#gene-set-enrichment-analysis-gsea)
+-   [Session Info](#session-info)
+-   [References](#references)
+-   [How to Cite the `mulea` Package?](#how-to-cite-the-mulea-package)
+-   [Code of Conduct](#code-of-conduct)
+
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# <img src="man/figures/MulEA_logo.png" width="59" /> `mulea` - an R Package for Enrichment Analysis Using Multiple Ontologies and Empirical FDR Correction
+# <img src="man/figures/MulEA_logo.png" width="59"/> `mulea` - an R Package for Enrichment Analysis Using Multiple Ontologies and Empirical FDR Correction
 
 <!-- badges: start -->
 
-[![GitHub
-issues](https://img.shields.io/github/issues/ELTEbioinformatics/mulea)](https://github.com/ELTEbioinformatics/mulea/issues)
-[![GitHub
-pulls](https://img.shields.io/github/issues-pr/ELTEbioinformatics/mulea)](https://github.com/ELTEbioinformatics/mulea/pulls)
+[![GitHub issues](https://img.shields.io/github/issues/ELTEbioinformatics/mulea)](https://github.com/ELTEbioinformatics/mulea/issues) [![GitHub pulls](https://img.shields.io/github/issues-pr/ELTEbioinformatics/mulea)](https://github.com/ELTEbioinformatics/mulea/pulls)
 
 <!-- badges: end -->
 
-- [Introduction](#introduction)
-- [Installation](#installation)
-- [Example Usage](#example-usage)
-  - [Formatting the Differential Expression
-    Results](#formatting-the-differential-expression-results)
-  - [The Gene Set for Identifying Regulatory Transcription
-    Factors](#the-gene-set-for-identifying-regulatory-transcription-factors)
-  - [OverRepresentation Analysis
-    (ORA)](#overrepresentation-analysis-ora)
-  - [Gene Set Enrichment Analysis
-    (GSEA)](#gene-set-enrichment-analysis-gsea)
-- [Session Info](#session-info)
-- [References](#references)
-- [How to Cite the `mulea` Package?](#how-to-cite-the-mulea-package)
-- [Code of Conduct](#code-of-conduct)
+# Introduction {#introduction}
 
-# Introduction
+Traditional gene set enrichment analyses are typically limited to a few ontologies and do not account for the interdependence of gene sets or terms, resulting in overcorrected *p*-values. To address these challenges, we introduce `mulea`, an R package offering comprehensive overrepresentation and functional enrichment analysis.
 
-Traditional gene set enrichment analyses are typically limited to a few
-ontologies and do not account for the interdependence of gene sets or
-terms, resulting in overcorrected *p*-values. To address these
-challenges, we introduce `mulea`, an R package offering comprehensive
-overrepresentation and functional enrichment analysis.
+`mulea` employs an innovative empirical *false discovery rate* (*eFDR*) correction method, specifically designed for interconnected biological data, to accurately identify significant terms within diverse ontologies. Beyond conventional tools, `mulea` incorporates a wide range of ontologies encompassing Gene Ontology, pathways, regulatory elements, genomic locations, and protein domains. This flexibility empowers researchers to tailor enrichment analysis to their specific questions, such as identifying enriched transcriptional regulators in gene expression data or overrepresented protein domains in protein sets.
 
-`mulea` employs an innovative empirical *false discovery rate* (*eFDR*)
-correction method, specifically designed for interconnected biological
-data, to accurately identify significant terms within diverse
-ontologies. Beyond conventional tools, `mulea` incorporates a wide range
-of ontologies encompassing Gene Ontology, pathways, regulatory elements,
-genomic locations, and protein domains. This flexibility empowers
-researchers to tailor enrichment analysis to their specific questions,
-such as identifying enriched transcriptional regulators in gene
-expression data or overrepresented protein domains in protein sets.
+To facilitate seamless analysis, `mulea` provides gene sets (in standardized GMT format) for 27 model organisms, covering 16 databases and various identifiers. The GMT files and the scripts we applied to create them are available at the [GMT_files_for_mulea](https://github.com/ELTEbioinformatics/GMT_files_for_mulea) repository. Additionally, the [`muleaData`](https://github.com/ELTEbioinformatics/muleaData) ExperimentData Bioconductor R package simplifies access to these 879 pre-defined ontologies. Furthermore, `mulea`’s architecture allows for easy integration of user-defined ontologies, expanding its applicability across diverse research areas.
 
-To facilitate seamless analysis, `mulea` provides gene sets (in
-standardized GMT format) for 27 model organisms, covering 16 databases
-and various identifiers. The GMT files and the scripts we applied to
-create them are available at the
-[GMT_files_for_mulea](https://github.com/ELTEbioinformatics/GMT_files_for_mulea)
-repository. Additionally, the
-[`muleaData`](https://github.com/ELTEbioinformatics/muleaData)
-ExperimentData Bioconductor R package simplifies access to these 879
-pre-defined ontologies. Furthermore, `mulea`’s architecture allows for
-easy integration of user-defined ontologies, expanding its applicability
-across diverse research areas.
+# Installation {#installation}
 
-# Installation
-
-After installing the `BiocManager` package, you can install
-[`fgsea`](https://bioconductor.org/packages/release/bioc/html/fgsea.html),
-a dependency for `mulea` from Bioconductor. Then, you can install
-`mulea` from this github repo using the `install_github` function of the
-`devtools` package:
+After installing the `BiocManager` package, you can install [`fgsea`](https://bioconductor.org/packages/release/bioc/html/fgsea.html), a dependency for `mulea` from Bioconductor. Then, you can install `mulea` from this github repo using the `install_github` function of the `devtools` package:
 
 ``` r
 # installing the BiocManager package if needed
@@ -81,40 +48,24 @@ if (!require("devtools", quietly = TRUE))
 devtools::install_github("https://github.com/ELTEbioinformatics/mulea")
 ```
 
-# Example Usage
+# Example Usage {#example-usage}
 
-## Formatting the Differential Expression Results
+## Formatting the Differential Expression Results {#formatting-the-differential-expression-results}
 
-This section demonstrates how to use `mulea` with a sample dataset. If
-you have your own data, feel free to skip this part and proceed directly
-to the [OverRepresentation Analysis
-(ORA)](#overrepresentation-analysis-ora) or [Gene Set Enrichment
-Analysis (GSEA)](#gene-set-enrichment-analysis-gsea) sections.
+This section demonstrates how to use `mulea` with a sample dataset. If you have your own data, feel free to skip this part and proceed directly to the [OverRepresentation Analysis (ORA)](#overrepresentation-analysis-ora) or [Gene Set Enrichment Analysis (GSEA)](#gene-set-enrichment-analysis-gsea) sections.
 
 ### **1. Downloading and Exploring the Dataset:**
 
-This example analyses a differential expression (DE) dataset from a
-microarray experiment deposited in the NCBI Gene Expression Omnibus
-<img src="man/figures/geo_main.gif" alt="GEO" width="87" /> under
-accession number
-[GSE55662](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE55662).
-The original study by [Méhi *et al.*
-(2014)](https://doi.org/10.1093/molbev/msu223), investigated the
-evolution of antibiotic resistance in *Escherichia coli* bacteria. The
-authors compared gene expression changes in *ciprofloxacin*-treated
-bacteria to non-treated controls.
+This example analyses a differential expression (DE) dataset from a microarray experiment deposited in the NCBI Gene Expression Omnibus <img src="man/figures/geo_main.gif" alt="GEO" width="87"/> under accession number [GSE55662](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE55662). The original study by [Méhi *et al.* (2014)](https://doi.org/10.1093/molbev/msu223), investigated the evolution of antibiotic resistance in *Escherichia coli* bacteria. The authors compared gene expression changes in *ciprofloxacin*-treated bacteria to non-treated controls.
 
-The [GEO2R](https://www.ncbi.nlm.nih.gov/geo/geo2r/?acc=GSE55662) tool
-was used for differential expression analysis, comparing:
+The [GEO2R](https://www.ncbi.nlm.nih.gov/geo/geo2r/?acc=GSE55662) tool was used for differential expression analysis, comparing:
 
-- Non-treated control samples (2 replicates)
-- Samples treated with *ciprofloxacin* (2 replicates)
+-   Non-treated control samples (2 replicates)
+-   Samples treated with *ciprofloxacin* (2 replicates)
 
 ### **2. Reading the DE Results Table:**
 
-This section would typically describe the format and key elements of the
-provided DE results table, guiding users on how to interpret the data
-for further analysis with `mulea`.
+This section would typically describe the format and key elements of the provided DE results table, guiding users on how to interpret the data for further analysis with `mulea`.
 
 ``` r
 library(tidyverse)
@@ -123,8 +74,7 @@ geo2r_result_tab <- read_tsv("GSE55662.table_wt_non_vs_cipro.tsv")
 
 ### **3. Examining the Data:**
 
-We take a closer look at the first few rows of the `geo2r_result_tab`
-data frame:
+We take a closer look at the first few rows of the `geo2r_result_tab` data frame:
 
 | ID           | adj.P.Val | P.Value |    t |       B | logFC | Gene.symbol                  | Gene.title                                                                                                            |
 |:-------------|----------:|--------:|-----:|--------:|------:|:-----------------------------|:----------------------------------------------------------------------------------------------------------------------|
@@ -134,19 +84,11 @@ data frame:
 
 ### **4. Data Formatting:**
 
-It’s important to format the data frame appropriately for enrichment
-analysis. This process often involves steps specific to the type of
-microarray experiment conducted. In this case, we perform the following
-transformations:
+It’s important to format the data frame appropriately for enrichment analysis. This process often involves steps specific to the type of microarray experiment conducted. In this case, we perform the following transformations:
 
-- **Extract Gene Symbol:** We extract the main gene symbol from the
-  `Gene.symbol` column, removing any additional information that might
-  be present.
-- **Remove Missing Values:** We remove rows where the gene symbol is
-  missing (`NA`).
-- **Order by Fold Change:** We sort the data frame by the log-fold
-  change (`logFC`) in descending order, prioritizing genes with the most
-  significant expression changes.
+-   **Extract Gene Symbol:** We extract the main gene symbol from the `Gene.symbol` column, removing any additional information that might be present.
+-   **Remove Missing Values:** We remove rows where the gene symbol is missing (`NA`).
+-   **Order by Fold Change:** We sort the data frame by the log-fold change (`logFC`) in descending order, prioritizing genes with the most significant expression changes.
 
 ``` r
 geo2r_result_tab %<>% 
@@ -159,8 +101,7 @@ geo2r_result_tab %<>%
   arrange(desc(logFC))
 ```
 
-Before proceeding with enrichment analysis, we take a closer look at the
-first few rows of the formatted `geo2r_result_tab` data frame:
+Before proceeding with enrichment analysis, we take a closer look at the first few rows of the formatted `geo2r_result_tab` data frame:
 
 | ID           | adj.P.Val |  P.Value |    t |       B | logFC | Gene.symbol | Gene.title                                                                                                                                |
 |:-------------|----------:|---------:|-----:|--------:|------:|:------------|:------------------------------------------------------------------------------------------------------------------------------------------|
@@ -168,32 +109,19 @@ first few rows of the formatted `geo2r_result_tab` data frame:
 | 1764904_s_at |    0.0186 | 5.70e-06 | 18.2 | 4.43751 |  2.54 | sulA        | SOS cell division inhibitor///SOS cell division inhibitor///SOS cell division inhibitor///SOS cell division inhibitor                     |
 | 1761763_s_at |    0.0186 | 1.54e-05 | 15.0 | 3.73568 |  2.16 | recN        | recombination and repair protein///recombination and repair protein///recombination and repair protein///recombination and repair protein |
 
-After applying these formatting steps, the data frame is ready for
-further analysis.
+After applying these formatting steps, the data frame is ready for further analysis.
 
-## The Gene Set for Identifying Regulatory Transcription Factors
+## The Gene Set for Identifying Regulatory Transcription Factors {#the-gene-set-for-identifying-regulatory-transcription-factors}
 
-This section explores the transcription factors influencing the
-significantly overexpressed genes. We employed the `mulea` package to
-conduct multiple enrichment analyses using the
-<img src="man/figures/Regulon.png" alt="Regulon" width="114"
-height="25" /> [database](https://regulondb.ccg.unam.mx/).
+This section explores the transcription factors influencing the significantly overexpressed genes. We employed the `mulea` package to conduct multiple enrichment analyses using the <img src="man/figures/Regulon.png" alt="Regulon" width="114" height="25"/> [database](https://regulondb.ccg.unam.mx/).
 
-The analysis utilized a GMT file downloaded from the dedicated
-[GMT_files_for_mulea](https://github.com/ELTEbioinformatics/GMT_files_for_mulea)
-GitHub repository. This file associates gene symbols with the
-transcription factors that regulate them.
+The analysis utilized a GMT file downloaded from the dedicated [GMT_files_for_mulea](https://github.com/ELTEbioinformatics/GMT_files_for_mulea) GitHub repository. This file associates gene symbols with the transcription factors that regulate them.
 
-The GMT file contains lists of gene symbols regulated by specific
-transcription factors, also identified by gene symbols within the file.
-We proceed to parse and analyse this data to uncover the regulatory
-relationships.
+The GMT file contains lists of gene symbols regulated by specific transcription factors, also identified by gene symbols within the file. We proceed to parse and analyse this data to uncover the regulatory relationships.
 
 ### 1. Downloading and Parsing the GMT File:
 
-We can download the required GMT file from the repository using the
-website and then read the file. For this we need to call the `mulea`
-package.
+We can download the required GMT file from the repository using the website and then read the file. For this we need to call the `mulea` package.
 
 ``` r
 library(mulea)
@@ -224,19 +152,11 @@ The first 3 rows of the `tf_gmt`:
 | AcrR        | AcrR          | marB, ma….     |
 | Ada         | Ada           | alkB, ad….     |
 
-**Important Note:** The format of this GMT differs slightly from
-standard GMT files. In the `tf_gmt`, both the `ontology_id` and
-`ontology_name` columns contain gene symbols of the transcription
-factors, unlike other GMT files like GO, where these columns hold
-specific identifiers and corresponding names.
+**Important Note:** The format of this GMT differs slightly from standard GMT files. In the `tf_gmt`, both the `ontology_id` and `ontology_name` columns contain gene symbols of the transcription factors, unlike other GMT files like GO, where these columns hold specific identifiers and corresponding names.
 
-Each line in the file represents a group of genes regulated by a
-specific transcription factor. The `list_of_values` column lists the
-gene symbols under the control of the transcription factor mentioned in
-the `ontology_id` column.
+Each line in the file represents a group of genes regulated by a specific transcription factor. The `list_of_values` column lists the gene symbols under the control of the transcription factor mentioned in the `ontology_id` column.
 
-For example, to see all genes regulated by the transcription factor
-“AcrR”, you can use the following code:
+For example, to see all genes regulated by the transcription factor “AcrR”, you can use the following code:
 
 ``` r
 tf_gmt %>% 
@@ -253,14 +173,11 @@ tf_gmt %>%
 
 ### 3. Focusing on Relevant Entries for the Enrichment Analysis
 
-Enrichment analysis results can sometimes be skewed by overly specific
-or broad entries. `mulea` allows you to customize the size of ontology
-entries, ensuring your analysis aligns with your desired scope.
+Enrichment analysis results can sometimes be skewed by overly specific or broad entries. `mulea` allows you to customize the size of ontology entries, ensuring your analysis aligns with your desired scope.
 
 **Analysing Entry Distribution:**
 
-Let’s examine the distribution of the number of gene symbols in the
-`list_of_values` column to identify entries requiring exclusion:
+Let’s examine the distribution of the number of gene symbols in the `list_of_values` column to identify entries requiring exclusion:
 
 ``` r
 Nr_of_elements_in_ontology <- tf_gmt$list_of_values %>% 
@@ -270,14 +187,11 @@ ggplot(mapping = aes(Nr_of_elements_in_ontology)) +
   theme_minimal()
 ```
 
-<img src="man/figures/README-plot_list_of_values-1.png" width="100%" />
+<img src="man/figures/README-plot_list_of_values-1.png" width="100%"/>
 
-This plot reveals entries containing over 200 gene symbols, indicating
-these transcription factors regulate too many genes, making them overly
-broad. We’ll exclude them from the analysis.
+This plot reveals entries containing over 200 gene symbols, indicating these transcription factors regulate too many genes, making them overly broad. We’ll exclude them from the analysis.
 
-Conversely, some entries hold a very small number of elements. Let’s
-zoom in:
+Conversely, some entries hold a very small number of elements. Let’s zoom in:
 
 ``` r
 ggplot(mapping = aes(Nr_of_elements_in_ontology)) + 
@@ -286,13 +200,11 @@ ggplot(mapping = aes(Nr_of_elements_in_ontology)) +
   theme_minimal()
 ```
 
-<img src="man/figures/README-plot_list_of_values_zoom-1.png" width="100%" />
+<img src="man/figures/README-plot_list_of_values_zoom-1.png" width="100%"/>
 
 **Filtering Entries:**
 
-Based on our observations, we’ll exclude entries with less than 3 or
-more than 400 gene symbols. Let’s check the remaining number of
-transcription factors:
+Based on our observations, we’ll exclude entries with less than 3 or more than 400 gene symbols. Let’s check the remaining number of transcription factors:
 
 ``` r
 tf_gmt_filtered <- filter_ontology(gmt = tf_gmt,
@@ -302,16 +214,14 @@ tf_gmt_filtered <- filter_ontology(gmt = tf_gmt,
 
 **Results:**
 
-We can now determine the number of transcription factors remaining in
-the filtered dataset:
+We can now determine the number of transcription factors remaining in the filtered dataset:
 
 ``` r
 nrow(tf_gmt_filtered)
 #> [1] 154
 ```
 
-It is possible to write the filtered ontology as a GMT file using the
-`write_gmt` function.
+It is possible to write the filtered ontology as a GMT file using the `write_gmt` function.
 
 ``` r
 write_gmt(gmt = tf_gmt_filtered, 
@@ -320,9 +230,7 @@ write_gmt(gmt = tf_gmt_filtered,
 
 ### Converting a List to an Ontology Object
 
-The `mulea` package provides a function to convert a list of gene sets
-to an ontology (GMT) object. This function is called `list_to_gmt`. The
-following example demonstrates how to use this function:
+The `mulea` package provides a function to convert a list of gene sets to an ontology (GMT) object. This function is called `list_to_gmt`. The following example demonstrates how to use this function:
 
 ``` r
 # creating a list of gene sets
@@ -333,34 +241,21 @@ ontology_list <- list(gene_set1 = c("gene1", "gene2", "gene3"),
 new_ontology_object <- list_to_gmt(ontology_list)
 ```
 
-## OverRepresentation Analysis (ORA)
+## OverRepresentation Analysis (ORA) {#overrepresentation-analysis-ora}
 
-This approach analyses groups of genes (sets) to identify if they are
-enriched in specific categories – transcription factors – within a
-reference set. It requires two key elements:
+This approach analyses groups of genes (sets) to identify if they are enriched in specific categories – transcription factors – within a reference set. It requires two key elements:
 
-1.  **Target set:** This contains genes of interest, such as
-    significantly overexpressed genes in our experiment.
+1.  **Target set:** This contains genes of interest, such as significantly overexpressed genes in our experiment.
 
-2.  **Background set:** This represents the broader context, often
-    including all genes investigated in our study.
+2.  **Background set:** This represents the broader context, often including all genes investigated in our study.
 
-To ensure meaningful results, a clear threshold needs to be applied
-beforehand. This could involve filtering genes based on corrected
-*p*-values, *z*-scores (commonly set at 0.05), or fold-change values
-(*e.g.*, a minimum 2-fold change).
+To ensure meaningful results, a clear threshold needs to be applied beforehand. This could involve filtering genes based on corrected *p*-values, *z*-scores (commonly set at 0.05), or fold-change values (*e.g.*, a minimum 2-fold change).
 
-`mulea` utilizes the hypergeometric test to assess overrepresentation
-within categories. This test is similar to the lower-tailed Fisher’s
-exact test and helps determine if the observed enrichment is
-statistically significant by considering both the target and background
-sets.
+`mulea` utilizes the hypergeometric test to assess overrepresentation within categories. This test is similar to the lower-tailed Fisher’s exact test and helps determine if the observed enrichment is statistically significant by considering both the target and background sets.
 
 ### Preparing the Target set
 
-A vector containing the gene symbols of significantly overexpressed
-(adjusted *p*-value \< 0.05) genes with greater than 2 fold-change
-(logFC \> 1).
+A vector containing the gene symbols of significantly overexpressed (adjusted *p*-value \< 0.05) genes with greater than 2 fold-change (logFC \> 1).
 
 ``` r
 sign_genes <- geo2r_result_tab %>% 
@@ -393,8 +288,7 @@ sign_genes %>%
 
 ### Preparing the Background Set
 
-A vector containing the gene symbols of all genes were included in the
-differential expression analysis.
+A vector containing the gene symbols of all genes were included in the differential expression analysis.
 
 ``` r
 background_genes <- geo2r_result_tab %>% 
@@ -416,13 +310,7 @@ background_genes %>%
 
 ### Performing the OverRepresentation Analysis
 
-To perform the analysis, we will first establish a model using the `ora`
-function. This model defines the parameters for the enrichment analysis.
-Subsequently, we will execute the test itself using the `run_test`
-function. It is important to note that for this example, we will employ
-10,000 permutations for the *empirical false discovery rate* correction,
-which is the recommended minimum, to ensure robust correction for
-multiple testing.
+To perform the analysis, we will first establish a model using the `ora` function. This model defines the parameters for the enrichment analysis. Subsequently, we will execute the test itself using the `run_test` function. It is important to note that for this example, we will employ 10,000 permutations for the *empirical false discovery rate* correction, which is the recommended minimum, to ensure robust correction for multiple testing.
 
 ``` r
 # creating the ORA model using the GMT variable
@@ -443,11 +331,7 @@ ora_results <- run_test(ora_model)
 
 ### Examining the ORA Result
 
-The `ora_results` data frame summarizes the enrichment analysis, listing
-enriched ontology entries – in our case transcription factors –
-alongside their associated *p*-values and *empirical FDR* values. We can
-now determine the number of transcription factors classified as
-“enriched” based on these statistical measures (*eFDR* \< 0.05).
+The `ora_results` data frame summarizes the enrichment analysis, listing enriched ontology entries – in our case transcription factors – alongside their associated *p*-values and *empirical FDR* values. We can now determine the number of transcription factors classified as “enriched” based on these statistical measures (*eFDR* \< 0.05).
 
 ``` r
 ora_results %>%
@@ -470,24 +354,20 @@ ora_results %>%
 
 | ontology_id | ontology_name | nr_common_with_tested_elements | nr_common_with_background_elements |   p_value |      eFDR |
 |:------------|:--------------|-------------------------------:|-----------------------------------:|----------:|----------:|
-| FNR         | FNR           |                             26 |                                259 | 0.0000003 | 0.0000000 |
 | LexA        | LexA          |                             14 |                                 53 | 0.0000000 | 0.0000000 |
-| SoxS        | SoxS          |                              7 |                                 37 | 0.0001615 | 0.0027667 |
-| DnaA        | DnaA          |                              4 |                                 13 | 0.0006281 | 0.0048000 |
-| Rob         | Rob           |                              5 |                                 21 | 0.0004717 | 0.0049600 |
-| FadR        | FadR          |                              5 |                                 20 | 0.0003692 | 0.0051250 |
-| NsrR        | NsrR          |                              8 |                                 64 | 0.0010478 | 0.0066143 |
-| ArcA        | ArcA          |                             12 |                                148 | 0.0032001 | 0.0195000 |
-| IHF         | IHF           |                             14 |                                205 | 0.0070758 | 0.0449600 |
-| MarA        | MarA          |                              5 |                                 37 | 0.0066068 | 0.0476000 |
+| FNR         | FNR           |                             26 |                                259 | 0.0000003 | 0.0000500 |
+| SoxS        | SoxS          |                              7 |                                 37 | 0.0001615 | 0.0026000 |
+| Rob         | Rob           |                              5 |                                 21 | 0.0004717 | 0.0049200 |
+| DnaA        | DnaA          |                              4 |                                 13 | 0.0006281 | 0.0050500 |
+| FadR        | FadR          |                              5 |                                 20 | 0.0003692 | 0.0053500 |
+| NsrR        | NsrR          |                              8 |                                 64 | 0.0010478 | 0.0070571 |
+| ArcA        | ArcA          |                             12 |                                148 | 0.0032001 | 0.0195125 |
+| IHF         | IHF           |                             14 |                                205 | 0.0070758 | 0.0449800 |
+| MarA        | MarA          |                              5 |                                 37 | 0.0066068 | 0.0475111 |
 
 ### Visualizing the ORA Result
 
-For a more comprehensive understanding of the enriched transcription
-factors, `mulea` provides diverse visualization tools, including
-lollipop charts, networks, and heatmaps. These visualizations can
-effectively reveal patterns and relationships among the enriched
-factors.
+For a more comprehensive understanding of the enriched transcription factors, `mulea` provides diverse visualization tools, including lollipop charts, networks, and heatmaps. These visualizations can effectively reveal patterns and relationships among the enriched factors.
 
 Initializing the visualization with the `reshape_results` function:
 
@@ -501,12 +381,7 @@ ora_reshaped_results <- reshape_results(model = ora_model,
 
 **Visualizing the spread of *eFDR* values: Lollipop plot**
 
-Lollipop charts offer a graphical representation of the distribution of
-enriched transcription factors. The *y*-axis displays the transcription
-factors, while the *x*-axis represents their corresponding *eFDR*
-values. The dots are is coloured based on their significance level. This
-visualization helps us examine the spread of *eFDR*s and identify
-factors exceeding the commonly used significance threshold of 0.05.
+Lollipop charts offer a graphical representation of the distribution of enriched transcription factors. The *y*-axis displays the transcription factors, while the *x*-axis represents their corresponding *eFDR* values. The dots are is coloured based on their significance level. This visualization helps us examine the spread of *eFDR*s and identify factors exceeding the commonly used significance threshold of 0.05.
 
 ``` r
 plot_lollipop(reshaped_results = ora_reshaped_results,
@@ -518,17 +393,11 @@ plot_lollipop(reshaped_results = ora_reshaped_results,
               p_value_type_colname = "eFDR")
 ```
 
-<img src="man/figures/README-lollipop_plot_ora-1.png" width="100%" />
+<img src="man/figures/README-lollipop_plot_ora-1.png" width="100%"/>
 
 **Visualizing the spread of *eFDR* values: Bar plot**
 
-Bar charts offer very similar graphical representation of the
-distribution of enriched transcription factors as the lollipop plot. The
-*y*-axis displays the transcription factors, while the *x*-axis
-represents their corresponding *eFDR* values. The bars are is coloured
-based on their significance level. This visualization helps us examine
-the spread of *eFDR*s and identify factors exceeding the commonly used
-significance threshold of 0.05.
+Bar charts offer very similar graphical representation of the distribution of enriched transcription factors as the lollipop plot. The *y*-axis displays the transcription factors, while the *x*-axis represents their corresponding *eFDR* values. The bars are is coloured based on their significance level. This visualization helps us examine the spread of *eFDR*s and identify factors exceeding the commonly used significance threshold of 0.05.
 
 ``` r
 plot_barplot(reshaped_results = ora_reshaped_results,
@@ -540,17 +409,11 @@ plot_barplot(reshaped_results = ora_reshaped_results,
               p_value_type_colname = "eFDR")
 ```
 
-<img src="man/figures/README-bar_plot_ora-1.png" width="100%" />
+<img src="man/figures/README-bar_plot_ora-1.png" width="100%"/>
 
 **Visualizing Relationships: Network Plot**
 
-This function generates a network visualization of the enriched
-transcription factors. Each node represents a transcription factor and
-is coloured based on its significance level. A connection (edge) is
-drawn between two nodes if they share at least one common gene belonging
-to the **target set**, meaning that both transcription factors regulate
-the expression of the same target gene. The thickness of the edge
-reflects the number of shared genes belonging to the **target set**.
+This function generates a network visualization of the enriched transcription factors. Each node represents a transcription factor and is coloured based on its significance level. A connection (edge) is drawn between two nodes if they share at least one common gene belonging to the **target set**, meaning that both transcription factors regulate the expression of the same target gene. The thickness of the edge reflects the number of shared genes belonging to the **target set**.
 
 ``` r
 plot_graph(reshaped_results = ora_reshaped_results,
@@ -562,15 +425,11 @@ plot_graph(reshaped_results = ora_reshaped_results,
            p_value_type_colname = "eFDR")
 ```
 
-<img src="man/figures/README-network_plot_ora-1.png" width="100%" />
+<img src="man/figures/README-network_plot_ora-1.png" width="100%"/>
 
 **Heatmap**
 
-The heatmap displays the genes associated with the enriched
-transcription factors. Each row represents a transcription factor and is
-coloured based on its significance level. Each column represents a
-target gene belonging to the **target set** that is potentially
-regulated by one or more of the enriched transcription factors.
+The heatmap displays the genes associated with the enriched transcription factors. Each row represents a transcription factor and is coloured based on its significance level. Each column represents a target gene belonging to the **target set** that is potentially regulated by one or more of the enriched transcription factors.
 
 ``` r
 plot_heatmap(reshaped_results = ora_reshaped_results,
@@ -580,37 +439,19 @@ plot_heatmap(reshaped_results = ora_reshaped_results,
              p_value_type_colname = "eFDR")
 ```
 
-<img src="man/figures/README-heatmap_ora-1.png" width="100%" />
+<img src="man/figures/README-heatmap_ora-1.png" width="100%"/>
 
-## Gene Set Enrichment Analysis (GSEA)
+## Gene Set Enrichment Analysis (GSEA) {#gene-set-enrichment-analysis-gsea}
 
-To perform enrichment analysis using ranked lists, you need to provide
-an ordered list of elements, such as genes, transcripts, or proteins.
-This ranking is typically determined by the results of your prior
-analysis, potentially based on factors like *p*-values, *z*-scores,
-fold-changes, or others. Crucially, the ranked list should include all
-elements involved in your analysis. For instance, in a differential
-expression study, it should encompass all genes that were measured.
+To perform enrichment analysis using ranked lists, you need to provide an ordered list of elements, such as genes, transcripts, or proteins. This ranking is typically determined by the results of your prior analysis, potentially based on factors like *p*-values, *z*-scores, fold-changes, or others. Crucially, the ranked list should include all elements involved in your analysis. For instance, in a differential expression study, it should encompass all genes that were measured.
 
-`mulea` utilizes the Kolmogorov-Smirnov approach with a permutation test
-(developed by (Subramanian et al. 2005)) to calculate gene set
-enrichment analyses. This functionality is implemented through the
-integration of the
-[`fgsea`](https://bioconductor.org/packages/release/bioc/html/fgsea.html)
-Bioconductor R package (created by (Korotkevich et al. 2021)).
+`mulea` utilizes the Kolmogorov-Smirnov approach with a permutation test (developed by (Subramanian et al. 2005)) to calculate gene set enrichment analyses. This functionality is implemented through the integration of the [`fgsea`](https://bioconductor.org/packages/release/bioc/html/fgsea.html) Bioconductor R package (created by (Korotkevich et al. 2021)).
 
-GSEA requires input data about the genes analysed in our experiment.
-This data can be formatted in two ways:
+GSEA requires input data about the genes analysed in our experiment. This data can be formatted in two ways:
 
-1.  **Data frame:** This format should include all genes investigated
-    and their respective log fold change values (or other values for
-    ordering the genes) obtained from the differential expression
-    analysis.
+1.  **Data frame:** This format should include all genes investigated and their respective log fold change values (or other values for ordering the genes) obtained from the differential expression analysis.
 
-2.  **Two vectors:** Alternatively, you can provide two separate
-    vectors. One vector should contain the gene symbols (or IDs), and
-    the other should hold the corresponding log fold change values (or
-    other values for ordering the genes) for each gene.
+2.  **Two vectors:** Alternatively, you can provide two separate vectors. One vector should contain the gene symbols (or IDs), and the other should hold the corresponding log fold change values (or other values for ordering the genes) for each gene.
 
 ### Preparing the data frame input for the GSEA
 
@@ -639,12 +480,7 @@ geo2r_result_tab_filtered %>%
 
 ### Performing the Gene Set Enrichment Analysis
 
-To perform the analysis, we will first establish a model using the
-`gsea` function. This model defines the parameters for the enrichment
-analysis. Subsequently, we will execute the test itself using the
-`run_test` function. We will employ 10,000 permutations for the false
-discovery rate correction, to ensure robust correction for multiple
-testing.
+To perform the analysis, we will first establish a model using the `gsea` function. This model defines the parameters for the enrichment analysis. Subsequently, we will execute the test itself using the `run_test` function. We will employ 10,000 permutations for the false discovery rate correction, to ensure robust correction for multiple testing.
 
 ``` r
 # creating the GSEA model using the GMT variable
@@ -663,12 +499,7 @@ gsea_results <- run_test(gsea_model)
 
 ### Examining the GSEA Results
 
-The `gsea_results` data frame summarizes the enrichment analysis,
-listing enriched ontology entries – in our case transcription factors –
-alongside their associated *p*-values and adjusted *p*-value values. We
-can now determine the number of transcription factors classified as
-“enriched” based on these statistical measures (adjusted *p*-value \<
-0.05).
+The `gsea_results` data frame summarizes the enrichment analysis, listing enriched ontology entries – in our case transcription factors – alongside their associated *p*-values and adjusted *p*-value values. We can now determine the number of transcription factors classified as “enriched” based on these statistical measures (adjusted *p*-value \< 0.05).
 
 ``` r
 gsea_results %>%
@@ -676,7 +507,7 @@ gsea_results %>%
   filter(adjusted_p_value < 0.05) %>% 
   # the number of such rows
   nrow()
-#> [1] 10
+#> [1] 8
 ```
 
 And inspect the significant results:
@@ -691,16 +522,14 @@ gsea_results %>%
 
 | ontology_id | ontology_name | nr_common_with_tested_elements |   p_value | adjusted_p_value |
 |:------------|:--------------|-------------------------------:|----------:|-----------------:|
-| LexA        | LexA          |                             53 | 0.0000000 |        0.0000034 |
-| FNR         | FNR           |                            259 | 0.0000429 |        0.0032846 |
-| GlaR        | GlaR          |                              3 | 0.0001462 |        0.0069812 |
-| ModE        | ModE          |                             45 | 0.0001825 |        0.0069812 |
-| DnaA        | DnaA          |                             13 | 0.0003258 |        0.0099701 |
-| ArcA        | ArcA          |                            148 | 0.0005266 |        0.0117110 |
-| SoxS        | SoxS          |                             37 | 0.0005358 |        0.0117110 |
-| PaaX        | PaaX          |                             14 | 0.0014819 |        0.0283406 |
-| CytR        | CytR          |                             13 | 0.0025714 |        0.0437134 |
-| PspF        | PspF          |                              7 | 0.0028674 |        0.0438706 |
+| LexA        | LexA          |                             53 | 0.0000000 |        0.0000058 |
+| FNR         | FNR           |                            259 | 0.0000874 |        0.0066880 |
+| ArcA        | ArcA          |                            148 | 0.0003122 |        0.0108648 |
+| GlaR        | GlaR          |                              3 | 0.0003668 |        0.0108648 |
+| ModE        | ModE          |                             45 | 0.0002575 |        0.0108648 |
+| SoxS        | SoxS          |                             37 | 0.0004261 |        0.0108648 |
+| DnaA        | DnaA          |                             13 | 0.0013530 |        0.0295728 |
+| PspF        | PspF          |                              7 | 0.0020534 |        0.0392715 |
 
 ### Visualizing the GSEA Results
 
@@ -716,13 +545,7 @@ gsea_reshaped_results <- reshape_results(model = gsea_model,
 
 **Visualizing the spread of adjusted *p*-values: Lollipop plot**
 
-Lollipop charts offer a graphical representation of the distribution of
-enriched transcription factors. The *y*-axis displays the transcription
-factors, while the *x*-axis represents their corresponding adjusted
-*p*-values. The dots are is coloured based on their significance level.
-This visualization helps us examine the spread of adjusted *p*-values
-and identify factors exceeding the commonly used significance threshold
-of 0.05.
+Lollipop charts offer a graphical representation of the distribution of enriched transcription factors. The *y*-axis displays the transcription factors, while the *x*-axis represents their corresponding adjusted *p*-values. The dots are is coloured based on their significance level. This visualization helps us examine the spread of adjusted *p*-values and identify factors exceeding the commonly used significance threshold of 0.05.
 
 ``` r
 plot_lollipop(reshaped_results = gsea_reshaped_results,
@@ -734,17 +557,11 @@ plot_lollipop(reshaped_results = gsea_reshaped_results,
               p_value_type_colname = "adjusted_p_value")
 ```
 
-<img src="man/figures/README-lollipop_plot_gsea-1.png" width="100%" />
+<img src="man/figures/README-lollipop_plot_gsea-1.png" width="100%"/>
 
 **Visualizing the spread of adjusted *p*-values: Bar plot**
 
-Bar charts offer very similar graphical representation of the
-distribution of enriched transcription factors as the lollipop plot. The
-*y*-axis displays the transcription factors, while the *x*-axis
-represents their corresponding adjusted *p*-values. The bars are is
-coloured based on their significance level. This visualization helps us
-examine the spread of adjusted *p*-values and identify factors exceeding
-the commonly used significance threshold of 0.05.
+Bar charts offer very similar graphical representation of the distribution of enriched transcription factors as the lollipop plot. The *y*-axis displays the transcription factors, while the *x*-axis represents their corresponding adjusted *p*-values. The bars are is coloured based on their significance level. This visualization helps us examine the spread of adjusted *p*-values and identify factors exceeding the commonly used significance threshold of 0.05.
 
 ``` r
 plot_barplot(reshaped_results = gsea_reshaped_results,
@@ -756,17 +573,11 @@ plot_barplot(reshaped_results = gsea_reshaped_results,
               p_value_type_colname = "adjusted_p_value")
 ```
 
-<img src="man/figures/README-bar_plot_gsea-1.png" width="100%" />
+<img src="man/figures/README-bar_plot_gsea-1.png" width="100%"/>
 
 **Visualizing Relationships: Network Plot**
 
-This function generates a network visualization of the enriched
-transcription factors. Each node represents a transcription factor and
-is coloured based on its significance level. A connection (edge) is
-drawn between two nodes if they share at least one common gene belonging
-to the **ranked list**, meaning that both transcription factors regulate
-the expression of the same target gene. The thickness of the edge
-reflects the number of shared genes belonging to the **ranked list**.
+This function generates a network visualization of the enriched transcription factors. Each node represents a transcription factor and is coloured based on its significance level. A connection (edge) is drawn between two nodes if they share at least one common gene belonging to the **ranked list**, meaning that both transcription factors regulate the expression of the same target gene. The thickness of the edge reflects the number of shared genes belonging to the **ranked list**.
 
 ``` r
 plot_graph(reshaped_results = gsea_reshaped_results,
@@ -778,17 +589,11 @@ plot_graph(reshaped_results = gsea_reshaped_results,
            p_value_type_colname = "adjusted_p_value")
 ```
 
-<img src="man/figures/README-network_plot_gsea-1.png" width="100%" />
+<img src="man/figures/README-network_plot_gsea-1.png" width="100%"/>
 
 **Heatmap**
 
-The heatmap displays the genes associated with the enriched
-transcription factors. Each row represents a transcription factor and is
-coloured based on its significance level. Each column represents a
-target gene belonging to the **ranked list** that is potentially
-regulated by one or more of the enriched transcription factors. There
-are too many genes belonging to each transcription factor, therefore
-heatmap visualization is less optimal in this case.
+The heatmap displays the genes associated with the enriched transcription factors. Each row represents a transcription factor and is coloured based on its significance level. Each column represents a target gene belonging to the **ranked list** that is potentially regulated by one or more of the enriched transcription factors. There are too many genes belonging to each transcription factor, therefore heatmap visualization is less optimal in this case.
 
 ``` r
 plot_heatmap(reshaped_results = gsea_reshaped_results,
@@ -798,9 +603,9 @@ plot_heatmap(reshaped_results = gsea_reshaped_results,
              p_value_type_colname = "adjusted_p_value")
 ```
 
-<img src="man/figures/README-heatmap_gsea-1.png" width="100%" />
+<img src="man/figures/README-heatmap_gsea-1.png" width="100%"/>
 
-# Session Info
+# Session Info {#session-info}
 
 ``` r
 sessionInfo()
@@ -857,45 +662,24 @@ sessionInfo()
 #> [67] plyr_1.8.9
 ```
 
-# References
+# References {#references}
 
-<div id="refs" class="references csl-bib-body hanging-indent">
+::: {#refs .references .csl-bib-body .hanging-indent}
+::: {#ref-korotkevich .csl-entry}
+Korotkevich, Gennady, Vladimir Sukhov, Nikolay Budin, Boris Shpak, Maxim N. Artyomov, and Alexey Sergushichev. 2021. “Fast Gene Set Enrichment Analysis,” February. <https://doi.org/10.1101/060012>.
+:::
 
-<div id="ref-korotkevich" class="csl-entry">
+::: {#ref-subramanian2005 .csl-entry}
+Subramanian, Aravind, Pablo Tamayo, Vamsi K. Mootha, Sayan Mukherjee, Benjamin L. Ebert, Michael A. Gillette, Amanda Paulovich, et al. 2005. “Gene Set Enrichment Analysis: A Knowledge-Based Approach for Interpreting Genome-Wide Expression Profiles.” *Proceedings of the National Academy of Sciences* 102 (43): 15545–50. <https://doi.org/10.1073/pnas.0506580102>.
+:::
+:::
 
-Korotkevich, Gennady, Vladimir Sukhov, Nikolay Budin, Boris Shpak, Maxim
-N. Artyomov, and Alexey Sergushichev. 2021. “Fast Gene Set Enrichment
-Analysis,” February. <https://doi.org/10.1101/060012>.
-
-</div>
-
-<div id="ref-subramanian2005" class="csl-entry">
-
-Subramanian, Aravind, Pablo Tamayo, Vamsi K. Mootha, Sayan Mukherjee,
-Benjamin L. Ebert, Michael A. Gillette, Amanda Paulovich, et al. 2005.
-“Gene Set Enrichment Analysis: A Knowledge-Based Approach for
-Interpreting Genome-Wide Expression Profiles.” *Proceedings of the
-National Academy of Sciences* 102 (43): 15545–50.
-<https://doi.org/10.1073/pnas.0506580102>.
-
-</div>
-
-</div>
-
-
-# How to Cite the `mulea` Package?
+# How to Cite the `mulea` Package? {#how-to-cite-the-mulea-package}
 
 To cite package `mulea` in publications use:
 
-C. Turek, M. Olbei, T. Stirling, G. Fekete, E. Tasnadi, L. Gul, B.
-Bohar, B. Papp, W. Jurkowski, E. Ari: mulea - an R package for
-enrichment analysis using multiple ontologies and empirical FDR
-correction. *bioRxiv* (2024),
-[doi:10.1101/2024.02.28.582444](https://doi.org/10.1101/2024.02.28.582444).
+C. Turek, M. Olbei, T. Stirling, G. Fekete, E. Tasnadi, L. Gul, B. Bohar, B. Papp, W. Jurkowski, E. Ari: mulea - an R package for enrichment analysis using multiple ontologies and empirical FDR correction. *bioRxiv* (2024), [doi:10.1101/2024.02.28.582444](https://doi.org/10.1101/2024.02.28.582444).
 
-# Code of Conduct
+# Code of Conduct {#code-of-conduct}
 
-Please note that the `mulea` project is released with a [Contributor
-Code of Conduct](http://bioconductor.org/about/code-of-conduct/). By
-contributing to this project, you agree to abide by its terms.
-
+Please note that the `mulea` project is released with a [Contributor Code of Conduct](http://bioconductor.org/about/code-of-conduct/). By contributing to this project, you agree to abide by its terms.

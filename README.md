@@ -1,3 +1,5 @@
+# <img src="man/figures/MulEA_logo.png" width="59"/> `mulea` - an R Package for Enrichment Analysis Using Multiple Ontologies and Empirical FDR Correction
+
 -   [Introduction](#introduction)
 -   [Installation](#installation)
 -   [Example Usage](#example-usage)
@@ -11,8 +13,6 @@
 -   [Code of Conduct](#code-of-conduct)
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-
-# <img src="man/figures/MulEA_logo.png" width="59"/> `mulea` - an R Package for Enrichment Analysis Using Multiple Ontologies and Empirical FDR Correction
 
 <!-- badges: start -->
 

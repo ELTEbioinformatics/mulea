@@ -58,6 +58,7 @@ License: MIT + file LICENSE
 Depends:
     R (>= 4.0.0)
 Imports:
+    devtools,
     data.table (>= 1.13.0),
     dplyr,
     fgsea (>= 1.0.2),
@@ -78,7 +79,6 @@ Imports:
     tidygraph,
     tidyverse
 Suggests:
-    devtools,
     knitr,
     rmarkdown,
     testthat (>= 3.1.4)

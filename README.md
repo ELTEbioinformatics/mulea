@@ -664,15 +664,28 @@ sessionInfo()
 
 # References
 
-::: {#refs .references .csl-bib-body .hanging-indent}
-::: {#ref-korotkevich .csl-entry}
-Korotkevich, Gennady, Vladimir Sukhov, Nikolay Budin, Boris Shpak, Maxim N. Artyomov, and Alexey Sergushichev. 2021. “Fast Gene Set Enrichment Analysis,” February. <https://doi.org/10.1101/060012>.
-:::
+<div id="refs" class="references csl-bib-body hanging-indent">
 
-::: {#ref-subramanian2005 .csl-entry}
-Subramanian, Aravind, Pablo Tamayo, Vamsi K. Mootha, Sayan Mukherjee, Benjamin L. Ebert, Michael A. Gillette, Amanda Paulovich, et al. 2005. “Gene Set Enrichment Analysis: A Knowledge-Based Approach for Interpreting Genome-Wide Expression Profiles.” *Proceedings of the National Academy of Sciences* 102 (43): 15545–50. <https://doi.org/10.1073/pnas.0506580102>.
-:::
-:::
+<div id="ref-korotkevich" class="csl-entry">
+
+Korotkevich, Gennady, Vladimir Sukhov, Nikolay Budin, Boris Shpak, Maxim
+N. Artyomov, and Alexey Sergushichev. 2021. “Fast Gene Set Enrichment
+Analysis,” February. <https://doi.org/10.1101/060012>.
+
+</div>
+
+<div id="ref-subramanian2005" class="csl-entry">
+
+Subramanian, Aravind, Pablo Tamayo, Vamsi K. Mootha, Sayan Mukherjee,
+Benjamin L. Ebert, Michael A. Gillette, Amanda Paulovich, et al. 2005.
+“Gene Set Enrichment Analysis: A Knowledge-Based Approach for
+Interpreting Genome-Wide Expression Profiles.” *Proceedings of the
+National Academy of Sciences* 102 (43): 15545–50.
+<https://doi.org/10.1073/pnas.0506580102>.
+
+</div>
+
+</div>
 
 # How to Cite the `mulea` Package?
 

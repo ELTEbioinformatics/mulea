@@ -20,7 +20,7 @@
 
 <!-- badges: end -->
 
-# Introduction {#introduction}
+# Introduction
 
 Traditional gene set enrichment analyses are typically limited to a few ontologies and do not account for the interdependence of gene sets or terms, resulting in overcorrected *p*-values. To address these challenges, we introduce `mulea`, an R package offering comprehensive overrepresentation and functional enrichment analysis.
 
@@ -28,7 +28,7 @@ Traditional gene set enrichment analyses are typically limited to a few ontologi
 
 To facilitate seamless analysis, `mulea` provides gene sets (in standardized GMT format) for 27 model organisms, covering 16 databases and various identifiers. The GMT files and the scripts we applied to create them are available at the [GMT_files_for_mulea](https://github.com/ELTEbioinformatics/GMT_files_for_mulea) repository. Additionally, the [`muleaData`](https://github.com/ELTEbioinformatics/muleaData) ExperimentData Bioconductor R package simplifies access to these 879 pre-defined ontologies. Furthermore, `mulea`’s architecture allows for easy integration of user-defined ontologies, expanding its applicability across diverse research areas.
 
-# Installation {#installation}
+# Installation
 
 After installing the `BiocManager` package, you can install [`fgsea`](https://bioconductor.org/packages/release/bioc/html/fgsea.html), a dependency for `mulea` from Bioconductor. Then, you can install `mulea` from this github repo using the `install_github` function of the `devtools` package:
 
@@ -48,9 +48,9 @@ if (!require("devtools", quietly = TRUE))
 devtools::install_github("https://github.com/ELTEbioinformatics/mulea")
 ```
 
-# Example Usage {#example-usage}
+# Example Usage
 
-## Formatting the Differential Expression Results {#formatting-the-differential-expression-results}
+## Formatting the Differential Expression Results
 
 This section demonstrates how to use `mulea` with a sample dataset. If you have your own data, feel free to skip this part and proceed directly to the [OverRepresentation Analysis (ORA)](#overrepresentation-analysis-ora) or [Gene Set Enrichment Analysis (GSEA)](#gene-set-enrichment-analysis-gsea) sections.
 
@@ -111,7 +111,7 @@ Before proceeding with enrichment analysis, we take a closer look at the first f
 
 After applying these formatting steps, the data frame is ready for further analysis.
 
-## The Gene Set for Identifying Regulatory Transcription Factors {#the-gene-set-for-identifying-regulatory-transcription-factors}
+## The Gene Set for Identifying Regulatory Transcription Factors
 
 This section explores the transcription factors influencing the significantly overexpressed genes. We employed the `mulea` package to conduct multiple enrichment analyses using the <img src="man/figures/Regulon.png" alt="Regulon" width="114" height="25"/> [database](https://regulondb.ccg.unam.mx/).
 
@@ -241,7 +241,7 @@ ontology_list <- list(gene_set1 = c("gene1", "gene2", "gene3"),
 new_ontology_object <- list_to_gmt(ontology_list)
 ```
 
-## OverRepresentation Analysis (ORA) {#overrepresentation-analysis-ora}
+## OverRepresentation Analysis (ORA)
 
 This approach analyses groups of genes (sets) to identify if they are enriched in specific categories – transcription factors – within a reference set. It requires two key elements:
 
@@ -441,7 +441,7 @@ plot_heatmap(reshaped_results = ora_reshaped_results,
 
 <img src="man/figures/README-heatmap_ora-1.png" width="100%"/>
 
-## Gene Set Enrichment Analysis (GSEA) {#gene-set-enrichment-analysis-gsea}
+## Gene Set Enrichment Analysis (GSEA)
 
 To perform enrichment analysis using ranked lists, you need to provide an ordered list of elements, such as genes, transcripts, or proteins. This ranking is typically determined by the results of your prior analysis, potentially based on factors like *p*-values, *z*-scores, fold-changes, or others. Crucially, the ranked list should include all elements involved in your analysis. For instance, in a differential expression study, it should encompass all genes that were measured.
 
@@ -605,7 +605,7 @@ plot_heatmap(reshaped_results = gsea_reshaped_results,
 
 <img src="man/figures/README-heatmap_gsea-1.png" width="100%"/>
 
-# Session Info {#session-info}
+# Session Info
 
 ``` r
 sessionInfo()
@@ -662,7 +662,7 @@ sessionInfo()
 #> [67] plyr_1.8.9
 ```
 
-# References {#references}
+# References
 
 ::: {#refs .references .csl-bib-body .hanging-indent}
 ::: {#ref-korotkevich .csl-entry}
@@ -674,12 +674,12 @@ Subramanian, Aravind, Pablo Tamayo, Vamsi K. Mootha, Sayan Mukherjee, Benjamin L
 :::
 :::
 
-# How to Cite the `mulea` Package? {#how-to-cite-the-mulea-package}
+# How to Cite the `mulea` Package?
 
 To cite package `mulea` in publications use:
 
 C. Turek, M. Olbei, T. Stirling, G. Fekete, E. Tasnadi, L. Gul, B. Bohar, B. Papp, W. Jurkowski, E. Ari: mulea - an R package for enrichment analysis using multiple ontologies and empirical FDR correction. *bioRxiv* (2024), [doi:10.1101/2024.02.28.582444](https://doi.org/10.1101/2024.02.28.582444).
 
-# Code of Conduct {#code-of-conduct}
+# Code of Conduct
 
 Please note that the `mulea` project is released with a [Contributor Code of Conduct](http://bioconductor.org/about/code-of-conduct/). By contributing to this project, you agree to abide by its terms.

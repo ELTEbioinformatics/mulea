@@ -12,7 +12,6 @@ multipleTesting.pdf
 src-i386/*
 src-x64/*
 .DS_Store
-references.bib
 README_cache/*
 README.html
 mulea.Rproj

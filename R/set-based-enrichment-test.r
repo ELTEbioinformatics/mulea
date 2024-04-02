@@ -61,7 +61,7 @@ do_the_simulation <- function(list_of_all_genes, pool, select,DB, steps,
         } else { cl <- makeCluster(spec = nthread, type = "PSOCK")}
         clusterExport(cl, c("DB","list_of_all_genes", "pool", "select",
             "seeds_per_thread", "steps_per_thread"), envir = environment())
-        clusterEvalQ(cl, devtools::load_all())
+        clusterEvalQ(cl, library("mulea"))
         result_of_paralel <- clusterApplyLB(cl = cl, seq_len(nthread), 
             function(idx) {simulation_result_tbl <- tryCatch(
                 enrichment_test_simulation(DB, list_of_all_genes, pool, 

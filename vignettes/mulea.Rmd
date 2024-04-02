@@ -63,13 +63,14 @@ After installing the `BiocManager` package, you can install
 dependency for `mulea` from Bioconductor. Then, you can install `mulea` from 
 this github repo using the `install_github` function of the `devtools` package:
 
-```{r 'install', message=FALSE, warning=FALSE}
-# installing required packages, if needed
-if (!require("BiocManager", quietly = TRUE)) install.packages("BiocManager")
-if (!require("fgsea", quietly = TRUE)) BiocManager::install("fgsea")
-if (!require("mulea", quietly = TRUE)) {
-  devtools::install_github("https://github.com/ELTEbioinformatics/mulea")
-}
+```{r 'install', eval=FALSE, message=FALSE, warning=FALSE}
+# installing the BiocManager package if needed
+if (!require("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+# installing the fgsea package from Bioconductor
+BiocManager::install("fgsea")
+# installing the mulea package from GitHub
+devtools::install_github("https://github.com/ELTEbioinformatics/mulea")
 ```
 
 # Example Usage

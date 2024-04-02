@@ -408,7 +408,7 @@ ora_model <- ora(
     p_value_adjustment_method = "eFDR",
     number_of_permutations = 10000,
     # the number of processor threads to use
-    nthreads = 2) 
+    nthreads = 1) 
 # running the ORA
 ora_results <- run_test(ora_model)
 ```

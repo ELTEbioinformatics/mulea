@@ -3,7 +3,7 @@ Type: Package
 Encoding: UTF-8
 Title: mulea - an R package for enrichment analysis using 
     multiple ontologies and empirical FDR correction
-Version: 0.99.10
+Version: 0.99.10.9001
 Date: 2016-04-08
 Authors@R: c(
     person("Cezary", "Turek", role =  c("aut", "ctb"),
@@ -58,7 +58,6 @@ License: MIT + file LICENSE
 Depends:
     R (>= 4.0.0)
 Imports:
-    devtools,
     data.table (>= 1.13.0),
     dplyr,
     fgsea (>= 1.0.2),
@@ -79,6 +78,7 @@ Imports:
     tidygraph,
     tidyverse
 Suggests:
+    devtools,
     knitr,
     rmarkdown,
     testthat (>= 3.1.4)

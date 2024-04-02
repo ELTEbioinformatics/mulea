@@ -14,7 +14,7 @@
 #'@slot p_value_adjustment_method A character string representing the 
 #'  type of the *p*-value adjustment method. Possible values:
 #' * 'eFDR': empirical false discovery rate correction method
-#' * and all `method` options from `p.adjust` {stats} documentation.
+#' * all `method` options from `stats::p.adjust` documentation.
 #'@slot number_of_permutations A numeric value representing the number of
 #'  permutations used to calculate the eFDR values. Default value is 10000.
 #'@slot nthreads Number of processor's threads to use in calculations.

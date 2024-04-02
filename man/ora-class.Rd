@@ -34,7 +34,7 @@ genes that were measured in differential expression analysis.}
 type of the \emph{p}-value adjustment method. Possible values:
 \itemize{
 \item 'eFDR': empirical false discovery rate correction method
-\item and all \code{method} options from \code{p.adjust} {stats} documentation.
+\item all \code{method} options from \code{stats::p.adjust} documentation.
 }}
 
 \item{\code{number_of_permutations}}{A numeric value representing the number of

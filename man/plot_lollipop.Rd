@@ -5,11 +5,11 @@
 \title{Plot Lollipop}
 \usage{
 plot_lollipop(
-    reshaped_results,
-    ontology_id_colname = "ontology_id",
-    selected_rows_to_plot = NULL,
-    p_value_type_colname = "eFDR",
-    p_value_max_threshold = 0.05
+  reshaped_results,
+  ontology_id_colname = "ontology_id",
+  selected_rows_to_plot = NULL,
+  p_value_type_colname = "eFDR",
+  p_value_max_threshold = 0.05
 )
 }
 \arguments{

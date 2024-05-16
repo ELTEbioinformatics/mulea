@@ -5,12 +5,12 @@
 \title{Plot Graph (Network)}
 \usage{
 plot_graph(
-    reshaped_results,
-    ontology_id_colname = "ontology_id",
-    ontology_element_colname = "element_id_in_ontology",
-    shared_elements_min_threshold = 0,
-    p_value_type_colname = "eFDR",
-    p_value_max_threshold = 0.05
+  reshaped_results,
+  ontology_id_colname = "ontology_id",
+  ontology_element_colname = "element_id_in_ontology",
+  shared_elements_min_threshold = 0,
+  p_value_type_colname = "eFDR",
+  p_value_max_threshold = 0.05
 )
 }
 \arguments{

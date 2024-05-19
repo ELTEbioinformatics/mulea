@@ -62,9 +62,9 @@ filterRelaxedResultsForPlotting <- function(reshaped_results,
 #' 
 #' # loading the example data
 #' sign_genes <- readLines(system.file(
-#'     package = "mulea", "extdata", "sign_genes.csv"))
+#'     package = "mulea", "extdata", "target_set.txt"))
 #' background_genes <- readLines(
-#'     system.file(package="mulea", "extdata", "background_genes.csv"))
+#'     system.file(package="mulea", "extdata", "background_set.txt"))
 #'
 #' # creating the ORA model
 #' ora_model <- ora(gmt = tf_gmt_filtered,
@@ -172,9 +172,9 @@ reshape_results <- function(model = NULL, model_results = NULL,
 #' 
 #' # loading the example data
 #' sign_genes <- readLines(system.file(package = "mulea", "extdata", 
-#'     "sign_genes.csv"))
+#'     "target_set.txt"))
 #' background_genes <- readLines(system.file(
-#'     package="mulea", "extdata", "background_genes.csv"))
+#'     package="mulea", "extdata", "background_set.txt"))
 #'
 #' # creating the ORA model
 #' ora_model <- ora(gmt = tf_gmt_filtered,
@@ -349,9 +349,9 @@ addExtraParamsToPlt <- function(graph_plot, p_value_max_threshold,
 #' 
 #' # loading the example data
 #' sign_genes <- readLines(system.file(package = "mulea", "extdata", 
-#'     "sign_genes.csv"))
+#'     "target_set.txt"))
 #' background_genes <- readLines(system.file(
-#'     package="mulea", "extdata", "background_genes.csv"))
+#'     package="mulea", "extdata", "background_set.txt"))
 #'
 #' # creating the ORA model
 #' ora_model <- ora(gmt = tf_gmt_filtered,
@@ -456,9 +456,9 @@ plot_barplot <- function(reshaped_results, ontology_id_colname = 'ontology_id',
 #' 
 #' # loading the example data
 #' sign_genes <- readLines(system.file(package = "mulea", "extdata", 
-#'     "sign_genes.csv"))
+#'     "target_set.txt"))
 #' background_genes <- readLines(system.file(
-#'     package="mulea", "extdata", "background_genes.csv"))
+#'     package="mulea", "extdata", "background_set.txt"))
 #'
 #' # creating the ORA model
 #' ora_model <- ora(gmt = tf_gmt_filtered,
@@ -569,9 +569,9 @@ plot_lollipop <- function(reshaped_results, ontology_id_colname = 'ontology_id',
 #' 
 #' # loading the example data
 #' sign_genes <- readLines(system.file(package = "mulea", "extdata", 
-#'     "sign_genes.csv"))
+#'     "target_set.txt"))
 #' background_genes <- readLines(system.file(
-#'     package="mulea", "extdata", "background_genes.csv"))
+#'     package="mulea", "extdata", "background_set.txt"))
 #'
 #' # creating the ORA model
 #' ora_model <- ora(gmt = tf_gmt_filtered,

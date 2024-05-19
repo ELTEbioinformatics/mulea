@@ -76,9 +76,9 @@ tf_gmt_filtered <- filter_ontology(gmt = tf_gmt, min_nr_of_elements = 3,
 
 # loading the example data
 sign_genes <- readLines(system.file(package = "mulea", "extdata", 
-    "sign_genes.csv"))
+    "target_set.txt"))
 background_genes <- readLines(system.file(package="mulea", "extdata", "
-    background_genes.csv"))
+    background_set.txt"))
 
 # creating the ORA model
 ora_model <- ora(gmt = tf_gmt_filtered, 
@@ -106,9 +106,9 @@ tf_gmt_filtered <- filter_ontology(gmt = tf_gmt, min_nr_of_elements = 3,
 
 # loading the example data
 sign_genes <- readLines(system.file(package = "mulea", "extdata", 
-        "sign_genes.csv"))
+        "target_set.txt"))
 background_genes <- readLines(system.file(package="mulea", "extdata", 
-        "background_genes.csv"))
+        "background_set.txt"))
 
 # creating the ORA model
 ora_model <- ora(gmt = tf_gmt_filtered, 

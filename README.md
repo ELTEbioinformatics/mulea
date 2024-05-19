@@ -1,4 +1,5 @@
-# <img src="man/figures/MulEA_logo.png" width="59" /> `mulea` - an R Package for Enrichment Analysis Using Multiple Ontologies and Empirical FDR Correction
+<img src="man/figures/MulEA_logo.png" width="59" /> `mulea` - an R Package for Enrichment Analysis Using Multiple Ontologies and Empirical FDR Correction
+
 - [Introduction](#introduction)
 - [Installation](#installation)
 - [Usage](#usage)
@@ -13,7 +14,6 @@
     Analysis](#formatting-the-results-of-a-differential-expression-analysis)
 - [Session Info](#session-info)
 - [How to Cite the `mulea` Package?](#how-to-cite-the-mulea-package)
-- [Code of Conduct](#code-of-conduct)
 - [References](#references)
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
@@ -93,16 +93,6 @@ manipulation and inspection.
 ``` r
 library(mulea)
 library(tidyverse)
-#> ── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
-#> ✔ dplyr     1.1.4     ✔ readr     2.1.5
-#> ✔ forcats   1.0.0     ✔ stringr   1.5.1
-#> ✔ ggplot2   3.5.1     ✔ tibble    3.2.1
-#> ✔ lubridate 1.9.3     ✔ tidyr     1.3.1
-#> ✔ purrr     1.0.2     
-#> ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
-#> ✖ dplyr::filter() masks stats::filter()
-#> ✖ dplyr::lag()    masks stats::lag()
-#> ℹ Use the conflicted package (<http://conflicted.r-lib.org/>) to force all conflicts to become errors
 ```
 
 ## Importing the Ontology
@@ -220,6 +210,12 @@ EHID <- mcols(muleaData) %>%
 
 # Reading the ontology from the muleaData package.
 tf_ontology <- muleaData[[EHID]]
+
+# Change the header
+tf_ontology <- tf_ontology %>% 
+  rename(ontology_id = "ontologyId",
+         ontology_name = "ontologyName",
+         list_of_values = "listOfValues")
 ```
 
 ### Filtering the Ontology
@@ -394,14 +390,14 @@ ora_results %>%
 |:------------|:--------------|-------------------------------:|-----------------------------------:|----------:|----------:|
 | FNR         | FNR           |                             26 |                                259 | 0.0000003 | 0.0000000 |
 | LexA        | LexA          |                             14 |                                 53 | 0.0000000 | 0.0000000 |
-| SoxS        | SoxS          |                              7 |                                 37 | 0.0001615 | 0.0030000 |
-| DnaA        | DnaA          |                              4 |                                 13 | 0.0006281 | 0.0057333 |
-| Rob         | Rob           |                              5 |                                 21 | 0.0004717 | 0.0057800 |
-| FadR        | FadR          |                              5 |                                 20 | 0.0003692 | 0.0060250 |
-| NsrR        | NsrR          |                              8 |                                 64 | 0.0010478 | 0.0075429 |
-| ArcA        | ArcA          |                             12 |                                148 | 0.0032001 | 0.0202500 |
-| IHF         | IHF           |                             14 |                                205 | 0.0070758 | 0.0447900 |
-| MarA        | MarA          |                              5 |                                 37 | 0.0066068 | 0.0472667 |
+| SoxS        | SoxS          |                              7 |                                 37 | 0.0001615 | 0.0028667 |
+| DnaA        | DnaA          |                              4 |                                 13 | 0.0006281 | 0.0049000 |
+| Rob         | Rob           |                              5 |                                 21 | 0.0004717 | 0.0053200 |
+| FadR        | FadR          |                              5 |                                 20 | 0.0003692 | 0.0057000 |
+| NsrR        | NsrR          |                              8 |                                 64 | 0.0010478 | 0.0067143 |
+| ArcA        | ArcA          |                             12 |                                148 | 0.0032001 | 0.0203375 |
+| IHF         | IHF           |                             14 |                                205 | 0.0070758 | 0.0453100 |
+| MarA        | MarA          |                              5 |                                 37 | 0.0066068 | 0.0477778 |
 
 ### Visualising the ORA Result
 
@@ -597,7 +593,7 @@ gsea_results %>%
   filter(adjusted_p_value < 0.05) %>% 
   # the number of such rows
   nrow()
-#> [1] 7
+#> [1] 9
 ```
 
 Inspect the significant results:
@@ -612,13 +608,15 @@ gsea_results %>%
 
 | ontology_id | ontology_name | nr_common_with_tested_elements |   p_value | adjusted_p_value |
 |:------------|:--------------|-------------------------------:|----------:|-----------------:|
-| LexA        | LexA          |                             53 | 0.0000000 |        0.0000024 |
-| FNR         | FNR           |                            259 | 0.0000429 |        0.0032846 |
-| ArcA        | ArcA          |                            148 | 0.0002211 |        0.0110856 |
-| GlaR        | GlaR          |                              3 | 0.0002939 |        0.0110856 |
-| ModE        | ModE          |                             45 | 0.0003623 |        0.0110856 |
-| DnaA        | DnaA          |                             13 | 0.0004900 |        0.0111104 |
-| SoxS        | SoxS          |                             37 | 0.0005083 |        0.0111104 |
+| LexA        | LexA          |                             53 | 0.0000000 |        0.0000020 |
+| FNR         | FNR           |                            259 | 0.0000441 |        0.0033705 |
+| DnaA        | DnaA          |                             13 | 0.0003759 |        0.0115040 |
+| GlaR        | GlaR          |                              3 | 0.0003167 |        0.0115040 |
+| ModE        | ModE          |                             45 | 0.0002894 |        0.0115040 |
+| ArcA        | ArcA          |                            148 | 0.0005633 |        0.0123115 |
+| SoxS        | SoxS          |                             37 | 0.0005358 |        0.0123115 |
+| PspF        | PspF          |                              7 | 0.0014082 |        0.0269323 |
+| PaaX        | PaaX          |                             14 | 0.0027934 |        0.0474872 |
 
 ### Visualising the GSEA Results
 
@@ -885,13 +883,13 @@ sessionInfo()
 #> [22] fgsea_1.30.0        graphlayouts_1.1.1  codetools_0.2-20   
 #> [25] htmltools_0.5.8.1   yaml_2.3.8          crayon_1.5.2       
 #> [28] pillar_1.9.0        MASS_7.3-60.2       BiocParallel_1.38.0
-#> [31] cachem_1.0.8        viridis_0.6.5       tidyselect_1.2.1   
+#> [31] cachem_1.1.0        viridis_0.6.5       tidyselect_1.2.1   
 #> [34] digest_0.6.35       stringi_1.8.4       labeling_0.4.3     
-#> [37] cowplot_1.1.3       polyclip_1.10-6     fastmap_1.1.1      
+#> [37] cowplot_1.1.3       polyclip_1.10-6     fastmap_1.2.0      
 #> [40] grid_4.4.0          colorspace_2.1-0    cli_3.6.2          
 #> [43] magrittr_2.0.3      ggraph_2.2.1        tidygraph_1.3.1    
 #> [46] utf8_1.2.4          withr_3.0.0         scales_1.3.0       
-#> [49] bit64_4.0.5         timechange_0.3.0    rmarkdown_2.26     
+#> [49] bit64_4.0.5         timechange_0.3.0    rmarkdown_2.27     
 #> [52] bit_4.0.5           igraph_2.0.3        gridExtra_2.3      
 #> [55] hms_1.1.3           memoise_2.0.1       evaluate_0.23      
 #> [58] knitr_1.46          viridisLite_0.4.2   rlang_1.1.3        
@@ -961,9 +959,3 @@ Multiple Ontologies and Empirical FDR Correction.”
     `ontology_name` columns contain *gene symbols* of the transcription
     factors, unlike other ontologies such as GO, where these columns
     hold specific identifiers and corresponding names.
-
-# Code of Conduct
-
-Please note that the `mulea` project is released with a [Contributor
-Code of Conduct](http://bioconductor.org/about/code-of-conduct/). By
-contributing to this project, you agree to abide by its terms.

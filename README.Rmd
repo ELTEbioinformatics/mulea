@@ -66,9 +66,14 @@ devtools::install_github("https://github.com/ELTEbioinformatics/mulea")
 
 First, load the **`mulea`** and **`dplyr`** libraries. The **`dplyr`** library is not essential but is used here to facilitate data manipulation and inspection.
 
-```{r 'calling', output=FALSE}
+```{r 'calling1', eval=FALSE}
 library(mulea)
 library(tidyverse)
+```
+
+```{r 'calling2', echo=FALSE}
+suppressMessages(library(mulea))
+suppressMessages(library(tidyverse))
 ```
 
 ## Importing the Ontology
@@ -152,6 +157,12 @@ EHID <- mcols(muleaData) %>%
 
 # Reading the ontology from the muleaData package.
 tf_ontology <- muleaData[[EHID]]
+
+# Change the header
+tf_ontology <- tf_ontology %>% 
+  rename(ontology_id = "ontologyId",
+         ontology_name = "ontologyName",
+         list_of_values = "listOfValues")
 ```
 
 ### Filtering the Ontology
@@ -627,9 +638,5 @@ sessionInfo()
 To cite package `mulea` in publications use:
 
 C. Turek, M. Olbei, T. Stirling, G. Fekete, E. Tasnadi, L. Gul, B. Bohar, B. Papp, W. Jurkowski, E. Ari: mulea - an R package for enrichment analysis using multiple ontologies and empirical FDR correction. *bioRxiv* (2024), [doi:10.1101/2024.02.28.582444](https://doi.org/10.1101/2024.02.28.582444).
-
-# Code of Conduct
-
-Please note that the `mulea` project is released with a [Contributor Code of Conduct](http://bioconductor.org/about/code-of-conduct/). By contributing to this project, you agree to abide by its terms.
 
 # References

@@ -66,8 +66,8 @@ tf_gmt_filtered <- filter_ontology(gmt = tf_gmt, min_nr_of_elements = 3,
     max_nr_of_elements = 400)
 
 # loading the example `data.frame`
-scored_gene_tab <- read.csv(file = system.file(package = "mulea", "extdata", 
-        "scored_genes.csv"))
+scored_gene_tab <- read.delim(file = system.file(package = "mulea", "extdata", 
+        "ordered_set.tsv"))
 
 # creating the GSEA model
 gsea_model <- gsea(gmt = tf_gmt_filtered,
@@ -88,8 +88,8 @@ tf_gmt_filtered <- filter_ontology(gmt = tf_gmt, min_nr_of_elements = 3,
         max_nr_of_elements = 400)
 
 # loading the example `data.frame`
-scored_gene_tab <- read.csv(file = system.file(package = "mulea", "extdata", 
-        "scored_genes.csv"))
+scored_gene_tab <- read.delim(file = system.file(package = "mulea", "extdata", 
+        "ordered_set.tsv"))
 
 # creating the GSEA model
 gsea_model <- gsea(gmt = tf_gmt_filtered,

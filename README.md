@@ -1,4 +1,4 @@
-<img src="man/figures/MulEA_logo.png" width="59" /> `mulea` - an R Package for Enrichment Analysis Using Multiple Ontologies and Empirical FDR Correction
+# <img src="man/figures/MulEA_logo.png" width="59" /> `mulea` - an R Package for Enrichment Analysis Using Multiple Ontologies and Empirical FDR Correction
 
 - [Introduction](#introduction)
 - [Installation](#installation)
@@ -18,8 +18,6 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# <img src="man/figures/MulEA_logo.png" width="59" /> `mulea` - an R Package for Enrichment Analysis Using Multiple Ontologies and Empirical FDR Correction
-
 <!-- badges: start -->
 
 [![GitHub
@@ -31,7 +29,7 @@ pulls](https://img.shields.io/github/issues-pr/ELTEbioinformatics/mulea)](https:
 
 # Introduction
 
-The `mulea` R package (Turek et al., n.d.) is a comprehensive tool for
+The `mulea` R package (Turek et al. 2024) is a comprehensive tool for
 functional enrichment analysis. It provides two different approaches:
 
 1.  For unranked sets of elements, such as significantly up- or
@@ -390,14 +388,14 @@ ora_results %>%
 |:------------|:--------------|-------------------------------:|-----------------------------------:|----------:|----------:|
 | FNR         | FNR           |                             26 |                                259 | 0.0000003 | 0.0000000 |
 | LexA        | LexA          |                             14 |                                 53 | 0.0000000 | 0.0000000 |
-| SoxS        | SoxS          |                              7 |                                 37 | 0.0001615 | 0.0028667 |
-| DnaA        | DnaA          |                              4 |                                 13 | 0.0006281 | 0.0049000 |
-| Rob         | Rob           |                              5 |                                 21 | 0.0004717 | 0.0053200 |
-| FadR        | FadR          |                              5 |                                 20 | 0.0003692 | 0.0057000 |
-| NsrR        | NsrR          |                              8 |                                 64 | 0.0010478 | 0.0067143 |
-| ArcA        | ArcA          |                             12 |                                148 | 0.0032001 | 0.0203375 |
-| IHF         | IHF           |                             14 |                                205 | 0.0070758 | 0.0453100 |
-| MarA        | MarA          |                              5 |                                 37 | 0.0066068 | 0.0477778 |
+| SoxS        | SoxS          |                              7 |                                 37 | 0.0001615 | 0.0031667 |
+| DnaA        | DnaA          |                              4 |                                 13 | 0.0006281 | 0.0052500 |
+| Rob         | Rob           |                              5 |                                 21 | 0.0004717 | 0.0054600 |
+| FadR        | FadR          |                              5 |                                 20 | 0.0003692 | 0.0056250 |
+| NsrR        | NsrR          |                              8 |                                 64 | 0.0010478 | 0.0074714 |
+| ArcA        | ArcA          |                             12 |                                148 | 0.0032001 | 0.0206875 |
+| IHF         | IHF           |                             14 |                                205 | 0.0070758 | 0.0460700 |
+| MarA        | MarA          |                              5 |                                 37 | 0.0066068 | 0.0484333 |
 
 ### Visualising the ORA Result
 
@@ -593,7 +591,7 @@ gsea_results %>%
   filter(adjusted_p_value < 0.05) %>% 
   # the number of such rows
   nrow()
-#> [1] 9
+#> [1] 11
 ```
 
 Inspect the significant results:
@@ -608,15 +606,17 @@ gsea_results %>%
 
 | ontology_id | ontology_name | nr_common_with_tested_elements |   p_value | adjusted_p_value |
 |:------------|:--------------|-------------------------------:|----------:|-----------------:|
-| LexA        | LexA          |                             53 | 0.0000000 |        0.0000020 |
-| FNR         | FNR           |                            259 | 0.0000441 |        0.0033705 |
-| DnaA        | DnaA          |                             13 | 0.0003759 |        0.0115040 |
-| GlaR        | GlaR          |                              3 | 0.0003167 |        0.0115040 |
-| ModE        | ModE          |                             45 | 0.0002894 |        0.0115040 |
-| ArcA        | ArcA          |                            148 | 0.0005633 |        0.0123115 |
-| SoxS        | SoxS          |                             37 | 0.0005358 |        0.0123115 |
-| PspF        | PspF          |                              7 | 0.0014082 |        0.0269323 |
-| PaaX        | PaaX          |                             14 | 0.0027934 |        0.0474872 |
+| LexA        | LexA          |                             53 | 0.0000000 |        0.0000028 |
+| FNR         | FNR           |                            259 | 0.0000852 |        0.0065154 |
+| GlaR        | GlaR          |                              3 | 0.0003030 |        0.0124627 |
+| ModE        | ModE          |                             45 | 0.0003258 |        0.0124627 |
+| SoxS        | SoxS          |                             37 | 0.0004170 |        0.0127589 |
+| DnaA        | DnaA          |                             13 | 0.0006823 |        0.0173996 |
+| ArcA        | ArcA          |                            148 | 0.0008289 |        0.0181169 |
+| PspF        | PspF          |                              7 | 0.0015187 |        0.0290447 |
+| PaaX        | PaaX          |                             14 | 0.0020534 |        0.0349080 |
+| Rob         | Rob           |                             21 | 0.0027564 |        0.0421724 |
+| FadR        | FadR          |                             20 | 0.0030893 |        0.0429700 |
 
 ### Visualising the GSEA Results
 
@@ -917,7 +917,7 @@ entry-spacing="0">
 
 Korotkevich, Gennady, Vladimir Sukhov, Nikolay Budin, Boris Shpak, Maxim
 N. Artyomov, and Alexey Sergushichev. 2021. “Fast Gene Set Enrichment
-Analysis,” February. <https://doi.org/10.1101/060012>.
+Analysis.” *bioRxiv*, February. <https://doi.org/10.1101/060012>.
 
 </div>
 
@@ -946,8 +946,8 @@ National Academy of Sciences* 102 (43): 15545–50.
 
 Turek, Cezary, Márton Ölbei, Tamás Stirling, Gergely Fekete, Ervin
 Tasnádi, Leila Gul, Balázs Bohár, Balázs Papp, Wiktor Jurkowski, and
-Eszter Ari. n.d. “Mulea - an R Package for Enrichment Analysis Using
-Multiple Ontologies and Empirical FDR Correction.”
+Eszter Ari. 2024. “Mulea - an R Package for Enrichment Analysis Using
+Multiple Ontologies and Empirical FDR Correction.” *bioRxiv*, March.
 <https://doi.org/10.1101/2024.02.28.582444>.
 
 </div>

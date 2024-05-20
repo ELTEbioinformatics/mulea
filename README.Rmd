@@ -310,7 +310,7 @@ ora_reshaped_results <- reshape_results(model = ora_model,
 
 Lollipop charts provide a graphical representation of the distribution of enriched transcription factors. The *y*-axis displays the transcription factors, while the *x*-axis represents their corresponding *eFDR* values. The dots are coloured based on their *eFDR* values. This visualisation helps us examine the spread of *eFDRs* and identify factors exceeding the commonly used significance threshold of 0.05.
 
-```{r 'lollipop_plot_ora'}
+```{r 'lollipop_plot_ora', out.width = '60%'}
 plot_lollipop(reshaped_results = ora_reshaped_results,
               # Column containing the names we wish to plot
               ontology_id_colname = "ontology_id",
@@ -324,7 +324,7 @@ plot_lollipop(reshaped_results = ora_reshaped_results,
 
 Bar charts offer a graphical representation similar to lollipop plots. The *y*-axis displays the enriched ontology categories (*e.g.*, transcription factors), while the *x*-axis represents their corresponding *eFDR* values. The bars are coloured based on their *eFDR* values, aiding in examining the spread of *eFDRs* and identifying factors exceeding the significance threshold of 0.05.
 
-```{r 'bar_plot_ora'}
+```{r 'bar_plot_ora', out.width = '60%'}
 plot_barplot(reshaped_results = ora_reshaped_results,
               # Column containing the names we wish to plot
               ontology_id_colname = "ontology_id",
@@ -338,7 +338,7 @@ plot_barplot(reshaped_results = ora_reshaped_results,
 
 This function generates a network visualisation of the enriched ontology categories (*e.g.*, transcription factors). Each node represents an eriched ontology category, coloured based on its *eFDR* value. An edge is drawn between two nodes if they share at least one common gene belonging to the target set, indicating co-regulation. The thickness of the edge reflects the number of shared genes.
 
-```{r 'network_plot_ora'}
+```{r 'network_plot_ora', out.width = '60%'}
 plot_graph(reshaped_results = ora_reshaped_results,
            # Column containing the names we wish to plot
            ontology_id_colname = "ontology_id",
@@ -376,9 +376,15 @@ GSEA requires input data about the genes analysed in our experiment. This data c
 
 Let's read the TSV file containing the identifiers (gene symbols) and the log fold change values of the investigated set directly from the GitHub website. For details on how this file was prepared, please refer to the [Formatting the Results of a Differential Expression Analysis] section.
 
-```{r 'reading_ordered'}
+```{r 'reading_ordered1', eval=FALSE}
 # Reading the tsv containing the ordered set
 ordered_set <- read_tsv("https://raw.githubusercontent.com/ELTEbioinformatics/mulea/master/inst/extdata/ordered_set.tsv")
+```
+
+```{r 'reading_ordered2', echo=FALSE}
+# Reading the tsv containing the ordered set
+ordered_set <- read_tsv("https://raw.githubusercontent.com/ELTEbioinformatics/mulea/master/inst/extdata/ordered_set.tsv", 
+                        show_col_types = FALSE)
 ```
 
 ### Performing the Gene Set Enrichment Analysis
@@ -451,7 +457,7 @@ gsea_reshaped_results <- reshape_results(model = gsea_model,
 
 This function generates a network visualisation of the enriched ontology categories (*e.g.*, transcription factors). Each node represents a category and is coloured based on its significance level. A connection (edge) is drawn between two nodes if they share at least one common gene belonging to the **ranked list**, meaning that both transcription factors regulate the expression of the same target gene. The thickness of the edge reflects the number of shared genes.
 
-```{r 'network_plot_gsea'}
+```{r 'network_plot_gsea', out.width = '60%'}
 plot_graph(reshaped_results = gsea_reshaped_results,
            # the column containing the names we wish to plot
            ontology_id_colname = "ontology_id",

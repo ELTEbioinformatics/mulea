@@ -388,14 +388,14 @@ ora_results %>%
 |:------------|:--------------|-------------------------------:|-----------------------------------:|----------:|----------:|
 | FNR         | FNR           |                             26 |                                259 | 0.0000003 | 0.0000000 |
 | LexA        | LexA          |                             14 |                                 53 | 0.0000000 | 0.0000000 |
-| SoxS        | SoxS          |                              7 |                                 37 | 0.0001615 | 0.0031667 |
+| SoxS        | SoxS          |                              7 |                                 37 | 0.0001615 | 0.0026667 |
 | DnaA        | DnaA          |                              4 |                                 13 | 0.0006281 | 0.0052500 |
-| Rob         | Rob           |                              5 |                                 21 | 0.0004717 | 0.0054600 |
-| FadR        | FadR          |                              5 |                                 20 | 0.0003692 | 0.0056250 |
-| NsrR        | NsrR          |                              8 |                                 64 | 0.0010478 | 0.0074714 |
-| ArcA        | ArcA          |                             12 |                                148 | 0.0032001 | 0.0206875 |
-| IHF         | IHF           |                             14 |                                205 | 0.0070758 | 0.0460700 |
-| MarA        | MarA          |                              5 |                                 37 | 0.0066068 | 0.0484333 |
+| Rob         | Rob           |                              5 |                                 21 | 0.0004717 | 0.0054000 |
+| FadR        | FadR          |                              5 |                                 20 | 0.0003692 | 0.0054750 |
+| NsrR        | NsrR          |                              8 |                                 64 | 0.0010478 | 0.0075571 |
+| ArcA        | ArcA          |                             12 |                                148 | 0.0032001 | 0.0208875 |
+| IHF         | IHF           |                             14 |                                205 | 0.0070758 | 0.0469200 |
+| MarA        | MarA          |                              5 |                                 37 | 0.0066068 | 0.0497333 |
 
 ### Visualising the ORA Result
 
@@ -435,7 +435,7 @@ plot_lollipop(reshaped_results = ora_reshaped_results,
               p_value_type_colname = "eFDR")
 ```
 
-<img src="man/figures/README-lollipop_plot_ora-1.png" width="100%" />
+<img src="man/figures/README-lollipop_plot_ora-1.png" width="60%" />
 
 **Visualising the Spread of *eFDR* Values: Bar Plot**
 
@@ -456,7 +456,7 @@ plot_barplot(reshaped_results = ora_reshaped_results,
               p_value_type_colname = "eFDR")
 ```
 
-<img src="man/figures/README-bar_plot_ora-1.png" width="100%" />
+<img src="man/figures/README-bar_plot_ora-1.png" width="60%" />
 
 **Visualising the Associations: Graph Plot**
 
@@ -477,7 +477,7 @@ plot_graph(reshaped_results = ora_reshaped_results,
            p_value_type_colname = "eFDR")
 ```
 
-<img src="man/figures/README-network_plot_ora-1.png" width="100%" />
+<img src="man/figures/README-network_plot_ora-1.png" width="60%" />
 
 **Visualising the Associations: Heatmap**
 
@@ -540,14 +540,6 @@ section.
 ``` r
 # Reading the tsv containing the ordered set
 ordered_set <- read_tsv("https://raw.githubusercontent.com/ELTEbioinformatics/mulea/master/inst/extdata/ordered_set.tsv")
-#> Rows: 7381 Columns: 2
-#> ── Column specification ────────────────────────────────────────────────────────
-#> Delimiter: "\t"
-#> chr (1): Gene.symbol
-#> dbl (1): logFC
-#> 
-#> ℹ Use `spec()` to retrieve the full column specification for this data.
-#> ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
 ```
 
 ### Performing the Gene Set Enrichment Analysis
@@ -591,7 +583,7 @@ gsea_results %>%
   filter(adjusted_p_value < 0.05) %>% 
   # the number of such rows
   nrow()
-#> [1] 11
+#> [1] 10
 ```
 
 Inspect the significant results:
@@ -606,17 +598,16 @@ gsea_results %>%
 
 | ontology_id | ontology_name | nr_common_with_tested_elements |   p_value | adjusted_p_value |
 |:------------|:--------------|-------------------------------:|----------:|-----------------:|
-| LexA        | LexA          |                             53 | 0.0000000 |        0.0000028 |
-| FNR         | FNR           |                            259 | 0.0000852 |        0.0065154 |
-| GlaR        | GlaR          |                              3 | 0.0003030 |        0.0124627 |
-| ModE        | ModE          |                             45 | 0.0003258 |        0.0124627 |
-| SoxS        | SoxS          |                             37 | 0.0004170 |        0.0127589 |
-| DnaA        | DnaA          |                             13 | 0.0006823 |        0.0173996 |
-| ArcA        | ArcA          |                            148 | 0.0008289 |        0.0181169 |
-| PspF        | PspF          |                              7 | 0.0015187 |        0.0290447 |
-| PaaX        | PaaX          |                             14 | 0.0020534 |        0.0349080 |
-| Rob         | Rob           |                             21 | 0.0027564 |        0.0421724 |
-| FadR        | FadR          |                             20 | 0.0030893 |        0.0429700 |
+| LexA        | LexA          |                             53 | 0.0000000 |        0.0000023 |
+| FNR         | FNR           |                            259 | 0.0000615 |        0.0047032 |
+| ArcA        | ArcA          |                            148 | 0.0002939 |        0.0112426 |
+| ModE        | ModE          |                             45 | 0.0002620 |        0.0112426 |
+| GlaR        | GlaR          |                              3 | 0.0006457 |        0.0192680 |
+| SoxS        | SoxS          |                             37 | 0.0007556 |        0.0192680 |
+| DnaA        | DnaA          |                             13 | 0.0009480 |        0.0207212 |
+| PaaX        | PaaX          |                             14 | 0.0022384 |        0.0428094 |
+| FadR        | FadR          |                             20 | 0.0030154 |        0.0461349 |
+| PspF        | PspF          |                              7 | 0.0030154 |        0.0461349 |
 
 ### Visualising the GSEA Results
 
@@ -651,7 +642,7 @@ plot_graph(reshaped_results = gsea_reshaped_results,
            p_value_type_colname = "adjusted_p_value")
 ```
 
-<img src="man/figures/README-network_plot_gsea-1.png" width="100%" />
+<img src="man/figures/README-network_plot_gsea-1.png" width="60%" />
 
 Other plot types such as lollipop plots, bar plots, and heatmaps can
 also be used to investigate the GSEA results.

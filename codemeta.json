@@ -1,0 +1,432 @@
+{
+  "@context": "https://doi.org/10.5063/schema/codemeta-2.0",
+  "@type": "SoftwareSourceCode",
+  "identifier": "mulea",
+  "description": "Traditional gene set enrichment analyses are typically limited to a few ontologies and do not account for the interdependence of gene sets or terms, resulting in overcorrected p-values. To address these challenges, we introduce mulea, an R package offering comprehensive overrepresentation and functional enrichment analysis. mulea employs an innovative empirical false discovery rate (eFDR) correction method, specifically designed for interconnected biological data, to accurately identify significant terms within diverse ontologies. Beyond conventional tools, mulea incorporates a wide range of ontologies encompassing Gene Ontology, pathways, regulatory elements, genomic locations, and protein domains. This flexibility empowers researchers to tailor enrichment analysis to their specific questions, such as identifying enriched transcriptional regulators in gene expression data or overrepresented protein domains in protein sets. To facilitate seamless analysis, mulea provides gene sets (in standardized GMT format) for 27 model organisms, covering 16 databases and various identifiers. Additionally, the muleaData ExperimentData Bioconductor package simplifies access to these 879 pre-defined ontologies. Furthermore, mulea's architecture allows for easy integration of user-defined ontologies, expanding its applicability across diverse research areas.",
+  "name": "mulea: Enrichment Analysis using Multiple Ontologies and FDR Correction",
+  "codeRepository": "https://github.com/ELTEbioinformatics/mulea",
+  "issueTracker": "https://github.com/ELTEbioinformatics/mulea/issues",
+  "license": "https://spdx.org/licenses/GPL-2.0",
+  "version": "0.99.12",
+  "programmingLanguage": {
+    "@type": "ComputerLanguage",
+    "name": "R",
+    "url": "https://r-project.org"
+  },
+  "runtimePlatform": "R version 4.4.0 (2024-04-24)",
+  "author": [
+    {
+      "@type": "Person",
+      "givenName": "Cezary",
+      "familyName": "Turek",
+      "@id": "https://orcid.org/0000-0002-1445-5378"
+    },
+    {
+      "@type": "Person",
+      "givenName": "Marton",
+      "familyName": "Olbei",
+      "@id": "https://orcid.org/0000-0002-4903-6237"
+    },
+    {
+      "@type": "Person",
+      "givenName": "Tamas",
+      "familyName": "Stirling",
+      "email": "stirling.tamas@gmail.com",
+      "@id": "https://orcid.org/0000-0002-8964-6443"
+    },
+    {
+      "@type": "Person",
+      "givenName": "Gergely",
+      "familyName": "Fekete",
+      "@id": "https://orcid.org/0000-0001-9939-4860"
+    },
+    {
+      "@type": "Person",
+      "givenName": "Ervin",
+      "familyName": "Tasnadi",
+      "@id": "https://orcid.org/0000-0002-4713-5397"
+    },
+    {
+      "@type": "Person",
+      "givenName": "Leila",
+      "familyName": "Gul"
+    },
+    {
+      "@type": "Person",
+      "givenName": "Balazs",
+      "familyName": "Bohar",
+      "@id": "https://orcid.org/0000-0002-3033-5448"
+    },
+    {
+      "@type": "Person",
+      "givenName": "Balazs",
+      "familyName": "Papp",
+      "@id": "https://orcid.org/0000-0003-3093-8852"
+    },
+    {
+      "@type": "Person",
+      "givenName": "Wiktor",
+      "familyName": "Jurkowski",
+      "@id": "https://orcid.org/0000-0002-7820-1991"
+    },
+    {
+      "@type": "Person",
+      "givenName": "Eszter",
+      "familyName": "Ari",
+      "@id": "https://orcid.org/0000-0001-7774-1067"
+    }
+  ],
+  "copyrightHolder": [
+    {
+      "@type": "Person",
+      "givenName": "Eszter",
+      "familyName": "Ari",
+      "@id": "https://orcid.org/0000-0001-7774-1067"
+    }
+  ],
+  "maintainer": [
+    {
+      "@type": "Person",
+      "givenName": "Tamas",
+      "familyName": "Stirling",
+      "email": "stirling.tamas@gmail.com",
+      "@id": "https://orcid.org/0000-0002-8964-6443"
+    }
+  ],
+  "softwareSuggestions": [
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "devtools",
+      "name": "devtools",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=devtools"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "knitr",
+      "name": "knitr",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=knitr"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "rmarkdown",
+      "name": "rmarkdown",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=rmarkdown"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "testthat",
+      "name": "testthat",
+      "version": ">= 3.1.4",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=testthat"
+    }
+  ],
+  "softwareRequirements": {
+    "1": {
+      "@type": "SoftwareApplication",
+      "identifier": "R",
+      "name": "R",
+      "version": ">= 4.0.0"
+    },
+    "2": {
+      "@type": "SoftwareApplication",
+      "identifier": "data.table",
+      "name": "data.table",
+      "version": ">= 1.13.0",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=data.table"
+    },
+    "3": {
+      "@type": "SoftwareApplication",
+      "identifier": "dplyr",
+      "name": "dplyr",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=dplyr"
+    },
+    "4": {
+      "@type": "SoftwareApplication",
+      "identifier": "fgsea",
+      "name": "fgsea",
+      "version": ">= 1.0.2",
+      "provider": {
+        "@id": "https://www.bioconductor.org",
+        "@type": "Organization",
+        "name": "Bioconductor",
+        "url": "https://www.bioconductor.org"
+      },
+      "sameAs": "https://bioconductor.org/packages/release/bioc/html/fgsea.html"
+    },
+    "5": {
+      "@type": "SoftwareApplication",
+      "identifier": "ggplot2",
+      "name": "ggplot2",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=ggplot2"
+    },
+    "6": {
+      "@type": "SoftwareApplication",
+      "identifier": "ggraph",
+      "name": "ggraph",
+      "version": ">= 2.0.3",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=ggraph"
+    },
+    "7": {
+      "@type": "SoftwareApplication",
+      "identifier": "magrittr",
+      "name": "magrittr",
+      "version": ">= 2.0.3",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=magrittr"
+    },
+    "8": {
+      "@type": "SoftwareApplication",
+      "identifier": "methods",
+      "name": "methods"
+    },
+    "9": {
+      "@type": "SoftwareApplication",
+      "identifier": "parallel",
+      "name": "parallel",
+      "version": ">= 4.0.2"
+    },
+    "10": {
+      "@type": "SoftwareApplication",
+      "identifier": "plyr",
+      "name": "plyr",
+      "version": ">= 1.8.4",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=plyr"
+    },
+    "11": {
+      "@type": "SoftwareApplication",
+      "identifier": "Rcpp",
+      "name": "Rcpp",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=Rcpp"
+    },
+    "12": {
+      "@type": "SoftwareApplication",
+      "identifier": "readr",
+      "name": "readr",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=readr"
+    },
+    "13": {
+      "@type": "SoftwareApplication",
+      "identifier": "rlang",
+      "name": "rlang",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=rlang"
+    },
+    "14": {
+      "@type": "SoftwareApplication",
+      "identifier": "scales",
+      "name": "scales",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=scales"
+    },
+    "15": {
+      "@type": "SoftwareApplication",
+      "identifier": "stats",
+      "name": "stats"
+    },
+    "16": {
+      "@type": "SoftwareApplication",
+      "identifier": "stringi",
+      "name": "stringi",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=stringi"
+    },
+    "17": {
+      "@type": "SoftwareApplication",
+      "identifier": "tibble",
+      "name": "tibble",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=tibble"
+    },
+    "18": {
+      "@type": "SoftwareApplication",
+      "identifier": "tidygraph",
+      "name": "tidygraph",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=tidygraph"
+    },
+    "19": {
+      "@type": "SoftwareApplication",
+      "identifier": "tidyverse",
+      "name": "tidyverse",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=tidyverse"
+    },
+    "SystemRequirements": null
+  },
+  "fileSize": "6596.712KB",
+  "citation": [
+    {
+      "@type": "ScholarlyArticle",
+      "datePublished": "2024",
+      "author": [
+        {
+          "@type": "Person",
+          "givenName": "Cezary",
+          "familyName": "Turek"
+        },
+        {
+          "@type": "Person",
+          "givenName": "Marton",
+          "familyName": "Olbei"
+        },
+        {
+          "@type": "Person",
+          "givenName": "Tamas",
+          "familyName": "Stirling"
+        },
+        {
+          "@type": "Person",
+          "givenName": "Gergely",
+          "familyName": "Fekete"
+        },
+        {
+          "@type": "Person",
+          "givenName": "Ervin",
+          "familyName": "Tasnadi"
+        },
+        {
+          "@type": "Person",
+          "givenName": "Leila",
+          "familyName": "Gul"
+        },
+        {
+          "@type": "Person",
+          "givenName": "Balazs",
+          "familyName": "Bohar"
+        },
+        {
+          "@type": "Person",
+          "givenName": "Balazs",
+          "familyName": "Papp"
+        },
+        {
+          "@type": "Person",
+          "givenName": "Wiktor",
+          "familyName": "Jurkowski"
+        },
+        {
+          "@type": "Person",
+          "givenName": "Eszter",
+          "familyName": "Ari"
+        }
+      ],
+      "name": "mulea - an R package for enrichment analysis using multiple \n        ontologies and empirical FDR correction.",
+      "identifier": "10.1101/2024.02.28.582444v1",
+      "url": "https://doi.org/10.1101/2024.02.28.582444",
+      "@id": "https://doi.org/10.1101/2024.02.28.582444v1",
+      "sameAs": "https://doi.org/10.1101/2024.02.28.582444v1",
+      "isPartOf": {
+        "@type": "PublicationIssue",
+        "datePublished": "2024",
+        "isPartOf": {
+          "@type": ["PublicationVolume", "Periodical"],
+          "name": "bioRxiv"
+        }
+      }
+    }
+  ],
+  "releaseNotes": "https://github.com/ELTEbioinformatics/mulea/blob/master/NEWS.md",
+  "readme": "https://github.com/ELTEbioinformatics/mulea/blob/master/README.md",
+  "keywords": ["bioconductor-package", "enrichment", "enrichment-analysis", "functional-enrichment-analysis", "gene-set-enrichment", "ontologies", "r-package", "transcriptomics"]
+}

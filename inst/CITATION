@@ -1,5 +1,8 @@
-citEntry(entry = "ARTICLE",
-    author = c(person("Cezary", "Turek"),
+citHeader("To cite mulea in publications use:")
+
+bibentry(bibtype = "Article",
+    author = c(
+        person("Cezary", "Turek"),
         person("Marton", "Olbei"),
         person("Tamas", "Stirling"),
         person("Gergely", "Fekete"),
@@ -8,7 +11,8 @@ citEntry(entry = "ARTICLE",
         person("Balazs", "Bohar"),
         person("Balazs", "Papp"),
         person("Wiktor", "Jurkowski"),
-        person("Eszter", "Ari")),
+        person("Eszter", "Ari")
+    ),
     title = "mulea - an R package for enrichment analysis using multiple 
         ontologies and empirical FDR correction.",
     year = "2024",

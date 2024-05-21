@@ -350,7 +350,7 @@ ora_model <- ora(gmt = tf_ontology_filtered,
                  # Number of permutations
                  number_of_permutations = 10000,
                  # Number of processor threads to use
-                 nthreads = 1) 
+                 nthreads = 2) 
 
 # Running the ORA
 ora_results <- run_test(ora_model)

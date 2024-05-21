@@ -16,3 +16,4 @@ readme/*
 references.bib
 ^cran-comments\.md$
 ^codemeta\.json$
+^CRAN-SUBMISSION$

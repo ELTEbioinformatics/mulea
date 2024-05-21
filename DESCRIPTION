@@ -1,7 +1,7 @@
 Package: mulea
 Type: Package
 Title: Enrichment Analysis using Multiple Ontologies and FDR Correction
-Version: 0.99.12
+Version: 1.0.0
 Date: 2024-05-15
 Authors@R: c(
     person("Cezary", "Turek", role =  "aut",

@@ -44,7 +44,7 @@ Description: Traditional gene set enrichment analyses are typically limited to a
     pre-defined ontologies. Furthermore, mulea's architecture allows for easy
     integration of user-defined ontologies, expanding its applicability across
     diverse research areas.
-License: MIT + file LICENSE
+License: GPL-2
 Depends: R (>= 4.0.0)
 Imports:
     data.table (>= 1.13.0),

@@ -22,7 +22,7 @@ Authors@R: c(
         comment = c(ORCID = "0000-0003-3093-8852")),
     person("Wiktor", "Jurkowski", role = "aut",
         comment = c(ORCID = "0000-0002-7820-1991")),
-    person("Eszter", "Ari", role = "aut",
+    person("Eszter", "Ari", role = c("aut", "cph"),
         comment = c(ORCID = "0000-0001-7774-1067")))
 Description: Traditional gene set enrichment analyses are typically limited to a
     few ontologies and do not account for the interdependence of gene sets or

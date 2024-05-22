@@ -43,4 +43,9 @@ Please replace \dontrun with \donttest.
 Please unwrap the examples if they are executable in < 5 sec, or replace
 dontrun{} with \donttest{}."
 
-\dontrun{} has been replaced with \donttest{}
+\dontrun{} has been replaced with \donttest{}. However, please note that this
+results in the following note when running R CMD Check:
+
+checking for non-standard things in the check directory ... NOTE
+  Found the following files/directories:
+    ‘Transcription_factor_RegulonDB_Escherichia_coli_GeneSymbol.gmt’

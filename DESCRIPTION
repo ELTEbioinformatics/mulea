@@ -27,22 +27,22 @@ Authors@R: c(
 Description: Traditional gene set enrichment analyses are typically limited to a
     few ontologies and do not account for the interdependence of gene sets or
     terms, resulting in overcorrected p-values. To address these challenges, we
-    introduce mulea, an R package offering comprehensive overrepresentation and
-    functional enrichment analysis. mulea employs an innovative empirical false
-    discovery rate (eFDR) correction method, specifically designed for
+    introduce 'mulea', an R package offering comprehensive overrepresentation
+    and functional enrichment analysis. 'mulea' employs an innovative empirical
+    false discovery rate (eFDR) correction method, specifically designed for
     interconnected biological data, to accurately identify significant terms
-    within diverse ontologies. Beyond conventional tools, mulea incorporates a
+    within diverse ontologies. Beyond conventional tools, 'mulea' incorporates a
     wide range of ontologies encompassing Gene Ontology, pathways, regulatory
     elements, genomic locations, and protein domains. This flexibility empowers
     researchers to tailor enrichment analysis to their specific questions, such
     as identifying enriched transcriptional regulators in gene expression data
     or overrepresented protein domains in protein sets. To facilitate seamless
-    analysis, mulea provides gene sets (in standardized GMT format) for 27 model
-    organisms, covering 16 databases and various identifiers. Additionally, the
-    muleaData ExperimentData Bioconductor package simplifies access to these 879
-    pre-defined ontologies. Furthermore, mulea's architecture allows for easy
-    integration of user-defined ontologies, expanding its applicability across
-    diverse research areas.
+    analysis, 'mulea' provides gene sets (in standardized GMT format) for 27
+    model organisms, covering 16 databases and various identifiers.
+    Additionally, the 'muleaData' ExperimentData Bioconductor package simplifies
+    access to these 879 pre-defined ontologies. Furthermore, 'mulea''s 
+    architecture allows for easy integration of user-defined ontologies,
+    expanding its applicability across diverse research areas.
 License: GPL-2
 Depends: R (>= 4.0.0)
 Imports:

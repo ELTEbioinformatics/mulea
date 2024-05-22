@@ -30,7 +30,7 @@ tf_gmt <- read_gmt(file = system.file(
     "Transcription_factor_RegulonDB_Escherichia_coli_GeneSymbol.gmt"))
 
 # writing the filtered ontology to a GMT file
-\dontrun{
+\donttest{
 write_gmt(
     gmt = tf_gmt, 
     file = "Transcription_factor_RegulonDB_Escherichia_coli_GeneSymbol.gmt")

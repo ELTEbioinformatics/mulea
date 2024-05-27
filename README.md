@@ -71,7 +71,13 @@ if (!require("BiocManager", quietly = TRUE))
 BiocManager::install("fgsea")
 ```
 
-To install the latest version of `mulea` from GitHub:
+To install `mulea` from CRAN:
+
+``` r
+install.packages("mulea")
+```
+
+To install the development version of `mulea` from GitHub:
 
 ``` r
 # Installing the devtools package if needed
@@ -873,7 +879,7 @@ sessionInfo()
 #> [19] farver_2.1.2        munsell_0.5.1       ggforce_0.4.2      
 #> [22] fgsea_1.30.0        graphlayouts_1.1.1  codetools_0.2-20   
 #> [25] htmltools_0.5.8.1   yaml_2.3.8          crayon_1.5.2       
-#> [28] pillar_1.9.0        MASS_7.3-60.2       BiocParallel_1.38.0
+#> [28] pillar_1.9.0        MASS_7.3-60.2       BiocParallel_1.36.0
 #> [31] cachem_1.1.0        viridis_0.6.5       tidyselect_1.2.1   
 #> [34] digest_0.6.35       stringi_1.8.4       labeling_0.4.3     
 #> [37] cowplot_1.1.3       polyclip_1.10-6     fastmap_1.2.0      

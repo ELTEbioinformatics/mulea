@@ -51,9 +51,15 @@ if (!require("BiocManager", quietly = TRUE))
 BiocManager::install("fgsea")
 ```
 
-To install the latest version of `mulea` from GitHub:
+To install `mulea` from CRAN:
 
 ```{r 'install2', eval=FALSE, message=FALSE, warning=FALSE}
+install.packages("mulea")
+```
+
+To install the development version of `mulea` from GitHub:
+
+```{r 'install3', eval=FALSE, message=FALSE, warning=FALSE}
 # Installing the devtools package if needed
 if (!require("devtools", quietly = TRUE))
     install.packages("devtools")

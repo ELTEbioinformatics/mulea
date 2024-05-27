@@ -46,6 +46,7 @@ Description: Traditional gene set enrichment analyses are typically limited to a
 License: GPL-2
 Depends: R (>= 4.0.0)
 Imports:
+    BiocManager,
     data.table (>= 1.13.0),
     dplyr,
     fgsea (>= 1.0.2),

@@ -16,8 +16,6 @@
 - [How to Cite the `mulea` Package?](#how-to-cite-the-mulea-package)
 - [References](#references)
 
-<!-- README.md is generated from README.Rmd. Please edit that file -->
-
 <!-- badges: start -->
 
 [![GitHub
@@ -57,19 +55,6 @@ GitHub repository and through the
 ExperimentData Bioconductor package.
 
 # Installation
-
-`mulea` requires the installation of the
-[`fgsea`](https://bioconductor.org/packages/release/bioc/html/fgsea.html)
-Bioconductor package.
-
-``` r
-# Installing the BiocManager package if needed
-if (!require("BiocManager", quietly = TRUE))
-    install.packages("BiocManager")
-
-# Installing the fgsea package from Bioconductor
-BiocManager::install("fgsea")
-```
 
 To install `mulea` from CRAN:
 
@@ -394,14 +379,14 @@ ora_results %>%
 |:------------|:--------------|-------------------------------:|-----------------------------------:|----------:|----------:|
 | FNR         | FNR           |                             26 |                                259 | 0.0000003 | 0.0000000 |
 | LexA        | LexA          |                             14 |                                 53 | 0.0000000 | 0.0000000 |
-| SoxS        | SoxS          |                              7 |                                 37 | 0.0001615 | 0.0026667 |
-| DnaA        | DnaA          |                              4 |                                 13 | 0.0006281 | 0.0052500 |
-| Rob         | Rob           |                              5 |                                 21 | 0.0004717 | 0.0054000 |
-| FadR        | FadR          |                              5 |                                 20 | 0.0003692 | 0.0054750 |
-| NsrR        | NsrR          |                              8 |                                 64 | 0.0010478 | 0.0075571 |
-| ArcA        | ArcA          |                             12 |                                148 | 0.0032001 | 0.0208875 |
-| IHF         | IHF           |                             14 |                                205 | 0.0070758 | 0.0469200 |
-| MarA        | MarA          |                              5 |                                 37 | 0.0066068 | 0.0497333 |
+| SoxS        | SoxS          |                              7 |                                 37 | 0.0001615 | 0.0024667 |
+| Rob         | Rob           |                              5 |                                 21 | 0.0004717 | 0.0045000 |
+| DnaA        | DnaA          |                              4 |                                 13 | 0.0006281 | 0.0046000 |
+| FadR        | FadR          |                              5 |                                 20 | 0.0003692 | 0.0049500 |
+| NsrR        | NsrR          |                              8 |                                 64 | 0.0010478 | 0.0069571 |
+| ArcA        | ArcA          |                             12 |                                148 | 0.0032001 | 0.0206125 |
+| IHF         | IHF           |                             14 |                                205 | 0.0070758 | 0.0460800 |
+| MarA        | MarA          |                              5 |                                 37 | 0.0066068 | 0.0484778 |
 
 ### Visualising the ORA Result
 
@@ -589,7 +574,7 @@ gsea_results %>%
   filter(adjusted_p_value < 0.05) %>% 
   # the number of such rows
   nrow()
-#> [1] 10
+#> [1] 7
 ```
 
 Inspect the significant results:
@@ -604,16 +589,13 @@ gsea_results %>%
 
 | ontology_id | ontology_name | nr_common_with_tested_elements |   p_value | adjusted_p_value |
 |:------------|:--------------|-------------------------------:|----------:|-----------------:|
-| LexA        | LexA          |                             53 | 0.0000000 |        0.0000023 |
-| FNR         | FNR           |                            259 | 0.0000615 |        0.0047032 |
-| ArcA        | ArcA          |                            148 | 0.0002939 |        0.0112426 |
-| ModE        | ModE          |                             45 | 0.0002620 |        0.0112426 |
-| GlaR        | GlaR          |                              3 | 0.0006457 |        0.0192680 |
-| SoxS        | SoxS          |                             37 | 0.0007556 |        0.0192680 |
-| DnaA        | DnaA          |                             13 | 0.0009480 |        0.0207212 |
-| PaaX        | PaaX          |                             14 | 0.0022384 |        0.0428094 |
-| FadR        | FadR          |                             20 | 0.0030154 |        0.0461349 |
-| PspF        | PspF          |                              7 | 0.0030154 |        0.0461349 |
+| LexA        | LexA          |                             53 | 0.0000000 |        0.0000036 |
+| FNR         | FNR           |                            259 | 0.0000660 |        0.0050484 |
+| ArcA        | ArcA          |                            148 | 0.0003577 |        0.0104000 |
+| GlaR        | GlaR          |                              3 | 0.0003714 |        0.0104000 |
+| ModE        | ModE          |                             45 | 0.0002575 |        0.0104000 |
+| SoxS        | SoxS          |                             37 | 0.0004078 |        0.0104000 |
+| DnaA        | DnaA          |                             13 | 0.0005816 |        0.0127119 |
 
 ### Visualising the GSEA Results
 
@@ -867,7 +849,7 @@ sessionInfo()
 #> other attached packages:
 #>  [1] lubridate_1.9.3 forcats_1.0.0   stringr_1.5.1   dplyr_1.1.4    
 #>  [5] purrr_1.0.2     readr_2.1.5     tidyr_1.3.1     tibble_3.2.1   
-#>  [9] ggplot2_3.5.1   tidyverse_2.0.0 mulea_0.99.12  
+#>  [9] ggplot2_3.5.1   tidyverse_2.0.0 mulea_1.0.0    
 #> 
 #> loaded via a namespace (and not attached):
 #>  [1] fastmatch_1.1-4     gtable_0.3.5        xfun_0.44          
@@ -879,7 +861,7 @@ sessionInfo()
 #> [19] farver_2.1.2        munsell_0.5.1       ggforce_0.4.2      
 #> [22] fgsea_1.30.0        graphlayouts_1.1.1  codetools_0.2-20   
 #> [25] htmltools_0.5.8.1   yaml_2.3.8          crayon_1.5.2       
-#> [28] pillar_1.9.0        MASS_7.3-60.2       BiocParallel_1.36.0
+#> [28] pillar_1.9.0        MASS_7.3-60.2       BiocParallel_1.38.0
 #> [31] cachem_1.1.0        viridis_0.6.5       tidyselect_1.2.1   
 #> [34] digest_0.6.35       stringi_1.8.4       labeling_0.4.3     
 #> [37] cowplot_1.1.3       polyclip_1.10-6     fastmap_1.2.0      

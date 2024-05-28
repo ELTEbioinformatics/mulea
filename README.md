@@ -256,10 +256,10 @@ For further steps we will analyse a dataset from a microarray experiment
 ([GSE55662](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE55662))
 in the NCBI Gene Expression Omnibus
 <img src="man/figures/geo_main.gif" alt="GEO" width="87" />. The study
-by [Méhi *et al.* (2014)](https://doi.org/10.1093/molbev/msu223)
-investigated antibiotic resistance evolution in *Escherichia coli*. Gene
-expression changes were compared between *ciprofloxacin*
-antibiotic-treated *Escherichia coli* bacteria and non-treated controls.
+by Méhi et al. (2014) investigated antibiotic resistance evolution in
+*Escherichia coli*. Gene expression changes were compared between
+*ciprofloxacin* antibiotic-treated *Escherichia coli* bacteria and
+non-treated controls.
 
 The expression levels of these groups were compared with the
 [GEO2R](https://www.ncbi.nlm.nih.gov/geo/geo2r/?acc=GSE55662) tool:
@@ -377,16 +377,16 @@ ora_results %>%
 
 | ontology_id | ontology_name | nr_common_with_tested_elements | nr_common_with_background_elements |   p_value |      eFDR |
 |:------------|:--------------|-------------------------------:|-----------------------------------:|----------:|----------:|
-| FNR         | FNR           |                             26 |                                259 | 0.0000003 | 0.0000000 |
 | LexA        | LexA          |                             14 |                                 53 | 0.0000000 | 0.0000000 |
-| SoxS        | SoxS          |                              7 |                                 37 | 0.0001615 | 0.0024667 |
-| Rob         | Rob           |                              5 |                                 21 | 0.0004717 | 0.0045000 |
-| DnaA        | DnaA          |                              4 |                                 13 | 0.0006281 | 0.0046000 |
-| FadR        | FadR          |                              5 |                                 20 | 0.0003692 | 0.0049500 |
-| NsrR        | NsrR          |                              8 |                                 64 | 0.0010478 | 0.0069571 |
-| ArcA        | ArcA          |                             12 |                                148 | 0.0032001 | 0.0206125 |
-| IHF         | IHF           |                             14 |                                205 | 0.0070758 | 0.0460800 |
-| MarA        | MarA          |                              5 |                                 37 | 0.0066068 | 0.0484778 |
+| FNR         | FNR           |                             26 |                                259 | 0.0000003 | 0.0001000 |
+| SoxS        | SoxS          |                              7 |                                 37 | 0.0001615 | 0.0027000 |
+| FadR        | FadR          |                              5 |                                 20 | 0.0003692 | 0.0051250 |
+| DnaA        | DnaA          |                              4 |                                 13 | 0.0006281 | 0.0051500 |
+| Rob         | Rob           |                              5 |                                 21 | 0.0004717 | 0.0052200 |
+| NsrR        | NsrR          |                              8 |                                 64 | 0.0010478 | 0.0073429 |
+| ArcA        | ArcA          |                             12 |                                148 | 0.0032001 | 0.0204250 |
+| IHF         | IHF           |                             14 |                                205 | 0.0070758 | 0.0455900 |
+| MarA        | MarA          |                              5 |                                 37 | 0.0066068 | 0.0483222 |
 
 ### Visualising the ORA Result
 
@@ -500,11 +500,11 @@ example, in a differential expression study, it should encompass all
 genes that were measured.
 
 `mulea` utilises the Kolmogorov-Smirnov approach with a permutation test
-(developed by (Subramanian et al. 2005)) to calculate gene set
+(developed by Subramanian et al. (2005)) to calculate gene set
 enrichment analyses. This functionality is implemented through the
 integration of the
 [`fgsea`](https://bioconductor.org/packages/release/bioc/html/fgsea.html)
-Bioconductor package (created by (Korotkevich et al. 2021)).
+Bioconductor package (created by Korotkevich et al. (2021)).
 
 GSEA requires input data about the genes analysed in our experiment.
 This data can be formatted in two ways:
@@ -574,7 +574,7 @@ gsea_results %>%
   filter(adjusted_p_value < 0.05) %>% 
   # the number of such rows
   nrow()
-#> [1] 7
+#> [1] 9
 ```
 
 Inspect the significant results:
@@ -589,13 +589,15 @@ gsea_results %>%
 
 | ontology_id | ontology_name | nr_common_with_tested_elements |   p_value | adjusted_p_value |
 |:------------|:--------------|-------------------------------:|----------:|-----------------:|
-| LexA        | LexA          |                             53 | 0.0000000 |        0.0000036 |
-| FNR         | FNR           |                            259 | 0.0000660 |        0.0050484 |
-| ArcA        | ArcA          |                            148 | 0.0003577 |        0.0104000 |
-| GlaR        | GlaR          |                              3 | 0.0003714 |        0.0104000 |
-| ModE        | ModE          |                             45 | 0.0002575 |        0.0104000 |
-| SoxS        | SoxS          |                             37 | 0.0004078 |        0.0104000 |
-| DnaA        | DnaA          |                             13 | 0.0005816 |        0.0127119 |
+| LexA        | LexA          |                             53 | 0.0000000 |        0.0000017 |
+| FNR         | FNR           |                            259 | 0.0000773 |        0.0059114 |
+| ModE        | ModE          |                             45 | 0.0002120 |        0.0108115 |
+| ArcA        | ArcA          |                            148 | 0.0008014 |        0.0175163 |
+| DnaA        | DnaA          |                             13 | 0.0005083 |        0.0175163 |
+| GlaR        | GlaR          |                              3 | 0.0005907 |        0.0175163 |
+| SoxS        | SoxS          |                             37 | 0.0007373 |        0.0175163 |
+| PaaX        | PaaX          |                             14 | 0.0027564 |        0.0474872 |
+| PspF        | PspF          |                              7 | 0.0027934 |        0.0474872 |
 
 ### Visualising the GSEA Results
 
@@ -856,7 +858,7 @@ sessionInfo()
 #>  [4] ggrepel_0.9.5       lattice_0.22-6      tzdb_0.4.0         
 #>  [7] vctrs_0.6.5         tools_4.4.0         generics_0.1.3     
 #> [10] curl_5.2.1          parallel_4.4.0      fansi_1.0.6        
-#> [13] highr_0.10          pkgconfig_2.0.3     Matrix_1.7-0       
+#> [13] highr_0.11          pkgconfig_2.0.3     Matrix_1.7-0       
 #> [16] data.table_1.15.4   lifecycle_1.0.4     compiler_4.4.0     
 #> [19] farver_2.1.2        munsell_0.5.1       ggforce_0.4.2      
 #> [22] fgsea_1.30.0        graphlayouts_1.1.1  codetools_0.2-20   
@@ -881,11 +883,11 @@ sessionInfo()
 
 To cite package `mulea` in publications use:
 
-C. Turek, M. Olbei, T. Stirling, G. Fekete, E. Tasnadi, L. Gul, B.
-Bohar, B. Papp, W. Jurkowski, E. Ari: mulea - an R package for
-enrichment analysis using multiple ontologies and empirical FDR
-correction. *bioRxiv* (2024),
-[doi:10.1101/2024.02.28.582444](https://doi.org/10.1101/2024.02.28.582444).
+Turek, Cezary, Márton Ölbei, Tamás Stirling, Gergely Fekete, Ervin
+Tasnádi, Leila Gul, Balázs Bohár, Balázs Papp, Wiktor Jurkowski, and
+Eszter Ari. 2024. “mulea - an R Package for Enrichment Analysis Using
+Multiple Ontologies and Empirical FDR Correction.” *bioRxiv*, March.
+<https://doi.org/10.1101/2024.02.28.582444.>
 
 # References
 
@@ -907,6 +909,15 @@ Fernandez, Qiaonan Duan, Zichen Wang, Simon Koplev, et al. 2016.
 “Enrichr: A Comprehensive Gene Set Enrichment Analysis Web Server 2016
 Update.” *Nucleic Acids Research* 44 (W1): W90–97.
 <https://doi.org/10.1093/nar/gkw377>.
+
+</div>
+
+<div id="ref-méhi2014" class="csl-entry">
+
+Méhi, Orsolya, Balázs Bogos, Bálint Csörgő, Ferenc Pál, Ákos Nyerges,
+Balázs Papp, and Csaba Pál. 2014. “Perturbation of Iron Homeostasis
+Promotes the Evolution of Antibiotic Resistance.” *Molecular Biology and
+Evolution* 31 (10): 2793–2804. <https://doi.org/10.1093/molbev/msu223>.
 
 </div>
 

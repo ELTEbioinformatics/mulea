@@ -20,7 +20,6 @@ output:
     toc_depth: 2
     fig_width: 6
     fig_height: 4
-bibliography: references.bib
 vignette: >
   %\VignetteIndexEntry{mulea}
   %\VignetteEngine{knitr::rmarkdown}
@@ -37,7 +36,7 @@ knitr::opts_chunk$set(
 
 # Introduction
 
-The `mulea` R package [@turek] is a comprehensive tool for functional enrichment analysis. It provides two different approaches:
+The `mulea` R package (Turek et al. 2024) is a comprehensive tool for functional enrichment analysis. It provides two different approaches:
 
 1.  For unranked sets of elements, such as significantly up- or down-regulated genes, `mulea` employs the set-based **overrepresentation analysis (ORA)**.
 
@@ -116,7 +115,7 @@ tf_ontology <- read_gmt("https://raw.githubusercontent.com/ELTEbioinformatics/GM
 
 #### B) Enrichr GMT File
 
-`mulea` is compatible with [GMT files](https://maayanlab.cloud/Enrichr/#libraries) provided with the `Enricher` R package [@kuleshov2016]. Download and read such a GMT file (*e. g.* [TRRUST_Transcription_Factors_2019.txt]{.underline}) locally. *Note that this ontology is not suitable for analyzing the Escherichia coli differential expression data described in the section [The Differential Expression Dataset to Analyse].*
+`mulea` is compatible with [GMT files](https://maayanlab.cloud/Enrichr/#libraries) provided with the `Enricher` R package (Kuleshov et al. 2016). Download and read such a GMT file (*e. g.* [TRRUST_Transcription_Factors_2019.txt]{.underline}) locally. *Note that this ontology is not suitable for analyzing the Escherichia coli differential expression data described in the section [The Differential Expression Dataset to Analyse].*
 
 ```{r 'read_GMT3', eval=FALSE}
 # Reading the Enrichr GMT file locally
@@ -129,7 +128,7 @@ tf_enrichr_ontology$ontology_name <- tf_enrichr_ontology$ontology_id
 
 #### C) MsigDB GMT File
 
-`mulea` is compatible with the MsigDB [@subramanian2005] [GMT files](https://www.gsea-msigdb.org/gsea/msigdb/). Download and read such a GMT file (*e. g.* [c3.tft.v2023.2.Hs.symbols.gmt]{.underline}) locally. *Note that this ontology is not suitable for analyzing the Escherichia coli differential expression data described in the section [The Differential Expression Dataset to Analyse].*
+`mulea` is compatible with the MsigDB (Subramanian et al. 2005) [GMT files](https://www.gsea-msigdb.org/gsea/msigdb/). Download and read such a GMT file (*e. g.* [c3.tft.v2023.2.Hs.symbols.gmt]{.underline}) locally. *Note that this ontology is not suitable for analyzing the Escherichia coli differential expression data described in the section [The Differential Expression Dataset to Analyse].*
 
 ```{r 'read_GMT4', eval=FALSE}
 # Reading the MsigDB GMT file locally
@@ -207,7 +206,7 @@ new_ontology_df <- list_to_gmt(ontology_list)
 
 ## The Differential Expression Dataset to Analyse
 
-For further steps we will analyse a dataset from a microarray experiment ([GSE55662](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE55662)) in the NCBI Gene Expression Omnibus ![GEO](../man/figures/geo_main.gif){alt="GEO" width="87"}. The study by [Méhi *et al.* (2014)](https://doi.org/10.1093/molbev/msu223) investigated antibiotic resistance evolution in *Escherichia coli*. Gene expression changes were compared between *ciprofloxacin* antibiotic-treated *Escherichia coli* bacteria and non-treated controls.
+For further steps we will analyse a dataset from a microarray experiment ([GSE55662](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE55662)) in the NCBI Gene Expression Omnibus ![GEO](../man/figures/geo_main.gif){alt="GEO" width="87"}. The study by Méhi et al. (2014) investigated antibiotic resistance evolution in *Escherichia coli*. Gene expression changes were compared between *ciprofloxacin* antibiotic-treated *Escherichia coli* bacteria and non-treated controls.
 
 The expression levels of these groups were compared with the [GEO2R](https://www.ncbi.nlm.nih.gov/geo/geo2r/?acc=GSE55662) tool:
 
@@ -368,7 +367,7 @@ plot_heatmap(reshaped_results = ora_reshaped_results,
 
 To perform enrichment analysis using ranked lists, you need to provide an ordered list of elements, such as genes or proteins. This ranking is typically based on the results of your prior analysis, using metrics like *p*-values, *z*-scores, fold-changes, or others. Crucially, the ranked list should include all elements involved in your analysis. For example, in a differential expression study, it should encompass all genes that were measured.
 
-`mulea` utilises the Kolmogorov-Smirnov approach with a permutation test (developed by [@subramanian2005]) to calculate gene set enrichment analyses. This functionality is implemented through the integration of the [`fgsea`](https://bioconductor.org/packages/release/bioc/html/fgsea.html) Bioconductor package (created by [@korotkevich]).
+`mulea` utilises the Kolmogorov-Smirnov approach with a permutation test (developed by Subramanian et al. (2005)) to calculate gene set enrichment analyses. This functionality is implemented through the integration of the [`fgsea`](https://bioconductor.org/packages/release/bioc/html/fgsea.html) Bioconductor package (created by Korotkevich et al. (2021)).
 
 GSEA requires input data about the genes analysed in our experiment. This data can be formatted in two ways:
 
@@ -641,6 +640,16 @@ sessionInfo()
 
 To cite package `mulea` in publications use:
 
-C. Turek, M. Olbei, T. Stirling, G. Fekete, E. Tasnadi, L. Gul, B. Bohar, B. Papp, W. Jurkowski, E. Ari: mulea - an R package for enrichment analysis using multiple ontologies and empirical FDR correction. *bioRxiv* (2024), [doi:10.1101/2024.02.28.582444](https://doi.org/10.1101/2024.02.28.582444).
+Turek, Cezary, Márton Ölbei, Tamás Stirling, Gergely Fekete, Ervin Tasnádi, Leila Gul, Balázs Bohár, Balázs Papp, Wiktor Jurkowski, and Eszter Ari. 2024. “mulea - an R Package for Enrichment Analysis Using Multiple Ontologies and Empirical FDR Correction.” *bioRxiv*, March. <https://doi.org/10.1101/2024.02.28.582444.>
 
 # References
+
+Korotkevich, Gennady, Vladimir Sukhov, Nikolay Budin, Boris Shpak, Maxim N. Artyomov, and Alexey Sergushichev. 2021. “Fast Gene Set Enrichment Analysis.” *bioRxiv*, February. <https://doi.org/10.1101/060012>.
+
+Kuleshov, Maxim V., Matthew R. Jones, Andrew D. Rouillard, Nicolas F. Fernandez, Qiaonan Duan, Zichen Wang, Simon Koplev, et al. 2016. “Enrichr: A Comprehensive Gene Set Enrichment Analysis Web Server 2016 Update.” *Nucleic Acids Research* 44 (W1): W90–97. <https://doi.org/10.1093/nar/gkw377>.
+
+Méhi, Orsolya, Balázs Bogos, Bálint Csörgő, Ferenc Pál, Ákos Nyerges, Balázs Papp, and Csaba Pál. 2014. “Perturbation of Iron Homeostasis Promotes the Evolution of Antibiotic Resistance.” *Molecular Biology and Evolution* 31 (10): 2793–2804. <https://doi.org/10.1093/molbev/msu223>.
+
+Subramanian, Aravind, Pablo Tamayo, Vamsi K. Mootha, Sayan Mukherjee, Benjamin L. Ebert, Michael A. Gillette, Amanda Paulovich, et al. 2005. “Gene Set Enrichment Analysis: A Knowledge-Based Approach for Interpreting Genome-Wide Expression Profiles.” *Proceedings of the National Academy of Sciences* 102 (43): 15545–50. <https://doi.org/10.1073/pnas.0506580102>.
+
+Turek, Cezary, Márton Ölbei, Tamás Stirling, Gergely Fekete, Ervin Tasnádi, Leila Gul, Balázs Bohár, Balázs Papp, Wiktor Jurkowski, and Eszter Ari. 2024. “Mulea - an R Package for Enrichment Analysis Using Multiple Ontologies and Empirical FDR Correction.” *bioRxiv*, March. <https://doi.org/10.1101/2024.02.28.582444>.

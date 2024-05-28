@@ -20,7 +20,7 @@ output:
     toc_depth: 2
     fig_width: 6
     fig_height: 4
-bibliography: '`r system.file("references.bib", package="mulea")`'
+bibliography: references.bib
 vignette: >
   %\VignetteIndexEntry{mulea}
   %\VignetteEngine{knitr::rmarkdown}

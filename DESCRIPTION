@@ -43,10 +43,12 @@ Description: Traditional gene set enrichment analyses are typically limited to a
     access to these 879 pre-defined ontologies. Furthermore, 'mulea''s 
     architecture allows for easy integration of user-defined ontologies,
     expanding its applicability across diverse research areas.
+biocViews: Annotation, DifferentialExpression, GeneExpression, 
+    GeneSetEnrichment, GO, GraphAndNetwork, MultipleComparison, Pathways, 
+    Reactome, Software, Transcription, Visualization
 License: GPL-2
 Depends: R (>= 4.0.0)
 Imports:
-    BiocManager,
     data.table (>= 1.13.0),
     dplyr,
     fgsea (>= 1.0.2),

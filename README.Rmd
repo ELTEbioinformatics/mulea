@@ -4,7 +4,7 @@ output:
     variant: gfm
     toc: true
     toc_depth: 2
-bibliography: references.bib
+bibliography: inst/references.bib
 ---
 
 ```{r, include = FALSE}

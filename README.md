@@ -16,8 +16,6 @@
 - [How to Cite the `mulea` Package?](#how-to-cite-the-mulea-package)
 - [References](#references)
 
-<!-- README.md is generated from README.Rmd. Please edit that file -->
-
 <!-- badges: start -->
 
 [![GitHub
@@ -57,19 +55,6 @@ GitHub repository and through the
 ExperimentData Bioconductor package.
 
 # Installation
-
-`mulea` requires the installation of the
-[`fgsea`](https://bioconductor.org/packages/release/bioc/html/fgsea.html)
-Bioconductor package.
-
-``` r
-# Installing the BiocManager package if needed
-if (!require("BiocManager", quietly = TRUE))
-    install.packages("BiocManager")
-
-# Installing the fgsea package from Bioconductor
-BiocManager::install("fgsea")
-```
 
 To install `mulea` from CRAN:
 
@@ -271,10 +256,10 @@ For further steps we will analyse a dataset from a microarray experiment
 ([GSE55662](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE55662))
 in the NCBI Gene Expression Omnibus
 <img src="man/figures/geo_main.gif" alt="GEO" width="87" />. The study
-by [Méhi *et al.* (2014)](https://doi.org/10.1093/molbev/msu223)
-investigated antibiotic resistance evolution in *Escherichia coli*. Gene
-expression changes were compared between *ciprofloxacin*
-antibiotic-treated *Escherichia coli* bacteria and non-treated controls.
+by Méhi et al. (2014) investigated antibiotic resistance evolution in
+*Escherichia coli*. Gene expression changes were compared between
+*ciprofloxacin* antibiotic-treated *Escherichia coli* bacteria and
+non-treated controls.
 
 The expression levels of these groups were compared with the
 [GEO2R](https://www.ncbi.nlm.nih.gov/geo/geo2r/?acc=GSE55662) tool:
@@ -392,16 +377,16 @@ ora_results %>%
 
 | ontology_id | ontology_name | nr_common_with_tested_elements | nr_common_with_background_elements |   p_value |      eFDR |
 |:------------|:--------------|-------------------------------:|-----------------------------------:|----------:|----------:|
-| FNR         | FNR           |                             26 |                                259 | 0.0000003 | 0.0000000 |
 | LexA        | LexA          |                             14 |                                 53 | 0.0000000 | 0.0000000 |
-| SoxS        | SoxS          |                              7 |                                 37 | 0.0001615 | 0.0026667 |
-| DnaA        | DnaA          |                              4 |                                 13 | 0.0006281 | 0.0052500 |
-| Rob         | Rob           |                              5 |                                 21 | 0.0004717 | 0.0054000 |
-| FadR        | FadR          |                              5 |                                 20 | 0.0003692 | 0.0054750 |
-| NsrR        | NsrR          |                              8 |                                 64 | 0.0010478 | 0.0075571 |
-| ArcA        | ArcA          |                             12 |                                148 | 0.0032001 | 0.0208875 |
-| IHF         | IHF           |                             14 |                                205 | 0.0070758 | 0.0469200 |
-| MarA        | MarA          |                              5 |                                 37 | 0.0066068 | 0.0497333 |
+| FNR         | FNR           |                             26 |                                259 | 0.0000003 | 0.0001000 |
+| SoxS        | SoxS          |                              7 |                                 37 | 0.0001615 | 0.0027000 |
+| FadR        | FadR          |                              5 |                                 20 | 0.0003692 | 0.0051250 |
+| DnaA        | DnaA          |                              4 |                                 13 | 0.0006281 | 0.0051500 |
+| Rob         | Rob           |                              5 |                                 21 | 0.0004717 | 0.0052200 |
+| NsrR        | NsrR          |                              8 |                                 64 | 0.0010478 | 0.0073429 |
+| ArcA        | ArcA          |                             12 |                                148 | 0.0032001 | 0.0204250 |
+| IHF         | IHF           |                             14 |                                205 | 0.0070758 | 0.0455900 |
+| MarA        | MarA          |                              5 |                                 37 | 0.0066068 | 0.0483222 |
 
 ### Visualising the ORA Result
 
@@ -515,11 +500,11 @@ example, in a differential expression study, it should encompass all
 genes that were measured.
 
 `mulea` utilises the Kolmogorov-Smirnov approach with a permutation test
-(developed by (Subramanian et al. 2005)) to calculate gene set
+(developed by Subramanian et al. (2005)) to calculate gene set
 enrichment analyses. This functionality is implemented through the
 integration of the
 [`fgsea`](https://bioconductor.org/packages/release/bioc/html/fgsea.html)
-Bioconductor package (created by (Korotkevich et al. 2021)).
+Bioconductor package (created by Korotkevich et al. (2021)).
 
 GSEA requires input data about the genes analysed in our experiment.
 This data can be formatted in two ways:
@@ -589,7 +574,7 @@ gsea_results %>%
   filter(adjusted_p_value < 0.05) %>% 
   # the number of such rows
   nrow()
-#> [1] 10
+#> [1] 9
 ```
 
 Inspect the significant results:
@@ -604,16 +589,15 @@ gsea_results %>%
 
 | ontology_id | ontology_name | nr_common_with_tested_elements |   p_value | adjusted_p_value |
 |:------------|:--------------|-------------------------------:|----------:|-----------------:|
-| LexA        | LexA          |                             53 | 0.0000000 |        0.0000023 |
-| FNR         | FNR           |                            259 | 0.0000615 |        0.0047032 |
-| ArcA        | ArcA          |                            148 | 0.0002939 |        0.0112426 |
-| ModE        | ModE          |                             45 | 0.0002620 |        0.0112426 |
-| GlaR        | GlaR          |                              3 | 0.0006457 |        0.0192680 |
-| SoxS        | SoxS          |                             37 | 0.0007556 |        0.0192680 |
-| DnaA        | DnaA          |                             13 | 0.0009480 |        0.0207212 |
-| PaaX        | PaaX          |                             14 | 0.0022384 |        0.0428094 |
-| FadR        | FadR          |                             20 | 0.0030154 |        0.0461349 |
-| PspF        | PspF          |                              7 | 0.0030154 |        0.0461349 |
+| LexA        | LexA          |                             53 | 0.0000000 |        0.0000017 |
+| FNR         | FNR           |                            259 | 0.0000773 |        0.0059114 |
+| ModE        | ModE          |                             45 | 0.0002120 |        0.0108115 |
+| ArcA        | ArcA          |                            148 | 0.0008014 |        0.0175163 |
+| DnaA        | DnaA          |                             13 | 0.0005083 |        0.0175163 |
+| GlaR        | GlaR          |                              3 | 0.0005907 |        0.0175163 |
+| SoxS        | SoxS          |                             37 | 0.0007373 |        0.0175163 |
+| PaaX        | PaaX          |                             14 | 0.0027564 |        0.0474872 |
+| PspF        | PspF          |                              7 | 0.0027934 |        0.0474872 |
 
 ### Visualising the GSEA Results
 
@@ -867,19 +851,19 @@ sessionInfo()
 #> other attached packages:
 #>  [1] lubridate_1.9.3 forcats_1.0.0   stringr_1.5.1   dplyr_1.1.4    
 #>  [5] purrr_1.0.2     readr_2.1.5     tidyr_1.3.1     tibble_3.2.1   
-#>  [9] ggplot2_3.5.1   tidyverse_2.0.0 mulea_0.99.12  
+#>  [9] ggplot2_3.5.1   tidyverse_2.0.0 mulea_1.0.0    
 #> 
 #> loaded via a namespace (and not attached):
 #>  [1] fastmatch_1.1-4     gtable_0.3.5        xfun_0.44          
 #>  [4] ggrepel_0.9.5       lattice_0.22-6      tzdb_0.4.0         
 #>  [7] vctrs_0.6.5         tools_4.4.0         generics_0.1.3     
 #> [10] curl_5.2.1          parallel_4.4.0      fansi_1.0.6        
-#> [13] highr_0.10          pkgconfig_2.0.3     Matrix_1.7-0       
+#> [13] highr_0.11          pkgconfig_2.0.3     Matrix_1.7-0       
 #> [16] data.table_1.15.4   lifecycle_1.0.4     compiler_4.4.0     
 #> [19] farver_2.1.2        munsell_0.5.1       ggforce_0.4.2      
 #> [22] fgsea_1.30.0        graphlayouts_1.1.1  codetools_0.2-20   
 #> [25] htmltools_0.5.8.1   yaml_2.3.8          crayon_1.5.2       
-#> [28] pillar_1.9.0        MASS_7.3-60.2       BiocParallel_1.36.0
+#> [28] pillar_1.9.0        MASS_7.3-60.2       BiocParallel_1.38.0
 #> [31] cachem_1.1.0        viridis_0.6.5       tidyselect_1.2.1   
 #> [34] digest_0.6.35       stringi_1.8.4       labeling_0.4.3     
 #> [37] cowplot_1.1.3       polyclip_1.10-6     fastmap_1.2.0      
@@ -899,11 +883,11 @@ sessionInfo()
 
 To cite package `mulea` in publications use:
 
-C. Turek, M. Olbei, T. Stirling, G. Fekete, E. Tasnadi, L. Gul, B.
-Bohar, B. Papp, W. Jurkowski, E. Ari: mulea - an R package for
-enrichment analysis using multiple ontologies and empirical FDR
-correction. *bioRxiv* (2024),
-[doi:10.1101/2024.02.28.582444](https://doi.org/10.1101/2024.02.28.582444).
+Turek, Cezary, Márton Ölbei, Tamás Stirling, Gergely Fekete, Ervin
+Tasnádi, Leila Gul, Balázs Bohár, Balázs Papp, Wiktor Jurkowski, and
+Eszter Ari. 2024. “mulea - an R Package for Enrichment Analysis Using
+Multiple Ontologies and Empirical FDR Correction.” *bioRxiv*, March.
+<https://doi.org/10.1101/2024.02.28.582444.>
 
 # References
 
@@ -925,6 +909,15 @@ Fernandez, Qiaonan Duan, Zichen Wang, Simon Koplev, et al. 2016.
 “Enrichr: A Comprehensive Gene Set Enrichment Analysis Web Server 2016
 Update.” *Nucleic Acids Research* 44 (W1): W90–97.
 <https://doi.org/10.1093/nar/gkw377>.
+
+</div>
+
+<div id="ref-méhi2014" class="csl-entry">
+
+Méhi, Orsolya, Balázs Bogos, Bálint Csörgő, Ferenc Pál, Ákos Nyerges,
+Balázs Papp, and Csaba Pál. 2014. “Perturbation of Iron Homeostasis
+Promotes the Evolution of Antibiotic Resistance.” *Molecular Biology and
+Evolution* 31 (10): 2793–2804. <https://doi.org/10.1093/molbev/msu223>.
 
 </div>
 

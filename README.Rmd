@@ -7,8 +7,6 @@ output:
 bibliography: references.bib
 ---
 
-<!-- README.md is generated from README.Rmd. Please edit that file -->
-
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
     collapse = TRUE,
@@ -39,17 +37,6 @@ For the overrepresentation analysis, `mulea` employs an innovative **empirical f
 `mulea` expands beyond traditional tools by incorporating a **wide range of ontologies**, encompassing Gene Ontology, pathways, regulatory elements, genomic locations, and protein domains for 27 model organisms, covering 22 ontology types from 16 databases and various identifiers resulting in 879 files available at the [ELTEbioinformatics/GMT_files_for_mulea](https://github.com/ELTEbioinformatics/GMT_files_for_mulea) GitHub repository and through the [`muleaData`](https://bioconductor.org/packages/release/data/experiment/html/muleaData.html) ExperimentData Bioconductor package.
 
 # Installation
-
-`mulea` requires the installation of the [`fgsea`](https://bioconductor.org/packages/release/bioc/html/fgsea.html) Bioconductor package.
-
-```{r 'install', eval=FALSE, message=FALSE, warning=FALSE}
-# Installing the BiocManager package if needed
-if (!require("BiocManager", quietly = TRUE))
-    install.packages("BiocManager")
-
-# Installing the fgsea package from Bioconductor
-BiocManager::install("fgsea")
-```
 
 To install `mulea` from CRAN:
 
@@ -209,7 +196,7 @@ new_ontology_df <- list_to_gmt(ontology_list)
 
 ## The Differential Expression Dataset to Analyse
 
-For further steps we will analyse a dataset from a microarray experiment ([GSE55662](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE55662)) in the NCBI Gene Expression Omnibus ![GEO](man/figures/geo_main.gif){alt="GEO" width="87"}. The study by [Méhi *et al.* (2014)](https://doi.org/10.1093/molbev/msu223) investigated antibiotic resistance evolution in *Escherichia coli*. Gene expression changes were compared between *ciprofloxacin* antibiotic-treated *Escherichia coli* bacteria and non-treated controls.
+For further steps we will analyse a dataset from a microarray experiment ([GSE55662](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE55662)) in the NCBI Gene Expression Omnibus ![GEO](man/figures/geo_main.gif){alt="GEO" width="87"}. The study by @méhi2014 investigated antibiotic resistance evolution in *Escherichia coli*. Gene expression changes were compared between *ciprofloxacin* antibiotic-treated *Escherichia coli* bacteria and non-treated controls.
 
 The expression levels of these groups were compared with the [GEO2R](https://www.ncbi.nlm.nih.gov/geo/geo2r/?acc=GSE55662) tool:
 
@@ -370,7 +357,7 @@ plot_heatmap(reshaped_results = ora_reshaped_results,
 
 To perform enrichment analysis using ranked lists, you need to provide an ordered list of elements, such as genes or proteins. This ranking is typically based on the results of your prior analysis, using metrics like *p*-values, *z*-scores, fold-changes, or others. Crucially, the ranked list should include all elements involved in your analysis. For example, in a differential expression study, it should encompass all genes that were measured.
 
-`mulea` utilises the Kolmogorov-Smirnov approach with a permutation test (developed by [@subramanian2005]) to calculate gene set enrichment analyses. This functionality is implemented through the integration of the [`fgsea`](https://bioconductor.org/packages/release/bioc/html/fgsea.html) Bioconductor package (created by [@korotkevich]).
+`mulea` utilises the Kolmogorov-Smirnov approach with a permutation test (developed by @subramanian2005) to calculate gene set enrichment analyses. This functionality is implemented through the integration of the [`fgsea`](https://bioconductor.org/packages/release/bioc/html/fgsea.html) Bioconductor package (created by @korotkevich).
 
 GSEA requires input data about the genes analysed in our experiment. This data can be formatted in two ways:
 
@@ -649,6 +636,6 @@ sessionInfo()
 
 To cite package `mulea` in publications use:
 
-C. Turek, M. Olbei, T. Stirling, G. Fekete, E. Tasnadi, L. Gul, B. Bohar, B. Papp, W. Jurkowski, E. Ari: mulea - an R package for enrichment analysis using multiple ontologies and empirical FDR correction. *bioRxiv* (2024), [doi:10.1101/2024.02.28.582444](https://doi.org/10.1101/2024.02.28.582444).
+Turek, Cezary, Márton Ölbei, Tamás Stirling, Gergely Fekete, Ervin Tasnádi, Leila Gul, Balázs Bohár, Balázs Papp, Wiktor Jurkowski, and Eszter Ari. 2024. “mulea - an R Package for Enrichment Analysis Using Multiple Ontologies and Empirical FDR Correction.” *bioRxiv*, March. <https://doi.org/10.1101/2024.02.28.582444.>
 
 # References

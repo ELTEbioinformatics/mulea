@@ -1,10 +1,32 @@
+# mulea 1.0.1
+
+0 errors | 0 warnings | 1 note
+
+checking for non-standard things in the check directory ... NOTE
+  Found the following files/directories:
+    ‘Transcription_factor_RegulonDB_Escherichia_coli_GeneSymbol.gmt’
+
+This note emerged after we replaced \dontrun{} with \donttest{} as requested by
+the CRAN Team.
+
+## urlchecker::url_check() results
+
+These URLs are reported by url_check() but they seem to work:
+
+* https://doi.org/10.1073/pnas.0506580102
+* https://regulondb.ccg.unam.mx/
+* https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE55662
+
+
+# mulea 1.0.0
+
 ## R CMD check results
 
 0 errors | 0 warnings | 1 note
 
 * This is a new release.
 
-## urlchecket::url_check() results
+## urlchecker::url_check() results
 
 Error: SSL certificate problem: unable to get local issuer certificate
 https://regulondb.ccg.unam.mx/

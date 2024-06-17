@@ -888,7 +888,7 @@ Turek, Cezary, Márton Ölbei, Tamás Stirling, Gergely Fekete, Ervin
 Tasnádi, Leila Gul, Balázs Bohár, Balázs Papp, Wiktor Jurkowski, and
 Eszter Ari. 2024. “mulea - an R Package for Enrichment Analysis Using
 Multiple Ontologies and Empirical FDR Correction.” *bioRxiv*, March.
-<https://doi.org/10.1101/2024.02.28.582444.>
+<https://doi.org/10.1101/2024.02.28.582444>.
 
 # References
 

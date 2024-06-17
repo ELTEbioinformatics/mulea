@@ -377,16 +377,16 @@ ora_results %>%
 
 | ontology_id | ontology_name | nr_common_with_tested_elements | nr_common_with_background_elements |   p_value |      eFDR |
 |:------------|:--------------|-------------------------------:|-----------------------------------:|----------:|----------:|
+| FNR         | FNR           |                             26 |                                259 | 0.0000003 | 0.0000000 |
 | LexA        | LexA          |                             14 |                                 53 | 0.0000000 | 0.0000000 |
-| FNR         | FNR           |                             26 |                                259 | 0.0000003 | 0.0001000 |
-| SoxS        | SoxS          |                              7 |                                 37 | 0.0001615 | 0.0027000 |
-| FadR        | FadR          |                              5 |                                 20 | 0.0003692 | 0.0051250 |
-| DnaA        | DnaA          |                              4 |                                 13 | 0.0006281 | 0.0051500 |
-| Rob         | Rob           |                              5 |                                 21 | 0.0004717 | 0.0052200 |
-| NsrR        | NsrR          |                              8 |                                 64 | 0.0010478 | 0.0073429 |
-| ArcA        | ArcA          |                             12 |                                148 | 0.0032001 | 0.0204250 |
-| IHF         | IHF           |                             14 |                                205 | 0.0070758 | 0.0455900 |
-| MarA        | MarA          |                              5 |                                 37 | 0.0066068 | 0.0483222 |
+| SoxS        | SoxS          |                              7 |                                 37 | 0.0001615 | 0.0029333 |
+| DnaA        | DnaA          |                              4 |                                 13 | 0.0006281 | 0.0050833 |
+| Rob         | Rob           |                              5 |                                 21 | 0.0004717 | 0.0052600 |
+| FadR        | FadR          |                              5 |                                 20 | 0.0003692 | 0.0054750 |
+| NsrR        | NsrR          |                              8 |                                 64 | 0.0010478 | 0.0069429 |
+| ArcA        | ArcA          |                             12 |                                148 | 0.0032001 | 0.0198750 |
+| IHF         | IHF           |                             14 |                                205 | 0.0070758 | 0.0445800 |
+| MarA        | MarA          |                              5 |                                 37 | 0.0066068 | 0.0469556 |
 
 ### Visualising the ORA Result
 
@@ -574,7 +574,7 @@ gsea_results %>%
   filter(adjusted_p_value < 0.05) %>% 
   # the number of such rows
   nrow()
-#> [1] 9
+#> [1] 10
 ```
 
 Inspect the significant results:
@@ -589,15 +589,16 @@ gsea_results %>%
 
 | ontology_id | ontology_name | nr_common_with_tested_elements |   p_value | adjusted_p_value |
 |:------------|:--------------|-------------------------------:|----------:|-----------------:|
-| LexA        | LexA          |                             53 | 0.0000000 |        0.0000017 |
-| FNR         | FNR           |                            259 | 0.0000773 |        0.0059114 |
-| ModE        | ModE          |                             45 | 0.0002120 |        0.0108115 |
-| ArcA        | ArcA          |                            148 | 0.0008014 |        0.0175163 |
-| DnaA        | DnaA          |                             13 | 0.0005083 |        0.0175163 |
-| GlaR        | GlaR          |                              3 | 0.0005907 |        0.0175163 |
-| SoxS        | SoxS          |                             37 | 0.0007373 |        0.0175163 |
-| PaaX        | PaaX          |                             14 | 0.0027564 |        0.0474872 |
-| PspF        | PspF          |                              7 | 0.0027934 |        0.0474872 |
+| LexA        | LexA          |                             53 | 0.0000000 |        0.0000015 |
+| FNR         | FNR           |                            259 | 0.0000581 |        0.0044443 |
+| ModE        | ModE          |                             45 | 0.0001485 |        0.0075738 |
+| ArcA        | ArcA          |                            148 | 0.0003440 |        0.0110972 |
+| DnaA        | DnaA          |                             13 | 0.0003896 |        0.0110972 |
+| SoxS        | SoxS          |                             37 | 0.0004352 |        0.0110972 |
+| GlaR        | GlaR          |                              3 | 0.0005541 |        0.0121114 |
+| PaaX        | PaaX          |                             14 | 0.0013346 |        0.0255241 |
+| PspF        | PspF          |                              7 | 0.0026454 |        0.0404742 |
+| Rob         | Rob           |                             21 | 0.0024974 |        0.0404742 |
 
 ### Visualising the GSEA Results
 
@@ -826,21 +827,21 @@ ordered_set %>%
 
 ``` r
 sessionInfo()
-#> R version 4.4.0 (2024-04-24)
+#> R version 4.4.1 (2024-06-14)
 #> Platform: x86_64-pc-linux-gnu
-#> Running under: Ubuntu 22.04.4 LTS
+#> Running under: Debian GNU/Linux 12 (bookworm)
 #> 
 #> Matrix products: default
 #> BLAS:   /usr/lib/x86_64-linux-gnu/openblas-pthread/libblas.so.3 
-#> LAPACK: /usr/lib/x86_64-linux-gnu/openblas-pthread/libopenblasp-r0.3.20.so;  LAPACK version 3.10.0
+#> LAPACK: /usr/lib/x86_64-linux-gnu/openblas-pthread/libopenblasp-r0.3.21.so;  LAPACK version 3.11.0
 #> 
 #> locale:
-#>  [1] LC_CTYPE=en_US.UTF-8       LC_NUMERIC=C              
-#>  [3] LC_TIME=hu_HU.UTF-8        LC_COLLATE=en_US.UTF-8    
-#>  [5] LC_MONETARY=hu_HU.UTF-8    LC_MESSAGES=en_US.UTF-8   
-#>  [7] LC_PAPER=hu_HU.UTF-8       LC_NAME=C                 
+#>  [1] LC_CTYPE=en_IE.UTF-8       LC_NUMERIC=C              
+#>  [3] LC_TIME=en_IE.UTF-8        LC_COLLATE=en_IE.UTF-8    
+#>  [5] LC_MONETARY=en_IE.UTF-8    LC_MESSAGES=en_IE.UTF-8   
+#>  [7] LC_PAPER=en_IE.UTF-8       LC_NAME=C                 
 #>  [9] LC_ADDRESS=C               LC_TELEPHONE=C            
-#> [11] LC_MEASUREMENT=hu_HU.UTF-8 LC_IDENTIFICATION=C       
+#> [11] LC_MEASUREMENT=en_IE.UTF-8 LC_IDENTIFICATION=C       
 #> 
 #> time zone: Europe/Budapest
 #> tzcode source: system (glibc)
@@ -854,26 +855,26 @@ sessionInfo()
 #>  [9] ggplot2_3.5.1   tidyverse_2.0.0 mulea_1.0.0    
 #> 
 #> loaded via a namespace (and not attached):
-#>  [1] fastmatch_1.1-4     gtable_0.3.5        xfun_0.44          
+#>  [1] fastmatch_1.1-4     gtable_0.3.5        xfun_0.45          
 #>  [4] ggrepel_0.9.5       lattice_0.22-6      tzdb_0.4.0         
-#>  [7] vctrs_0.6.5         tools_4.4.0         generics_0.1.3     
-#> [10] curl_5.2.1          parallel_4.4.0      fansi_1.0.6        
+#>  [7] vctrs_0.6.5         tools_4.4.1         generics_0.1.3     
+#> [10] curl_5.2.1          parallel_4.4.1      fansi_1.0.6        
 #> [13] highr_0.11          pkgconfig_2.0.3     Matrix_1.7-0       
-#> [16] data.table_1.15.4   lifecycle_1.0.4     compiler_4.4.0     
+#> [16] data.table_1.15.4   lifecycle_1.0.4     compiler_4.4.1     
 #> [19] farver_2.1.2        munsell_0.5.1       ggforce_0.4.2      
 #> [22] fgsea_1.30.0        graphlayouts_1.1.1  codetools_0.2-20   
 #> [25] htmltools_0.5.8.1   yaml_2.3.8          crayon_1.5.2       
-#> [28] pillar_1.9.0        MASS_7.3-60.2       BiocParallel_1.38.0
+#> [28] pillar_1.9.0        MASS_7.3-61         BiocParallel_1.36.0
 #> [31] cachem_1.1.0        viridis_0.6.5       tidyselect_1.2.1   
 #> [34] digest_0.6.35       stringi_1.8.4       labeling_0.4.3     
 #> [37] cowplot_1.1.3       polyclip_1.10-6     fastmap_1.2.0      
-#> [40] grid_4.4.0          colorspace_2.1-0    cli_3.6.2          
+#> [40] grid_4.4.1          colorspace_2.1-0    cli_3.6.2          
 #> [43] magrittr_2.0.3      ggraph_2.2.1        tidygraph_1.3.1    
 #> [46] utf8_1.2.4          withr_3.0.0         scales_1.3.0       
 #> [49] bit64_4.0.5         timechange_0.3.0    rmarkdown_2.27     
 #> [52] bit_4.0.5           igraph_2.0.3        gridExtra_2.3      
-#> [55] hms_1.1.3           memoise_2.0.1       evaluate_0.23      
-#> [58] knitr_1.46          viridisLite_0.4.2   rlang_1.1.3        
+#> [55] hms_1.1.3           memoise_2.0.1       evaluate_0.24.0    
+#> [58] knitr_1.47          viridisLite_0.4.2   rlang_1.1.4        
 #> [61] Rcpp_1.0.12         glue_1.7.0          tweenr_2.0.3       
 #> [64] vroom_1.6.5         rstudioapi_0.16.0   R6_2.5.1           
 #> [67] plyr_1.8.9

@@ -303,8 +303,7 @@ addExtraParamsToPlt <- function(graph_plot, p_value_max_threshold,
             limits = c(0.0,p_value_max_threshold),
             name = p_value_type_colname) + 
         ggraph::geom_node_text(aes(label = .data$label), repel = TRUE) +
-        ggraph::theme_graph()+ 
-        theme(text=element_text(family="Helvetica"))
+        ggraph::theme_graph(base_family = "sans")
     return(graph_plot)
 }
 
@@ -409,8 +408,7 @@ plot_barplot <- function(reshaped_results, ontology_id_colname = 'ontology_id',
         limits = c(0.0,p_value_max_threshold),
         name = p_value_type_colname) +
     coord_flip() +
-    theme_light() + 
-    theme(text = element_text(family = "Helvetica"))
+    theme_light()
     mulea_gg_plot
 }
 
@@ -522,8 +520,7 @@ plot_lollipop <- function(reshaped_results, ontology_id_colname = 'ontology_id',
         limits = c(0.0, p_value_max_threshold),
         name = p_value_type_colname) +
     coord_flip() +
-    theme_light() + 
-    theme(text = element_text(family="Helvetica"))
+    theme_light()
     mulea_gg_plot
 }
 
@@ -631,6 +628,5 @@ plot_heatmap <- function(reshaped_results,
         limits = c(0.0,p_value_max_threshold)) +
     coord_fixed() +
     theme_light() +
-    theme(axis.text.x = element_text(angle = 90), 
-        text = element_text(family = "Helvetica"))
+    theme(axis.text.x = element_text(angle = 90))
 }

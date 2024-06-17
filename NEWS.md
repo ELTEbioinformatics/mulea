@@ -1,3 +1,9 @@
+# mulea 1.0.1
+
+## BUGS
+
+- CRAN check results indicated some OS dependent behaviour. This is now fixed.
+
 # mulea 1.0.0
 
 - First major release

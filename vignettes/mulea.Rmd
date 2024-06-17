@@ -81,7 +81,7 @@ suppressMessages(library(tidyverse))
 
 ## Importing the Ontology
 
-This section demonstrates how to import the desired ontology, such as transcription factors and their target genes downloaded from the ![Regulon](../man/figures/Regulon.png){alt="Regulon" width="114" height="25"} [database](https://regulondb.ccg.unam.mx/), into a data frame suitable for enrichment analysis. We present multiple methods for importing the ontology. Ensure that the identifier type (*e.g.*, *UniProt* protein ID, *Entrez* ID, Gene Symbol, *Ensembl* gene ID) matches between the ontology and the elements you wish to investigate.
+This section demonstrates how to import the desired ontology, such as transcription factors and their target genes downloaded from the ![Regulon](Regulon.png){alt="Regulon" width="114" height="25"} [database](https://regulondb.ccg.unam.mx/), into a data frame suitable for enrichment analysis. We present multiple methods for importing the ontology. Ensure that the identifier type (*e.g.*, *UniProt* protein ID, *Entrez* ID, Gene Symbol, *Ensembl* gene ID) matches between the ontology and the elements you wish to investigate.
 
 ### Alternative 1: Importing the Ontology from a GMT File
 
@@ -206,7 +206,7 @@ new_ontology_df <- list_to_gmt(ontology_list)
 
 ## The Differential Expression Dataset to Analyse
 
-For further steps we will analyse a dataset from a microarray experiment ([GSE55662](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE55662)) in the NCBI Gene Expression Omnibus ![GEO](../man/figures/geo_main.gif){alt="GEO" width="87"}. The study by Méhi et al. (2014) investigated antibiotic resistance evolution in *Escherichia coli*. Gene expression changes were compared between *ciprofloxacin* antibiotic-treated *Escherichia coli* bacteria and non-treated controls.
+For further steps we will analyse a dataset from a microarray experiment ([GSE55662](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE55662)) in the NCBI Gene Expression Omnibus ![GEO](geo_main.gif){alt="GEO" width="87"}. The study by Méhi et al. (2014) investigated antibiotic resistance evolution in *Escherichia coli*. Gene expression changes were compared between *ciprofloxacin* antibiotic-treated *Escherichia coli* bacteria and non-treated controls.
 
 The expression levels of these groups were compared with the [GEO2R](https://www.ncbi.nlm.nih.gov/geo/geo2r/?acc=GSE55662) tool:
 
@@ -640,7 +640,7 @@ sessionInfo()
 
 To cite package `mulea` in publications use:
 
-Turek, Cezary, Márton Ölbei, Tamás Stirling, Gergely Fekete, Ervin Tasnádi, Leila Gul, Balázs Bohár, Balázs Papp, Wiktor Jurkowski, and Eszter Ari. 2024. “mulea - an R Package for Enrichment Analysis Using Multiple Ontologies and Empirical FDR Correction.” *bioRxiv*, March. <https://doi.org/10.1101/2024.02.28.582444.>
+Turek, Cezary, Márton Ölbei, Tamás Stirling, Gergely Fekete, Ervin Tasnádi, Leila Gul, Balázs Bohár, Balázs Papp, Wiktor Jurkowski, and Eszter Ari. 2024. “mulea - an R Package for Enrichment Analysis Using Multiple Ontologies and Empirical FDR Correction.” *bioRxiv*, March. <https://doi.org/10.1101/2024.02.28.582444>.
 
 # References
 

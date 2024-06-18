@@ -16,7 +16,6 @@ bibentry(bibtype = "Article",
     title = "mulea - an R package for enrichment analysis using multiple 
         ontologies and empirical FDR correction.",
     year = "2024",
-    doi = "10.1101/2024.02.28.582444v1",
     publisher = "Cold Spring Harbor Laboratory",
     URL = "https://doi.org/10.1101/2024.02.28.582444",
     journal = "bioRxiv",

@@ -38,6 +38,16 @@ For the overrepresentation analysis, `mulea` employs an innovative **empirical f
 
 # Installation
 
+Install the dependency `fgsea` BioConductor package:
+
+```{r 'install1', eval=FALSE, message=FALSE, warning=FALSE}
+# Installing the BiocManager package if needed
+if (!require("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+# Installing the fgsea package with the BiocManager
+BiocManager::install("fgsea")
+```
+
 To install `mulea` from CRAN:
 
 ```{r 'install2', eval=FALSE, message=FALSE, warning=FALSE}

@@ -44,14 +44,21 @@ initialize_result_df <- function(pool, select, DB) {
 }
 
 do_the_simulation <- function(list_of_all_genes, pool, select,DB, steps,
-    nthread) {if(nthread==1) { # simple call op C++ part of the code
+    nthread, random_seed = 0) {if(nthread==1) { # simple call op C++ part of the code
         simulation_result_tbl <- tryCatch(enrichment_test_simulation(DB, 
-        list_of_all_genes, pool, length(select), steps, 0), error = warning)  
+        list_of_all_genes, pool, length(select), steps, random_seed), error = warning)  
     } else if (nthread>1 && round(nthread) == nthread) {# parallel call of C++ 
         vv <- floor(steps / nthread)
         cc <- steps %% nthread
         steps_per_thread <- c(rep(vv, nthread-cc), rep(vv+1 , cc))
-        seeds_per_thread <- sample(2^15, nthread)
+        
+        seeds_per_thread <- NULL
+        if (random_seed == 0) {
+          seeds_per_thread <- sample(2^15, nthread)  
+        } else {
+          seeds_per_thread <- rep(random_seed, nthread)  
+        }
+        
         stopifnot(sum(steps_per_thread)==steps)
         rm(cc, vv)
         requireNamespace("parallel")

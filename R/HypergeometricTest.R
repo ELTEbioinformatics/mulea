@@ -12,8 +12,9 @@ MuleaHypergeometricTest <- setClass(
         element_names = "character",
         pool = "character",
         nthreads = "numeric",
+        random_seed = "numeric",
         test = "function"
-        )
+    )
 )
 
 setMethod("initialize", "MuleaHypergeometricTest",
@@ -22,13 +23,14 @@ setMethod("initialize", "MuleaHypergeometricTest",
         element_names = character(),
         pool = character(),
         nthreads = 4,
+        random_seed = 0,
         test = NULL,
         ...) {
             .Object@gmt <- gmt
             .Object@element_names <- element_names
             .Object@pool <- pool
             .Object@nthreads <- nthreads
-            
+            .Object@random_seed <- random_seed
             .Object@test <- function(model) {
                 model@element_names <- checkIfPoolIncludeSample(model@gmt, 
                     model@element_names, model@pool)
@@ -39,7 +41,8 @@ setMethod("initialize", "MuleaHypergeometricTest",
                         element_names = model@element_names,
                         pool = model@pool,
                         only_hyper_geometric_test = TRUE,
-                        nthreads = model@nthreads
+                        nthreads = model@nthreads,
+                        random_seed = model@random_seed
                         )
                 muleaSetBaseEnrichmentTestResult <- run_test(
                     muleaSetBaseEnrichmentTest)

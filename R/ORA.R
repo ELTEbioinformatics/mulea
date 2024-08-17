@@ -1,26 +1,27 @@
 #'An S4 class to represent a set based tests in mulea.
 #'
-#'@slot method The overrepresentation (ora) method. Possible values:
+#' @slot method The overrepresentation (ora) method. Possible values:
 #'  "Hypergeometric", "SetBasedEnrichment".
-#'@slot gmt A `data.frame` representing the ontology GMT.
-#'@slot element_names A vector of elements names 
+#' @slot gmt A `data.frame` representing the ontology GMT.
+#' @slot element_names A vector of elements names 
 #'  (gene or protein names or identifiers) representing the target set to 
 #'  analyse. For example
 #'  differentially expressed genes.
-#'@slot background_element_names A vector of elements names 
+#' @slot background_element_names A vector of elements names 
 #'  (gene or protein names or identifiers) representing all the 
 #'  elements involved in the previous analyses For example all 
 #'  genes that were measured in differential expression analysis.
-#'@slot p_value_adjustment_method A character string representing the 
+#' @slot p_value_adjustment_method A character string representing the 
 #'  type of the *p*-value adjustment method. Possible values:
 #' * 'eFDR': empirical false discovery rate correction method
 #' * all `method` options from `stats::p.adjust` documentation.
-#'@slot number_of_permutations A numeric value representing the number of
+#' @slot number_of_permutations A numeric value representing the number of
 #'  permutations used to calculate the eFDR values. Default value is 10000.
-#'@slot nthreads Number of processor's threads to use in calculations.
-#'@return ora object. This object represents the result of the
+#' @slot nthreads Number of processor's threads to use in calculations.
+#' @slot random_seed Setup seed for random generator.
+#' @return ora object. This object represents the result of the
 #'  overrepresentation test in mulea.
-#'@export ora
+#' @export ora
 #' @examples
 #' library(mulea)
 #' 
@@ -59,6 +60,7 @@ ora <- setClass("ora", slots = list(
     p_value_adjustment_method = "character",
     number_of_permutations = "numeric",
     nthreads = "numeric",
+    random_seed = "numeric",
     test = "function"))
 
 setMethod("initialize", "ora", function(.Object, gmt = data.frame(), 
@@ -68,6 +70,7 @@ setMethod("initialize", "ora", function(.Object, gmt = data.frame(),
     number_of_permutations = 10000,
     test = NULL,
     nthreads = 4,
+    random_seed = 0,
     ...) {
         adjustMethod <- NULL
         .Object@gmt <- gmt
@@ -76,17 +79,20 @@ setMethod("initialize", "ora", function(.Object, gmt = data.frame(),
         .Object@p_value_adjustment_method <- p_value_adjustment_method
         .Object@number_of_permutations <- number_of_permutations
         .Object@nthreads <- nthreads
+        .Object@random_seed <- random_seed
         .Object@test <- function(setBasemodel) {
             setBasedTestRes <- computeSetBasedTestRes(setBasemodel)
             setBasedTestRes}
         .Object})
 
 performSetBasedEnrichmentTest <- function(setBasemodel) {
-    muleaSetBaseEnrichmentTest <- SetBasedEnrichmentTest(gmt = setBasemodel@gmt,
-        element_names = setBasemodel@element_names,
-        pool = setBasemodel@background_element_names,
-        number_of_permutations = setBasemodel@number_of_permutations,
-        nthreads = setBasemodel@nthreads)
+    muleaSetBaseEnrichmentTest <- SetBasedEnrichmentTest(
+      gmt = setBasemodel@gmt,
+      element_names = setBasemodel@element_names,
+      pool = setBasemodel@background_element_names,
+      number_of_permutations = setBasemodel@number_of_permutations,
+      nthreads = setBasemodel@nthreads,
+      random_seed = setBasemodel@random_seed)
     muleaSetBaseEnrichmentTest <- run_test(muleaSetBaseEnrichmentTest)
     muleaSetBaseEnrichmentTest <- merge(setBasemodel@gmt[c("ontology_id",
         "ontology_name")], muleaSetBaseEnrichmentTest, by.x = "ontology_id",
@@ -97,7 +103,8 @@ performSetBasedEnrichmentTestElse <- function(setBasemodel) {
     MuleaHypergeometricTest <- MuleaHypergeometricTest(gmt = setBasemodel@gmt,
         element_names = setBasemodel@element_names,
         pool = setBasemodel@background_element_names,
-        nthreads = setBasemodel@nthreads)
+        nthreads = setBasemodel@nthreads,
+        random_seed = setBasemodel@random_seed)
     setBasedTestRes <- run_test(MuleaHypergeometricTest)
     muleaSetBaseEnrichmentTest <- merge(setBasemodel@gmt[c("ontology_id",
         "ontology_name")], setBasedTestRes, by.x = "ontology_id",

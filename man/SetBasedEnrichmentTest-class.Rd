@@ -38,5 +38,7 @@ mulea.
 \item{\code{pool}}{A background data to count test.}
 
 \item{\code{nthreads}}{Number of processor's threads used in calculations.}
+
+\item{\code{random_seed}}{Setup seed for random generator.}
 }}
 

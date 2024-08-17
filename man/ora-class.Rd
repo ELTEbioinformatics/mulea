@@ -41,6 +41,8 @@ type of the \emph{p}-value adjustment method. Possible values:
 permutations used to calculate the eFDR values. Default value is 10000.}
 
 \item{\code{nthreads}}{Number of processor's threads to use in calculations.}
+
+\item{\code{random_seed}}{Setup seed for random generator.}
 }}
 
 \examples{

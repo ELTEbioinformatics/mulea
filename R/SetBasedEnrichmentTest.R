@@ -9,6 +9,7 @@
 #' @slot element_names A data from experiment to analyse across model.
 #' @slot pool A background data to count test.
 #' @slot nthreads Number of processor's threads used in calculations.
+#' @slot random_seed Setup seed for random generator.
 #' @return SetBasedEnrichmentTest object. Used as private function.
 SetBasedEnrichmentTest <- setClass(
     "SetBasedEnrichmentTest",
@@ -19,6 +20,7 @@ SetBasedEnrichmentTest <- setClass(
         number_of_permutations = "numeric",
         only_hyper_geometric_test = "logical",
         nthreads = "numeric",
+        random_seed = "numeric",
         test = "function"))
 
 setMethod("initialize", "SetBasedEnrichmentTest",
@@ -30,6 +32,7 @@ setMethod("initialize", "SetBasedEnrichmentTest",
         test = NULL,
         only_hyper_geometric_test = FALSE,
         nthreads = 2,
+        random_seed = 0,
         ...) {
             .Object@gmt <- gmt
             .Object@element_names <- element_names
@@ -37,6 +40,7 @@ setMethod("initialize", "SetBasedEnrichmentTest",
             .Object@number_of_permutations <- number_of_permutations
             .Object@only_hyper_geometric_test <- only_hyper_geometric_test
             .Object@nthreads <- nthreads
+            .Object@random_seed <- random_seed
             .Object@test <- function(model) {
                 pool <- NULL
                 if (0 == length(model@pool)) {
@@ -56,8 +60,8 @@ setMethod("initialize", "SetBasedEnrichmentTest",
                 testResults <- set.based.enrichment.test.wrapper(
                     steps = .Object@number_of_permutations,
                     pool = pool, select = element_names, DB = DB,
-                    only_hyper_geometric_test =model@only_hyper_geometric_test,
-                    nthreads = model@nthreads)
+                    only_hyper_geometric_test = model@only_hyper_geometric_test,
+                    nthreads = model@nthreads, random_seed = model@random_seed)
                 testResults
             }
             .Object
@@ -76,13 +80,14 @@ setMethod("run_test",
 
 set.based.enrichment.test.wrapper <- function(
     steps, pool, select, DB, nthreads = 2, 
-    only_hyper_geometric_test = FALSE) {
+    only_hyper_geometric_test = FALSE, random_seed=0) {
 
     setEnrTestRes <- set.based.enrichment.test(
         steps = steps,
         pool = pool,
         select = select,
         DB = DB,
-        nthread = nthreads)
+        nthread = nthreads,
+        random_seed = random_seed)
     return(setEnrTestRes)
 }

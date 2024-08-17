@@ -102,7 +102,7 @@ do_the_simulation <- function(list_of_all_genes, pool, select,DB, steps,
 
 
 set.based.enrichment.test <- function(steps, pool, select, DB, nthread=1, 
-    debug=FALSE) {
+    debug=FALSE, random_seed=0) {
     ## convert the database and the select and pollt to sorted integer lists
     list_of_all_genes <- unique(c(unlist(DB),pool))
     select <- intersect(select, pool)
@@ -115,7 +115,7 @@ set.based.enrichment.test <- function(steps, pool, select, DB, nthread=1,
         return(result_df1)}
     names(DB) <- NULL
     simulation_result_tbl <- do_the_simulation(list_of_all_genes, pool, 
-        select,DB, steps, nthread)
+        select,DB, steps, nthread, random_seed)
     ##############################################
     # some preparation to help the binary search
     if(simulation_result_tbl$p[1]!=0) {

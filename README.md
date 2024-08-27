@@ -1,4 +1,4 @@
-# <img src="man/figures/MulEA_logo.png" width="59" /> `mulea` - an R Package for Enrichment Analysis Using Multiple Ontologies and Empirical FDR Correction
+# <img src="man/figures/MulEA_logo.png" width="59" /> `mulea` - an R Package for Enrichment Analysis Using Multiple Ontologies and Empirical False Discovery Rate
 
 - [Introduction](#introduction)
 - [Installation](#installation)
@@ -39,10 +39,10 @@ functional enrichment analysis. It provides two different approaches:
     by the differential expression analysis, `mulea` offers the **gene
     set enrichment (GSEA)** approach.
 
-For the overrepresentation analysis, `mulea` employs an innovative
-**empirical false discovery rate (eFDR)** correction method,
-specifically designed for interconnected biological data, to accurately
-identify significant terms within diverse ontologies.
+For the overrepresentation analysis, `mulea` employs a progressive
+**empirical false discovery rate (eFDR)** method, specifically designed
+for interconnected biological data, to accurately identify significant
+terms within diverse ontologies.
 
 `mulea` expands beyond traditional tools by incorporating a **wide range
 of ontologies**, encompassing Gene Ontology, pathways, regulatory
@@ -66,7 +66,8 @@ if (!require("BiocManager", quietly = TRUE))
 BiocManager::install("fgsea")
 ```
 
-To install `mulea` from CRAN:
+To install `mulea` from
+[CRAN](https://cran.rstudio.com/web/packages/mulea/index.html):
 
 ``` r
 install.packages("mulea")
@@ -98,7 +99,7 @@ library(tidyverse)
 
 This section demonstrates how to import the desired ontology, such as
 transcription factors and their target genes downloaded from the
-<img src="man/figures/Regulon.png" alt="Regulon" width="114"
+<img src="vignettes/Regulon.png" alt="Regulon" width="114"
 height="25" /> [database](https://regulondb.ccg.unam.mx/), into a data
 frame suitable for enrichment analysis. We present multiple methods for
 importing the ontology. Ensure that the identifier type (*e.g.*,
@@ -265,8 +266,8 @@ new_ontology_df <- list_to_gmt(ontology_list)
 For further steps we will analyse a dataset from a microarray experiment
 ([GSE55662](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE55662))
 in the NCBI Gene Expression Omnibus
-<img src="man/figures/geo_main.gif" alt="GEO" width="87" />. The study
-by Méhi et al. (2014) investigated antibiotic resistance evolution in
+<img src="vignettes/geo_main.gif" alt="GEO" width="87" />. The study by
+Méhi et al. (2014) investigated antibiotic resistance evolution in
 *Escherichia coli*. Gene expression changes were compared between
 *ciprofloxacin* antibiotic-treated *Escherichia coli* bacteria and
 non-treated controls.
@@ -335,9 +336,9 @@ To perform the analysis, we will first establish a model using the `ora`
 function. This model defines the parameters for the enrichment analysis.
 We then execute the test itself using the **`run_test`** function. It is
 important to note that for this example, we will employ 10,000
-permutations for the *empirical false discovery rate* (*eFDR*)
-correction, which is the recommended minimum, to ensure robust
-correction for multiple testing.
+permutations for the *empirical false discovery rate* (*eFDR*), which is
+the recommended minimum, to ensure robust correction for multiple
+testing.
 
 ``` r
 # Creating the ORA model using the GMT variable
@@ -351,7 +352,9 @@ ora_model <- ora(gmt = tf_ontology_filtered,
                  # Number of permutations
                  number_of_permutations = 10000,
                  # Number of processor threads to use
-                 nthreads = 2) 
+                 nthreads = 2, 
+                 # Setting a random seed for reproducibility
+                 random_seed = 1) 
 
 # Running the ORA
 ora_results <- run_test(ora_model)
@@ -389,14 +392,14 @@ ora_results %>%
 |:------------|:--------------|-------------------------------:|-----------------------------------:|----------:|----------:|
 | FNR         | FNR           |                             26 |                                259 | 0.0000003 | 0.0000000 |
 | LexA        | LexA          |                             14 |                                 53 | 0.0000000 | 0.0000000 |
-| SoxS        | SoxS          |                              7 |                                 37 | 0.0001615 | 0.0023000 |
-| Rob         | Rob           |                              5 |                                 21 | 0.0004717 | 0.0050600 |
-| DnaA        | DnaA          |                              4 |                                 13 | 0.0006281 | 0.0050833 |
-| FadR        | FadR          |                              5 |                                 20 | 0.0003692 | 0.0052750 |
-| NsrR        | NsrR          |                              8 |                                 64 | 0.0010478 | 0.0067143 |
-| ArcA        | ArcA          |                             12 |                                148 | 0.0032001 | 0.0191625 |
-| IHF         | IHF           |                             14 |                                205 | 0.0070758 | 0.0451600 |
-| MarA        | MarA          |                              5 |                                 37 | 0.0066068 | 0.0478778 |
+| SoxS        | SoxS          |                              7 |                                 37 | 0.0001615 | 0.0036667 |
+| Rob         | Rob           |                              5 |                                 21 | 0.0004717 | 0.0051200 |
+| DnaA        | DnaA          |                              4 |                                 13 | 0.0006281 | 0.0052000 |
+| FadR        | FadR          |                              5 |                                 20 | 0.0003692 | 0.0056000 |
+| NsrR        | NsrR          |                              8 |                                 64 | 0.0010478 | 0.0073714 |
+| ArcA        | ArcA          |                             12 |                                148 | 0.0032001 | 0.0197500 |
+| IHF         | IHF           |                             14 |                                205 | 0.0070758 | 0.0458600 |
+| MarA        | MarA          |                              5 |                                 37 | 0.0066068 | 0.0483111 |
 
 ### Visualising the ORA Result
 
@@ -499,6 +502,110 @@ plot_heatmap(reshaped_results = ora_reshaped_results,
 
 <img src="man/figures/README-heatmap_ora-1.png" width="100%" />
 
+### Comparing the significant results when applying the eFDR to the Benjamini-Hochberg and the Bonferroni corrections
+
+The `ora` function allows you to choose between different methods for
+calculating the *FDR* and adjusting the *p*-values: *eFDR*, and all
+`method` options from the `stats::p.adjust` documentation (holm,
+hochberg, hommel, bonferroni, BH, BY, and fdr). The following code
+snippet demonstrates how to perform the analysis using the
+*Benjamini-Hochberg* and *Bonferroni* corrections:
+
+``` r
+# Creating the ORA model using the Benjamini-Hochberg p-value correction method
+BH_ora_model <- ora(gmt = tf_ontology_filtered, 
+                 # Test set variable
+                 element_names = target_set, 
+                 # Background set variable
+                 background_element_names = background_set, 
+                 # p-value adjustment method
+                 p_value_adjustment_method = "BH") 
+
+# Running the ORA
+BH_results <- run_test(BH_ora_model)
+
+# Creating the ORA model using the Bonferroni p-value correction method
+Bonferroni_ora_model <- ora(gmt = tf_ontology_filtered, 
+                            # Test set variable
+                            element_names = target_set, 
+                            # Background set variable
+                            background_element_names = background_set, 
+                            # p-value adjustment method
+                            p_value_adjustment_method = "bonferroni") 
+
+# Running the ORA
+Bonferroni_results <- run_test(Bonferroni_ora_model)
+```
+
+To compare the significant results (using the conventional \< 0.05
+threshold) of the *eFDR*, *Benjamini-Hochberg*, and *Bonferroni*
+corrections, we can merge and filter the result tables:
+
+``` r
+# Merging the Benjamini-Hochberg and eFDR results
+merged_results <- BH_results %>% 
+  # Renaming the column
+  rename(BH_adjusted_p_value = adjusted_p_value) %>% 
+  # Selecting the necessary columns
+  select(ontology_id, BH_adjusted_p_value) %>%
+  # Joining with the eFDR results
+  left_join(ora_results, ., by = "ontology_id") %>% 
+  # Converting the data.frame to a tibble
+  tibble()
+
+# Merging the Bonferroni results with the merged results
+merged_results <- Bonferroni_results %>% 
+  # Renaming the column
+  rename(Bonferroni_adjusted_p_value = adjusted_p_value) %>% 
+  # Selecting the necessary columns
+  select(ontology_id, Bonferroni_adjusted_p_value) %>%
+  # Joining with the eFDR results
+  left_join(merged_results, ., by = "ontology_id") %>% 
+  # Arranging by the p-value
+  arrange(p_value)
+
+# filter the p-value < 0.05 results
+merged_results_filtered <- merged_results %>% 
+  filter(p_value < 0.05) %>% 
+  # remove the unnecessary columns
+  select(-ontology_id, -nr_common_with_tested_elements, 
+         -nr_common_with_background_elements)
+```
+
+| ontology_name |   p_value |      eFDR | BH_adjusted_p_value | Bonferroni_adjusted_p_value |
+|:--------------|----------:|----------:|--------------------:|----------------------------:|
+| LexA          | 0.0000000 | 0.0000000 |           0.0000001 |                   0.0000001 |
+| FNR           | 0.0000003 | 0.0000000 |           0.0000208 |                   0.0000416 |
+| SoxS          | 0.0001615 | 0.0036667 |           0.0082880 |                   0.0248641 |
+| FadR          | 0.0003692 | 0.0056000 |           0.0142127 |                   0.0568507 |
+| Rob           | 0.0004717 | 0.0051200 |           0.0145296 |                   0.0726479 |
+| DnaA          | 0.0006281 | 0.0052000 |           0.0161218 |                   0.0967306 |
+| NsrR          | 0.0010478 | 0.0073714 |           0.0230517 |                   0.1613622 |
+| ArcA          | 0.0032001 | 0.0197500 |           0.0616014 |                   0.4928114 |
+| MarA          | 0.0066068 | 0.0483111 |           0.1089670 |                   1.0000000 |
+| IHF           | 0.0070758 | 0.0458600 |           0.1089670 |                   1.0000000 |
+| NarL          | 0.0096065 | 0.0534000 |           0.1276532 |                   1.0000000 |
+| NikR          | 0.0099470 | 0.0615833 |           0.1276532 |                   1.0000000 |
+| OxyR          | 0.0174505 | 0.0786923 |           0.2067212 |                   1.0000000 |
+| ExuR          | 0.0261046 | 0.1051867 |           0.2680073 |                   1.0000000 |
+| UxuR          | 0.0261046 | 0.1051867 |           0.2680073 |                   1.0000000 |
+| NrdR          | 0.0328500 | 0.1232750 |           0.3161817 |                   1.0000000 |
+| IscR          | 0.0376038 | 0.1249412 |           0.3406459 |                   1.0000000 |
+| Nac           | 0.0419701 | 0.1487556 |           0.3590774 |                   1.0000000 |
+| Fis           | 0.0457307 | 0.1433053 |           0.3706596 |                   1.0000000 |
+
+A comparison of the significant results revealed that conventional
+*p*-value corrections (Benjamini-Hochberg and Bonferroni) tend to be
+overly conservative, leading to a reduction in the number of significant
+transcription factors compared to the *eFDR*. As illustrated in the
+below figure, by applying the *eFDR* we were able to identify 10
+significant transcription factors, while with the Benjamini-Hochberg and
+Bonferroni corrections only 7 and 3, respectively. This suggests that
+the *eFDR* may be a more suitable approach for controlling false
+positives in this context.
+
+<img src="vignettes/Venn.png" alt="Venn" width="300" />
+
 ## Gene Set Enrichment Analysis (GSEA)
 
 To perform enrichment analysis using ranked lists, you need to provide
@@ -549,8 +656,7 @@ To perform the analysis, we will first establish a model using the
 `gsea` function. This model defines the parameters for the enrichment
 analysis. Subsequently, we will execute the test itself using the
 `run_test` function. We will employ 10,000 permutations for the false
-discovery rate correction, to ensure robust correction for multiple
-testing.
+discovery rate, to ensure robust correction for multiple testing.
 
 ``` r
 # Creating the GSEA model using the GMT variable
@@ -584,7 +690,7 @@ gsea_results %>%
   filter(adjusted_p_value < 0.05) %>% 
   # the number of such rows
   nrow()
-#> [1] 10
+#> [1] 8
 ```
 
 Inspect the significant results:
@@ -599,16 +705,14 @@ gsea_results %>%
 
 | ontology_id | ontology_name | nr_common_with_tested_elements |   p_value | adjusted_p_value |
 |:------------|:--------------|-------------------------------:|----------:|-----------------:|
-| LexA        | LexA          |                             53 | 0.0000000 |        0.0000059 |
-| FNR         | FNR           |                            259 | 0.0000807 |        0.0061702 |
-| ModE        | ModE          |                             45 | 0.0001485 |        0.0075738 |
-| ArcA        | ArcA          |                            148 | 0.0002666 |        0.0088546 |
-| GlaR        | GlaR          |                              3 | 0.0002894 |        0.0088546 |
-| DnaA        | DnaA          |                             13 | 0.0006732 |        0.0147137 |
-| SoxS        | SoxS          |                             37 | 0.0006640 |        0.0147137 |
-| PaaX        | PaaX          |                             14 | 0.0029414 |        0.0450027 |
-| PspF        | PspF          |                              7 | 0.0028674 |        0.0450027 |
-| Rob         | Rob           |                             21 | 0.0027564 |        0.0450027 |
+| LexA        | LexA          |                             53 | 0.0000000 |        0.0000063 |
+| FNR         | FNR           |                            259 | 0.0000564 |        0.0043151 |
+| ArcA        | ArcA          |                            148 | 0.0001825 |        0.0093083 |
+| DnaA        | DnaA          |                             13 | 0.0005816 |        0.0148306 |
+| GlaR        | GlaR          |                              3 | 0.0005083 |        0.0148306 |
+| ModE        | ModE          |                             45 | 0.0004625 |        0.0148306 |
+| SoxS        | SoxS          |                             37 | 0.0007831 |        0.0171159 |
+| PaaX        | PaaX          |                             14 | 0.0020164 |        0.0385640 |
 
 ### Visualising the GSEA Results
 
@@ -742,7 +846,7 @@ target_set <- geo2r_result_tab %>%
   filter(adj.P.Val < 0.05 & logFC > 1) %>% 
   # Selecting the Gene.symbol column
   select(Gene.symbol) %>% 
-  # converting the tibble to a vector
+  # Converting the tibble to a vector
   pull() %>% 
   # Removing duplicates
   unique()
@@ -774,7 +878,7 @@ differential expression analysis.
 background_set <- geo2r_result_tab %>% 
   # Selecting the Gene.symbol column
   select(Gene.symbol) %>% 
-  # Convertin the tibble to a vector
+  # Converting the tibble to a vector
   pull() %>% 
   # Removing duplicates
   unique()
@@ -862,30 +966,30 @@ sessionInfo()
 #> other attached packages:
 #>  [1] lubridate_1.9.3 forcats_1.0.0   stringr_1.5.1   dplyr_1.1.4    
 #>  [5] purrr_1.0.2     readr_2.1.5     tidyr_1.3.1     tibble_3.2.1   
-#>  [9] ggplot2_3.5.1   tidyverse_2.0.0 mulea_1.0.0    
+#>  [9] ggplot2_3.5.1   tidyverse_2.0.0 mulea_1.0.1    
 #> 
 #> loaded via a namespace (and not attached):
-#>  [1] fastmatch_1.1-4     gtable_0.3.5        xfun_0.44          
+#>  [1] fastmatch_1.1-4     gtable_0.3.5        xfun_0.47          
 #>  [4] ggrepel_0.9.5       lattice_0.22-6      tzdb_0.4.0         
 #>  [7] vctrs_0.6.5         tools_4.4.1         generics_0.1.3     
-#> [10] curl_5.2.1          parallel_4.4.1      fansi_1.0.6        
+#> [10] curl_5.2.2          parallel_4.4.1      fansi_1.0.6        
 #> [13] highr_0.11          pkgconfig_2.0.3     Matrix_1.7-0       
-#> [16] data.table_1.15.4   lifecycle_1.0.4     compiler_4.4.1     
+#> [16] data.table_1.16.0   lifecycle_1.0.4     compiler_4.4.1     
 #> [19] farver_2.1.2        munsell_0.5.1       ggforce_0.4.2      
 #> [22] fgsea_1.30.0        graphlayouts_1.1.1  codetools_0.2-20   
-#> [25] htmltools_0.5.8.1   yaml_2.3.8          crayon_1.5.2       
+#> [25] htmltools_0.5.8.1   yaml_2.3.10         crayon_1.5.3       
 #> [28] pillar_1.9.0        MASS_7.3-61         BiocParallel_1.38.0
 #> [31] cachem_1.1.0        viridis_0.6.5       tidyselect_1.2.1   
-#> [34] digest_0.6.35       stringi_1.8.4       labeling_0.4.3     
-#> [37] cowplot_1.1.3       polyclip_1.10-6     fastmap_1.2.0      
-#> [40] grid_4.4.1          colorspace_2.1-0    cli_3.6.2          
+#> [34] digest_0.6.37       stringi_1.8.4       labeling_0.4.3     
+#> [37] cowplot_1.1.3       polyclip_1.10-7     fastmap_1.2.0      
+#> [40] grid_4.4.1          colorspace_2.1-1    cli_3.6.3          
 #> [43] magrittr_2.0.3      ggraph_2.2.1        tidygraph_1.3.1    
-#> [46] utf8_1.2.4          withr_3.0.0         scales_1.3.0       
-#> [49] bit64_4.0.5         timechange_0.3.0    rmarkdown_2.27     
+#> [46] utf8_1.2.4          withr_3.0.1         scales_1.3.0       
+#> [49] bit64_4.0.5         timechange_0.3.0    rmarkdown_2.28     
 #> [52] bit_4.0.5           igraph_2.0.3        gridExtra_2.3      
-#> [55] hms_1.1.3           memoise_2.0.1       evaluate_0.23      
-#> [58] knitr_1.46          viridisLite_0.4.2   rlang_1.1.3        
-#> [61] Rcpp_1.0.12         glue_1.7.0          tweenr_2.0.3       
+#> [55] hms_1.1.3           memoise_2.0.1       evaluate_0.24.0    
+#> [58] knitr_1.48          viridisLite_0.4.2   rlang_1.1.4        
+#> [61] Rcpp_1.0.13         glue_1.7.0          tweenr_2.0.3       
 #> [64] vroom_1.6.5         rstudioapi_0.16.0   R6_2.5.1           
 #> [67] plyr_1.8.9
 ```

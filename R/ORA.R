@@ -18,7 +18,8 @@
 #' @slot number_of_permutations A numeric value representing the number of
 #'  permutations used to calculate the eFDR values. Default value is 10000.
 #' @slot nthreads Number of processor's threads to use in calculations.
-#' @slot random_seed Setup seed for random generator.
+#' @slot random_seed Optional natural number (1, 2, 3, ...) setting the seed 
+#' for the random generator, to make the results reproducible.
 #' @return ora object. This object represents the result of the
 #'  overrepresentation test in mulea.
 #' @export ora

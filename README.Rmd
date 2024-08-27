@@ -7,7 +7,7 @@ output:
 bibliography: references.bib
 ---
 
-```{r, include = FALSE}
+```{r 'kintr', include = FALSE}
 knitr::opts_chunk$set(
     collapse = TRUE,
     comment = "#>",
@@ -16,7 +16,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-# ![](man/figures/MulEA_logo.png){width="59"} `mulea` - an R Package for Enrichment Analysis Using Multiple Ontologies and Empirical FDR Correction
+# ![](man/figures/MulEA_logo.png){width="59"} `mulea` - an R Package for Enrichment Analysis Using Multiple Ontologies and Empirical False Discovery Rate
 
 <!-- badges: start -->
 
@@ -32,7 +32,7 @@ The `mulea` R package [@turek] is a comprehensive tool for functional enrichment
 
 2.  Alternatively, if the data consists of ranked elements, for instance, genes ordered by *p*-value or log fold-change calculated by the differential expression analysis, `mulea` offers the **gene set enrichment (GSEA)** approach.
 
-For the overrepresentation analysis, `mulea` employs an innovative **empirical false discovery rate (eFDR)** correction method, specifically designed for interconnected biological data, to accurately identify significant terms within diverse ontologies.
+For the overrepresentation analysis, `mulea` employs a progressive **empirical false discovery rate (eFDR)** method, specifically designed for interconnected biological data, to accurately identify significant terms within diverse ontologies.
 
 `mulea` expands beyond traditional tools by incorporating a **wide range of ontologies**, encompassing Gene Ontology, pathways, regulatory elements, genomic locations, and protein domains for 27 model organisms, covering 22 ontology types from 16 databases and various identifiers resulting in 879 files available at the [ELTEbioinformatics/GMT_files_for_mulea](https://github.com/ELTEbioinformatics/GMT_files_for_mulea) GitHub repository and through the [`muleaData`](https://bioconductor.org/packages/release/data/experiment/html/muleaData.html) ExperimentData Bioconductor package.
 
@@ -48,7 +48,7 @@ if (!require("BiocManager", quietly = TRUE))
 BiocManager::install("fgsea")
 ```
 
-To install `mulea` from CRAN:
+To install `mulea` from [CRAN](https://cran.rstudio.com/web/packages/mulea/index.html):
 
 ```{r 'install2', eval=FALSE, message=FALSE, warning=FALSE}
 install.packages("mulea")
@@ -81,7 +81,7 @@ suppressMessages(library(tidyverse))
 
 ## Importing the Ontology
 
-This section demonstrates how to import the desired ontology, such as transcription factors and their target genes downloaded from the ![Regulon](man/figures/Regulon.png){alt="Regulon" width="114" height="25"} [database](https://regulondb.ccg.unam.mx/), into a data frame suitable for enrichment analysis. We present multiple methods for importing the ontology. Ensure that the identifier type (*e.g.*, *UniProt* protein ID, *Entrez* ID, Gene Symbol, *Ensembl* gene ID) matches between the ontology and the elements you wish to investigate.
+This section demonstrates how to import the desired ontology, such as transcription factors and their target genes downloaded from the ![Regulon](vignettes/Regulon.png){alt="Regulon" width="114" height="25"} [database](https://regulondb.ccg.unam.mx/), into a data frame suitable for enrichment analysis. We present multiple methods for importing the ontology. Ensure that the identifier type (*e.g.*, *UniProt* protein ID, *Entrez* ID, Gene Symbol, *Ensembl* gene ID) matches between the ontology and the elements you wish to investigate.
 
 ### Alternative 1: Importing the Ontology from a GMT File
 
@@ -123,7 +123,6 @@ tf_enrichr_ontology <- read_gmt("TRRUST_Transcription_Factors_2019.txt")
 
 # The ontology_name is empty, therefore we need to fill it with the ontology_id
 tf_enrichr_ontology$ontology_name <- tf_enrichr_ontology$ontology_id
-
 ```
 
 #### C) MsigDB GMT File
@@ -206,7 +205,7 @@ new_ontology_df <- list_to_gmt(ontology_list)
 
 ## The Differential Expression Dataset to Analyse
 
-For further steps we will analyse a dataset from a microarray experiment ([GSE55662](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE55662)) in the NCBI Gene Expression Omnibus ![GEO](man/figures/geo_main.gif){alt="GEO" width="87"}. The study by @méhi2014 investigated antibiotic resistance evolution in *Escherichia coli*. Gene expression changes were compared between *ciprofloxacin* antibiotic-treated *Escherichia coli* bacteria and non-treated controls.
+For further steps we will analyse a dataset from a microarray experiment ([GSE55662](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE55662)) in the NCBI Gene Expression Omnibus ![GEO](vignettes/geo_main.gif){alt="GEO" width="87"}. The study by @méhi2014 investigated antibiotic resistance evolution in *Escherichia coli*. Gene expression changes were compared between *ciprofloxacin* antibiotic-treated *Escherichia coli* bacteria and non-treated controls.
 
 The expression levels of these groups were compared with the [GEO2R](https://www.ncbi.nlm.nih.gov/geo/geo2r/?acc=GSE55662) tool:
 
@@ -241,7 +240,7 @@ background_set  <- readLines("https://raw.githubusercontent.com/ELTEbioinformati
 
 ### Performing the OverRepresentation Analysis
 
-To perform the analysis, we will first establish a model using the `ora` function. This model defines the parameters for the enrichment analysis. We then execute the test itself using the **`run_test`** function. It is important to note that for this example, we will employ 10,000 permutations for the *empirical false discovery rate* (*eFDR*) correction, which is the recommended minimum, to ensure robust correction for multiple testing.
+To perform the analysis, we will first establish a model using the `ora` function. This model defines the parameters for the enrichment analysis. We then execute the test itself using the **`run_test`** function. It is important to note that for this example, we will employ 10,000 permutations for the *empirical false discovery rate* (*eFDR*), which is the recommended minimum, to ensure robust correction for multiple testing.
 
 ```{r 'ora'}
 # Creating the ORA model using the GMT variable
@@ -255,7 +254,9 @@ ora_model <- ora(gmt = tf_ontology_filtered,
                  # Number of permutations
                  number_of_permutations = 10000,
                  # Number of processor threads to use
-                 nthreads = 2) 
+                 nthreads = 2, 
+                 # Setting a random seed for reproducibility
+                 random_seed = 1) 
 
 # Running the ORA
 ora_results <- run_test(ora_model)
@@ -363,6 +364,78 @@ plot_heatmap(reshaped_results = ora_reshaped_results,
              p_value_type_colname = "eFDR")
 ```
 
+### Comparing the significant results when applying the eFDR to the Benjamini-Hochberg and the Bonferroni corrections
+
+The `ora` function allows you to choose between different methods for calculating the *FDR* and adjusting the *p*-values: *eFDR*, and all `method` options from the `stats::p.adjust` documentation (holm, hochberg, hommel, bonferroni, BH, BY, and fdr). The following code snippet demonstrates how to perform the analysis using the *Benjamini-Hochberg* and *Bonferroni* corrections:
+
+```{r 'ora_bh_bonferroni'}
+# Creating the ORA model using the Benjamini-Hochberg p-value correction method
+BH_ora_model <- ora(gmt = tf_ontology_filtered, 
+                 # Test set variable
+                 element_names = target_set, 
+                 # Background set variable
+                 background_element_names = background_set, 
+                 # p-value adjustment method
+                 p_value_adjustment_method = "BH") 
+
+# Running the ORA
+BH_results <- run_test(BH_ora_model)
+
+# Creating the ORA model using the Bonferroni p-value correction method
+Bonferroni_ora_model <- ora(gmt = tf_ontology_filtered, 
+                            # Test set variable
+                            element_names = target_set, 
+                            # Background set variable
+                            background_element_names = background_set, 
+                            # p-value adjustment method
+                            p_value_adjustment_method = "bonferroni") 
+
+# Running the ORA
+Bonferroni_results <- run_test(Bonferroni_ora_model)
+```
+
+To compare the significant results (using the conventional \< 0.05 threshold) of the *eFDR*, *Benjamini-Hochberg*, and *Bonferroni* corrections, we can merge and filter the result tables:
+
+```{r 'compare_p.adj'}
+# Merging the Benjamini-Hochberg and eFDR results
+merged_results <- BH_results %>% 
+  # Renaming the column
+  rename(BH_adjusted_p_value = adjusted_p_value) %>% 
+  # Selecting the necessary columns
+  select(ontology_id, BH_adjusted_p_value) %>%
+  # Joining with the eFDR results
+  left_join(ora_results, ., by = "ontology_id") %>% 
+  # Converting the data.frame to a tibble
+  tibble()
+
+# Merging the Bonferroni results with the merged results
+merged_results <- Bonferroni_results %>% 
+  # Renaming the column
+  rename(Bonferroni_adjusted_p_value = adjusted_p_value) %>% 
+  # Selecting the necessary columns
+  select(ontology_id, Bonferroni_adjusted_p_value) %>%
+  # Joining with the eFDR results
+  left_join(merged_results, ., by = "ontology_id") %>% 
+  # Arranging by the p-value
+  arrange(p_value)
+
+# filter the p-value < 0.05 results
+merged_results_filtered <- merged_results %>% 
+  filter(p_value < 0.05) %>% 
+  # remove the unnecessary columns
+  select(-ontology_id, -nr_common_with_tested_elements, 
+         -nr_common_with_background_elements)
+```
+
+```{r 'print_compare_p.adj', echo=FALSE}
+merged_results_filtered %>% 
+  knitr::kable()
+```
+
+A comparison of the significant results revealed that conventional *p*-value corrections (Benjamini-Hochberg and Bonferroni) tend to be overly conservative, leading to a reduction in the number of significant transcription factors compared to the *eFDR*. As illustrated in the below figure, by applying the *eFDR* we were able to identify 10 significant transcription factors, while with the Benjamini-Hochberg and Bonferroni corrections only 7 and 3, respectively. This suggests that the *eFDR* may be a more suitable approach for controlling false positives in this context.
+
+![](vignettes/Venn.png){alt="Venn" width="300"}
+
 ## Gene Set Enrichment Analysis (GSEA) {#gene-set-enrichment-analysis-gsea}
 
 To perform enrichment analysis using ranked lists, you need to provide an ordered list of elements, such as genes or proteins. This ranking is typically based on the results of your prior analysis, using metrics like *p*-values, *z*-scores, fold-changes, or others. Crucially, the ranked list should include all elements involved in your analysis. For example, in a differential expression study, it should encompass all genes that were measured.
@@ -392,7 +465,7 @@ ordered_set <- read_tsv("https://raw.githubusercontent.com/ELTEbioinformatics/mu
 
 ### Performing the Gene Set Enrichment Analysis
 
-To perform the analysis, we will first establish a model using the `gsea` function. This model defines the parameters for the enrichment analysis. Subsequently, we will execute the test itself using the `run_test` function. We will employ 10,000 permutations for the false discovery rate correction, to ensure robust correction for multiple testing.
+To perform the analysis, we will first establish a model using the `gsea` function. This model defines the parameters for the enrichment analysis. Subsequently, we will execute the test itself using the `run_test` function. We will employ 10,000 permutations for the false discovery rate, to ensure robust correction for multiple testing.
 
 ```{r 'gsea', warning=FALSE, message=FALSE}
 # Creating the GSEA model using the GMT variable
@@ -551,7 +624,7 @@ target_set <- geo2r_result_tab %>%
   filter(adj.P.Val < 0.05 & logFC > 1) %>% 
   # Selecting the Gene.symbol column
   select(Gene.symbol) %>% 
-  # converting the tibble to a vector
+  # Converting the tibble to a vector
   pull() %>% 
   # Removing duplicates
   unique()
@@ -579,7 +652,7 @@ A vector containing the gene symbols of all genes were included in the different
 background_set <- geo2r_result_tab %>% 
   # Selecting the Gene.symbol column
   select(Gene.symbol) %>% 
-  # Convertin the tibble to a vector
+  # Converting the tibble to a vector
   pull() %>% 
   # Removing duplicates
   unique()

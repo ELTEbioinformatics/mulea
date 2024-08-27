@@ -1,3 +1,7 @@
+# # mulea 1.0.2
+
+- Random seed argument was introduced to the ora function.
+
 # mulea 1.0.1
 
 ## BUGS

@@ -42,7 +42,8 @@ permutations used to calculate the eFDR values. Default value is 10000.}
 
 \item{\code{nthreads}}{Number of processor's threads to use in calculations.}
 
-\item{\code{random_seed}}{Setup seed for random generator.}
+\item{\code{random_seed}}{Optional natural number (1, 2, 3, ...) setting the seed
+for the random generator, to make the results reproducible.}
 }}
 
 \examples{

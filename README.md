@@ -690,7 +690,7 @@ gsea_results %>%
   filter(adjusted_p_value < 0.05) %>% 
   # the number of such rows
   nrow()
-#> [1] 8
+#> [1] 9
 ```
 
 Inspect the significant results:
@@ -705,14 +705,15 @@ gsea_results %>%
 
 | ontology_id | ontology_name | nr_common_with_tested_elements |   p_value | adjusted_p_value |
 |:------------|:--------------|-------------------------------:|----------:|-----------------:|
-| LexA        | LexA          |                             53 | 0.0000000 |        0.0000063 |
-| FNR         | FNR           |                            259 | 0.0000564 |        0.0043151 |
-| ArcA        | ArcA          |                            148 | 0.0001825 |        0.0093083 |
-| DnaA        | DnaA          |                             13 | 0.0005816 |        0.0148306 |
-| GlaR        | GlaR          |                              3 | 0.0005083 |        0.0148306 |
-| ModE        | ModE          |                             45 | 0.0004625 |        0.0148306 |
-| SoxS        | SoxS          |                             37 | 0.0007831 |        0.0171159 |
-| PaaX        | PaaX          |                             14 | 0.0020164 |        0.0385640 |
+| LexA        | LexA          |                             53 | 0.0000000 |        0.0000054 |
+| FNR         | FNR           |                            259 | 0.0001077 |        0.0082413 |
+| GlaR        | GlaR          |                              3 | 0.0002392 |        0.0122013 |
+| ModE        | ModE          |                             45 | 0.0003759 |        0.0128984 |
+| SoxS        | SoxS          |                             37 | 0.0004215 |        0.0128984 |
+| DnaA        | DnaA          |                             13 | 0.0005266 |        0.0134293 |
+| ArcA        | ArcA          |                            148 | 0.0008472 |        0.0185172 |
+| PaaX        | PaaX          |                             14 | 0.0024604 |        0.0470549 |
+| PspF        | PspF          |                              7 | 0.0029044 |        0.0493741 |
 
 ### Visualising the GSEA Results
 
@@ -966,7 +967,7 @@ sessionInfo()
 #> other attached packages:
 #>  [1] lubridate_1.9.3 forcats_1.0.0   stringr_1.5.1   dplyr_1.1.4    
 #>  [5] purrr_1.0.2     readr_2.1.5     tidyr_1.3.1     tibble_3.2.1   
-#>  [9] ggplot2_3.5.1   tidyverse_2.0.0 mulea_1.0.1    
+#>  [9] ggplot2_3.5.1   tidyverse_2.0.0 mulea_1.0.2    
 #> 
 #> loaded via a namespace (and not attached):
 #>  [1] fastmatch_1.1-4     gtable_0.3.5        xfun_0.47          

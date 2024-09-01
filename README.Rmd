@@ -342,14 +342,17 @@ plot_barplot(reshaped_results = ora_reshaped_results,
 
 This function generates a network visualisation of the enriched ontology categories (*e.g.*, transcription factors). Each node represents an eriched ontology category, coloured based on its *eFDR* value. An edge is drawn between two nodes if they share at least one common gene belonging to the target set, indicating co-regulation. The thickness of the edge reflects the number of shared genes.
 
-```{r 'network_plot_ora', out.width = '60%'}
+```{r 'network_plot_ora', out.width = '60%', warning = FALSE, message = FALSE}
 plot_graph(reshaped_results = ora_reshaped_results,
            # Column containing the names we wish to plot
            ontology_id_colname = "ontology_id",
            # Upper threshold for the value indicating the significance
            p_value_max_threshold = 0.05,
            # Column that indicates the significance values
-           p_value_type_colname = "eFDR")
+           p_value_type_colname = "eFDR") +
+  # Scaling the edge width
+  ggraph::scale_edge_width_continuous(range = c(0.2, 3), 
+                                      breaks = c(2, 4, 6, 8, 10))
 ```
 
 **Visualising the Associations: Heatmap**
@@ -533,14 +536,17 @@ gsea_reshaped_results <- reshape_results(model = gsea_model,
 
 This function generates a network visualisation of the enriched ontology categories (*e.g.*, transcription factors). Each node represents a category and is coloured based on its significance level. A connection (edge) is drawn between two nodes if they share at least one common gene belonging to the **ranked list**, meaning that both transcription factors regulate the expression of the same target gene. The thickness of the edge reflects the number of shared genes.
 
-```{r 'network_plot_gsea', out.width = '60%'}
+```{r 'network_plot_gsea', out.width = '60%', warning = FALSE, message = FALSE}
 plot_graph(reshaped_results = gsea_reshaped_results,
            # the column containing the names we wish to plot
            ontology_id_colname = "ontology_id",
            # upper threshold for the value indicating the significance
            p_value_max_threshold = 0.05,
            # column that indicates the significance values
-           p_value_type_colname = "adjusted_p_value")
+           p_value_type_colname = "adjusted_p_value") +
+  # Scaling the edge width
+  ggraph::scale_edge_width_continuous(range = c(0.2, 3), 
+                                      breaks = c(20, 40, 60, 80))
 ```
 
 Other plot types such as lollipop plots, bar plots, and heatmaps can also be used to investigate the GSEA results.

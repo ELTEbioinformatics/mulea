@@ -349,10 +349,7 @@ plot_graph(reshaped_results = ora_reshaped_results,
            # Upper threshold for the value indicating the significance
            p_value_max_threshold = 0.05,
            # Column that indicates the significance values
-           p_value_type_colname = "eFDR") +
-  # Scaling the edge width
-  ggraph::scale_edge_width_continuous(range = c(0.2, 3), 
-                                      breaks = c(2, 4, 6, 8, 10))
+           p_value_type_colname = "eFDR")
 ```
 
 **Visualising the Associations: Heatmap**
@@ -543,10 +540,7 @@ plot_graph(reshaped_results = gsea_reshaped_results,
            # upper threshold for the value indicating the significance
            p_value_max_threshold = 0.05,
            # column that indicates the significance values
-           p_value_type_colname = "adjusted_p_value") +
-  # Scaling the edge width
-  ggraph::scale_edge_width_continuous(range = c(0.2, 3), 
-                                      breaks = c(20, 40, 60, 80))
+           p_value_type_colname = "adjusted_p_value")
 ```
 
 Other plot types such as lollipop plots, bar plots, and heatmaps can also be used to investigate the GSEA results.

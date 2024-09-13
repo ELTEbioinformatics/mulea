@@ -207,7 +207,7 @@ reshape_results <- function(model = NULL, model_results = NULL,
 #'     p_value_type_colname = "eFDR")
 
 plot_graph <- function(reshaped_results, ontology_id_colname='ontology_id',
-    ontology_element_colname='element_id_in_ontology',
+    ontology_element_colname = 'element_id_in_ontology',
     shared_elements_min_threshold = 0,
     p_value_type_colname = 'eFDR', p_value_max_threshold = 0.05) {
     ontology_id <- ontology_id_colname
@@ -242,9 +242,9 @@ plot_graph <- function(reshaped_results, ontology_id_colname='ontology_id',
         edges)))) {
         graph_plot <- graph_plot + 
         ggraph::geom_edge_arc(aes(width = .data$weight), alpha = 0.5)}
-    graph_plot <- addExtraParamsToPlt(graph_plot=graph_plot, 
-        p_value_max_threshold=p_value_max_threshold,
-        p_value_type_colname=p_value_type_colname)
+    graph_plot <- addExtraParamsToPlt(graph_plot = graph_plot, 
+        p_value_max_threshold = p_value_max_threshold,
+        p_value_type_colname = p_value_type_colname)
     graph_plot
 }
 
@@ -294,13 +294,13 @@ fillOntologiesGrapgEdge <- function(ontologies, ontology_id,
 addExtraParamsToPlt <- function(graph_plot, p_value_max_threshold,
     p_value_type_colname) {graph_plot <- graph_plot + 
         ggraph::scale_edge_width(breaks = scales::pretty_breaks(n = 5), 
-            range = c(0, 3), name="Nr. of shared elements") +
+            range = c(0.2, 3), name = "Nr. of shared elements") +
         ggraph::geom_node_point(aes(color = .data$p_stat)) +
         ggraph::geom_node_point(aes(color = .data$p_stat, 
             size = (1 - .data$p_stat)), show.legend = FALSE) +
         scale_size_area(max_size = 10) +
         scale_color_gradient2(mid =  '#ff6361', high = 'grey90',
-            limits = c(0.0,p_value_max_threshold),
+            limits = c(0.0, p_value_max_threshold),
             name = p_value_type_colname) + 
         ggraph::geom_node_text(aes(label = .data$label), repel = TRUE) +
         ggraph::theme_graph(base_family = "sans")
@@ -405,7 +405,7 @@ plot_barplot <- function(reshaped_results, ontology_id_colname = 'ontology_id',
             fill = p_value_type_colname)) +
     geom_bar(stat = "identity") +
     scale_fill_gradient2(mid =  '#ff6361', high = 'grey90',
-        limits = c(0.0,p_value_max_threshold),
+        limits = c(0.0, p_value_max_threshold),
         name = p_value_type_colname) +
     coord_flip() +
     theme_light()

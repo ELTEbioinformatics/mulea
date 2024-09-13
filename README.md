@@ -478,10 +478,7 @@ plot_graph(reshaped_results = ora_reshaped_results,
            # Upper threshold for the value indicating the significance
            p_value_max_threshold = 0.05,
            # Column that indicates the significance values
-           p_value_type_colname = "eFDR") +
-  # Scaling the edge width
-  ggraph::scale_edge_width_continuous(range = c(0.2, 3), 
-                                      breaks = c(2, 4, 6, 8, 10))
+           p_value_type_colname = "eFDR")
 ```
 
 <img src="man/figures/README-network_plot_ora-1.png" width="60%" />
@@ -693,7 +690,7 @@ gsea_results %>%
   filter(adjusted_p_value < 0.05) %>% 
   # the number of such rows
   nrow()
-#> [1] 8
+#> [1] 9
 ```
 
 Inspect the significant results:
@@ -708,14 +705,15 @@ gsea_results %>%
 
 | ontology_id | ontology_name | nr_common_with_tested_elements |   p_value | adjusted_p_value |
 |:------------|:--------------|-------------------------------:|----------:|-----------------:|
-| LexA        | LexA          |                             53 | 0.0000000 |        0.0000037 |
-| FNR         | FNR           |                            259 | 0.0000784 |        0.0059976 |
-| ArcA        | ArcA          |                            148 | 0.0002848 |        0.0087152 |
-| GlaR        | GlaR          |                              3 | 0.0002484 |        0.0087152 |
-| ModE        | ModE          |                             45 | 0.0002666 |        0.0087152 |
-| SoxS        | SoxS          |                             37 | 0.0006182 |        0.0157647 |
-| DnaA        | DnaA          |                             13 | 0.0007556 |        0.0165154 |
-| PaaX        | PaaX          |                             14 | 0.0014082 |        0.0269323 |
+| LexA        | LexA          |                             53 | 0.0000001 |        0.0000089 |
+| FNR         | FNR           |                            259 | 0.0000379 |        0.0028982 |
+| GlaR        | GlaR          |                              3 | 0.0002188 |        0.0111583 |
+| ArcA        | ArcA          |                            148 | 0.0003258 |        0.0117944 |
+| DnaA        | DnaA          |                             13 | 0.0004397 |        0.0117944 |
+| ModE        | ModE          |                             45 | 0.0004625 |        0.0117944 |
+| SoxS        | SoxS          |                             37 | 0.0007464 |        0.0163152 |
+| PspF        | PspF          |                              7 | 0.0016107 |        0.0308049 |
+| PaaX        | PaaX          |                             14 | 0.0019054 |        0.0323922 |
 
 ### Visualising the GSEA Results
 
@@ -747,10 +745,7 @@ plot_graph(reshaped_results = gsea_reshaped_results,
            # upper threshold for the value indicating the significance
            p_value_max_threshold = 0.05,
            # column that indicates the significance values
-           p_value_type_colname = "adjusted_p_value") +
-  # Scaling the edge width
-  ggraph::scale_edge_width_continuous(range = c(0.2, 3), 
-                                      breaks = c(20, 40, 60, 80))
+           p_value_type_colname = "adjusted_p_value")
 ```
 
 <img src="man/figures/README-network_plot_gsea-1.png" width="60%" />
@@ -949,7 +944,7 @@ ordered_set %>%
 sessionInfo()
 #> R version 4.4.1 (2024-06-14)
 #> Platform: x86_64-pc-linux-gnu
-#> Running under: Ubuntu 22.04.4 LTS
+#> Running under: Ubuntu 22.04.5 LTS
 #> 
 #> Matrix products: default
 #> BLAS:   /usr/lib/x86_64-linux-gnu/openblas-pthread/libblas.so.3 
@@ -976,7 +971,7 @@ sessionInfo()
 #> 
 #> loaded via a namespace (and not attached):
 #>  [1] fastmatch_1.1-4     gtable_0.3.5        xfun_0.47          
-#>  [4] ggrepel_0.9.5       lattice_0.22-6      tzdb_0.4.0         
+#>  [4] ggrepel_0.9.6       lattice_0.22-6      tzdb_0.4.0         
 #>  [7] vctrs_0.6.5         tools_4.4.1         generics_0.1.3     
 #> [10] curl_5.2.2          parallel_4.4.1      fansi_1.0.6        
 #> [13] highr_0.11          pkgconfig_2.0.3     Matrix_1.7-0       

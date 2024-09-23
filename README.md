@@ -67,7 +67,7 @@ BiocManager::install("fgsea")
 ```
 
 To install `mulea` from
-[CRAN](https://cran.rstudio.com/web/packages/mulea/index.html):
+[CRAN](https://cran.r-project.org/package=mulea):
 
 ``` r
 install.packages("mulea")

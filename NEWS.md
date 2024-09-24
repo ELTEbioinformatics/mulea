@@ -1,10 +1,13 @@
-# # mulea 1.0.2
+# mulea 1.1.0
+
+## Minor Improvements
 
 - Random seed argument was introduced to the ora function.
+- Range in internal function `addExtraParamsToPlt()` was updated from 0 to 0.2.
 
 # mulea 1.0.1
 
-## BUGS
+## Bug Fixes
 
 - CRAN check results indicated some OS dependent behaviour. This is now fixed.
 

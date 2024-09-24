@@ -1,8 +1,8 @@
 Package: mulea
 Type: Package
 Title: Enrichment Analysis using Multiple Ontologies and False Discovery Rate
-Version: 1.0.2
-Date: 2024-08-27
+Version: 1.1.0
+Date: 2024-09-24
 Authors@R: c(
     person("Cezary", "Turek", role =  "aut",
         comment = c(ORCID = "0000-0002-1445-5378")),

@@ -728,7 +728,7 @@ sessionInfo()
 
 To cite package `mulea` in publications use:
 
-Turek, Cezary, Márton Ölbei, Tamás Stirling, Gergely Fekete, Ervin Tasnádi, Leila Gul, Balázs Bohár, Balázs Papp, Wiktor Jurkowski, and Eszter Ari. 2024. “mulea - an R Package for Enrichment Analysis Using Multiple Ontologies and Empirical FDR Correction.” *bioRxiv*, March. <https://doi.org/10.1101/2024.02.28.582444>.
+Turek, Cezary, Márton Ölbei, Tamás Stirling, Gergely Fekete, Ervin Tasnádi, Leila Gul, Balázs Bohár, Balázs Papp, Wiktor Jurkowski, and Eszter Ari. 2024. “mulea: An R Package for Enrichment Analysis Using Multiple Ontologies and Empirical False Discovery Rate.” *BMC Bioinformatics* 25 (1): 334. <https://doi.org/10.1186/s12859-024-05948-7>.
 
 # References
 
@@ -740,4 +740,4 @@ Méhi, Orsolya, Balázs Bogos, Bálint Csörgő, Ferenc Pál, Ákos Nyerges, Bal
 
 Subramanian, Aravind, Pablo Tamayo, Vamsi K. Mootha, Sayan Mukherjee, Benjamin L. Ebert, Michael A. Gillette, Amanda Paulovich, et al. 2005. “Gene Set Enrichment Analysis: A Knowledge-Based Approach for Interpreting Genome-Wide Expression Profiles.” *Proceedings of the National Academy of Sciences* 102 (43): 15545–50. <https://doi.org/10.1073/pnas.0506580102>.
 
-Turek, Cezary, Márton Ölbei, Tamás Stirling, Gergely Fekete, Ervin Tasnádi, Leila Gul, Balázs Bohár, Balázs Papp, Wiktor Jurkowski, and Eszter Ari. 2024. “Mulea - an R Package for Enrichment Analysis Using Multiple Ontologies and Empirical FDR Correction.” *bioRxiv*, March. <https://doi.org/10.1101/2024.02.28.582444>.
+Turek, Cezary, Márton Ölbei, Tamás Stirling, Gergely Fekete, Ervin Tasnádi, Leila Gul, Balázs Bohár, Balázs Papp, Wiktor Jurkowski, and Eszter Ari. 2024. “mulea: An R Package for Enrichment Analysis Using Multiple Ontologies and Empirical False Discovery Rate.” *BMC Bioinformatics* 25 (1): 334. <https://doi.org/10.1186/s12859-024-05948-7>.

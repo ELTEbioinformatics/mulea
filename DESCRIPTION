@@ -1,6 +1,6 @@
 Package: mulea
 Type: Package
-Title: Enrichment Analysis using Multiple Ontologies and False Discovery Rate
+Title: Enrichment Analysis Using Multiple Ontologies and False Discovery Rate
 Version: 1.1.0
 Date: 2024-09-24
 Authors@R: c(

@@ -1,4 +1,4 @@
-citHeader("To cite mulea in publications use:")
+citHeader("Please cite the following paper when using the mulea package:")
 
 bibentry(bibtype = "Article",
     author = c(
@@ -14,14 +14,19 @@ bibentry(bibtype = "Article",
         person("Eszter", "Ari")
     ),
     title = "mulea - an R package for enrichment analysis using multiple 
-        ontologies and empirical FDR correction.",
+        ontologies and empirical false discovery rate.",
+    journal = "BMC Bioinformatics",
     year = "2024",
-    publisher = "Cold Spring Harbor Laboratory",
-    URL = "https://doi.org/10.1101/2024.02.28.582444",
-    journal = "bioRxiv",
+    volume = "25",
+    number = "1",
+    pages = "334",
+    URL = "https://doi.org/10.1186/s12859-024-05948-7",
+    
     textVersion = paste("C. Turek, M. Olbei, T. Stirling, G. Fekete, E. Tasnadi,
         L. Gul, B. Bohar, B. Papp, W. Jurkowski, E. Ari:",
         "mulea - an R package for enrichment analysis using multiple ontologies
-        and empirical FDR correction.",
-        "bioRxiv (2024), doi:10.1101/2024.02.28.582444v1")
+        and empirical false discovery rate.",
+        "BMC Bioinformatics, 25(1): 334 (2024), doi:10.1186/s12859-024-05948-7")
 )
+
+citFooter("Thank you for using our package!")

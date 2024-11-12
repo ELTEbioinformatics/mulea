@@ -719,6 +719,6 @@ sessionInfo()
 
 To cite package `mulea` in publications use:
 
-Turek, Cezary, Márton Ölbei, Tamás Stirling, Gergely Fekete, Ervin Tasnádi, Leila Gul, Balázs Bohár, Balázs Papp, Wiktor Jurkowski, and Eszter Ari. 2024. “mulea - an R Package for Enrichment Analysis Using Multiple Ontologies and Empirical FDR Correction.” *bioRxiv*, March. <https://doi.org/10.1101/2024.02.28.582444>.
+Turek, Cezary, Márton Ölbei, Tamás Stirling, Gergely Fekete, Ervin Tasnádi, Leila Gul, Balázs Bohár, Balázs Papp, Wiktor Jurkowski, and Eszter Ari. 2024. “mulea: An R Package for Enrichment Analysis Using Multiple Ontologies and Empirical False Discovery Rate.” *BMC Bioinformatics* 25 (1): 334. <https://doi.org/10.1186/s12859-024-05948-7>.
 
 # References

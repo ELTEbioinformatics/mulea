@@ -388,18 +388,18 @@ ora_results %>%
   filter(eFDR < 0.05)
 ```
 
-| ontology_id | ontology_name | nr_common_with_tested_elements | nr_common_with_background_elements |   p_value |      eFDR |
-|:------------|:--------------|-------------------------------:|-----------------------------------:|----------:|----------:|
-| FNR         | FNR           |                             26 |                                259 | 0.0000003 | 0.0000000 |
-| LexA        | LexA          |                             14 |                                 53 | 0.0000000 | 0.0000000 |
-| SoxS        | SoxS          |                              7 |                                 37 | 0.0001615 | 0.0036667 |
-| Rob         | Rob           |                              5 |                                 21 | 0.0004717 | 0.0051200 |
-| DnaA        | DnaA          |                              4 |                                 13 | 0.0006281 | 0.0052000 |
-| FadR        | FadR          |                              5 |                                 20 | 0.0003692 | 0.0056000 |
-| NsrR        | NsrR          |                              8 |                                 64 | 0.0010478 | 0.0073714 |
-| ArcA        | ArcA          |                             12 |                                148 | 0.0032001 | 0.0197500 |
-| IHF         | IHF           |                             14 |                                205 | 0.0070758 | 0.0458600 |
-| MarA        | MarA          |                              5 |                                 37 | 0.0066068 | 0.0483111 |
+| ontology_id | ontology_name | nr_common_with_tested_elements | nr_common_with_background_elements | p_value | eFDR |
+|:---|:---|---:|---:|---:|---:|
+| FNR | FNR | 26 | 259 | 0.0000003 | 0.0000000 |
+| LexA | LexA | 14 | 53 | 0.0000000 | 0.0000000 |
+| SoxS | SoxS | 7 | 37 | 0.0001615 | 0.0036667 |
+| Rob | Rob | 5 | 21 | 0.0004717 | 0.0051200 |
+| DnaA | DnaA | 4 | 13 | 0.0006281 | 0.0052000 |
+| FadR | FadR | 5 | 20 | 0.0003692 | 0.0056000 |
+| NsrR | NsrR | 8 | 64 | 0.0010478 | 0.0073714 |
+| ArcA | ArcA | 12 | 148 | 0.0032001 | 0.0197500 |
+| IHF | IHF | 14 | 205 | 0.0070758 | 0.0458600 |
+| MarA | MarA | 5 | 37 | 0.0066068 | 0.0483111 |
 
 ### Visualising the ORA Result
 
@@ -572,27 +572,27 @@ merged_results_filtered <- merged_results %>%
          -nr_common_with_background_elements)
 ```
 
-| ontology_name |   p_value |      eFDR | BH_adjusted_p_value | Bonferroni_adjusted_p_value |
-|:--------------|----------:|----------:|--------------------:|----------------------------:|
-| LexA          | 0.0000000 | 0.0000000 |           0.0000001 |                   0.0000001 |
-| FNR           | 0.0000003 | 0.0000000 |           0.0000208 |                   0.0000416 |
-| SoxS          | 0.0001615 | 0.0036667 |           0.0082880 |                   0.0248641 |
-| FadR          | 0.0003692 | 0.0056000 |           0.0142127 |                   0.0568507 |
-| Rob           | 0.0004717 | 0.0051200 |           0.0145296 |                   0.0726479 |
-| DnaA          | 0.0006281 | 0.0052000 |           0.0161218 |                   0.0967306 |
-| NsrR          | 0.0010478 | 0.0073714 |           0.0230517 |                   0.1613622 |
-| ArcA          | 0.0032001 | 0.0197500 |           0.0616014 |                   0.4928114 |
-| MarA          | 0.0066068 | 0.0483111 |           0.1089670 |                   1.0000000 |
-| IHF           | 0.0070758 | 0.0458600 |           0.1089670 |                   1.0000000 |
-| NarL          | 0.0096065 | 0.0534000 |           0.1276532 |                   1.0000000 |
-| NikR          | 0.0099470 | 0.0615833 |           0.1276532 |                   1.0000000 |
-| OxyR          | 0.0174505 | 0.0786923 |           0.2067212 |                   1.0000000 |
-| ExuR          | 0.0261046 | 0.1051867 |           0.2680073 |                   1.0000000 |
-| UxuR          | 0.0261046 | 0.1051867 |           0.2680073 |                   1.0000000 |
-| NrdR          | 0.0328500 | 0.1232750 |           0.3161817 |                   1.0000000 |
-| IscR          | 0.0376038 | 0.1249412 |           0.3406459 |                   1.0000000 |
-| Nac           | 0.0419701 | 0.1487556 |           0.3590774 |                   1.0000000 |
-| Fis           | 0.0457307 | 0.1433053 |           0.3706596 |                   1.0000000 |
+| ontology_name | p_value | eFDR | BH_adjusted_p_value | Bonferroni_adjusted_p_value |
+|:---|---:|---:|---:|---:|
+| LexA | 0.0000000 | 0.0000000 | 0.0000001 | 0.0000001 |
+| FNR | 0.0000003 | 0.0000000 | 0.0000208 | 0.0000416 |
+| SoxS | 0.0001615 | 0.0036667 | 0.0082880 | 0.0248641 |
+| FadR | 0.0003692 | 0.0056000 | 0.0142127 | 0.0568507 |
+| Rob | 0.0004717 | 0.0051200 | 0.0145296 | 0.0726479 |
+| DnaA | 0.0006281 | 0.0052000 | 0.0161218 | 0.0967306 |
+| NsrR | 0.0010478 | 0.0073714 | 0.0230517 | 0.1613622 |
+| ArcA | 0.0032001 | 0.0197500 | 0.0616014 | 0.4928114 |
+| MarA | 0.0066068 | 0.0483111 | 0.1089670 | 1.0000000 |
+| IHF | 0.0070758 | 0.0458600 | 0.1089670 | 1.0000000 |
+| NarL | 0.0096065 | 0.0534000 | 0.1276532 | 1.0000000 |
+| NikR | 0.0099470 | 0.0615833 | 0.1276532 | 1.0000000 |
+| OxyR | 0.0174505 | 0.0786923 | 0.2067212 | 1.0000000 |
+| ExuR | 0.0261046 | 0.1051867 | 0.2680073 | 1.0000000 |
+| UxuR | 0.0261046 | 0.1051867 | 0.2680073 | 1.0000000 |
+| NrdR | 0.0328500 | 0.1232750 | 0.3161817 | 1.0000000 |
+| IscR | 0.0376038 | 0.1249412 | 0.3406459 | 1.0000000 |
+| Nac | 0.0419701 | 0.1487556 | 0.3590774 | 1.0000000 |
+| Fis | 0.0457307 | 0.1433053 | 0.3706596 | 1.0000000 |
 
 A comparison of the significant results revealed that conventional
 *p*-value corrections (Benjamini-Hochberg and Bonferroni) tend to be
@@ -690,7 +690,7 @@ gsea_results %>%
   filter(adjusted_p_value < 0.05) %>% 
   # the number of such rows
   nrow()
-#> [1] 9
+#> [1] 10
 ```
 
 Inspect the significant results:
@@ -703,17 +703,18 @@ gsea_results %>%
   filter(adjusted_p_value < 0.05)
 ```
 
-| ontology_id | ontology_name | nr_common_with_tested_elements |   p_value | adjusted_p_value |
-|:------------|:--------------|-------------------------------:|----------:|-----------------:|
-| LexA        | LexA          |                             53 | 0.0000001 |        0.0000089 |
-| FNR         | FNR           |                            259 | 0.0000379 |        0.0028982 |
-| GlaR        | GlaR          |                              3 | 0.0002188 |        0.0111583 |
-| ArcA        | ArcA          |                            148 | 0.0003258 |        0.0117944 |
-| DnaA        | DnaA          |                             13 | 0.0004397 |        0.0117944 |
-| ModE        | ModE          |                             45 | 0.0004625 |        0.0117944 |
-| SoxS        | SoxS          |                             37 | 0.0007464 |        0.0163152 |
-| PspF        | PspF          |                              7 | 0.0016107 |        0.0308049 |
-| PaaX        | PaaX          |                             14 | 0.0019054 |        0.0323922 |
+| ontology_id | ontology_name | nr_common_with_tested_elements | p_value | adjusted_p_value |
+|:---|:---|---:|---:|---:|
+| LexA | LexA | 53 | 0.0000000 | 0.0000047 |
+| FNR | FNR | 259 | 0.0000660 | 0.0050484 |
+| ArcA | ArcA | 148 | 0.0003076 | 0.0079598 |
+| GlaR | GlaR | 3 | 0.0002188 | 0.0079598 |
+| ModE | ModE | 45 | 0.0003122 | 0.0079598 |
+| SoxS | SoxS | 37 | 0.0002848 | 0.0079598 |
+| DnaA | DnaA | 13 | 0.0010217 | 0.0223306 |
+| PaaX | PaaX | 14 | 0.0017028 | 0.0325652 |
+| PspF | PspF | 7 | 0.0023494 | 0.0399397 |
+| FadR | FadR | 20 | 0.0028304 | 0.0433046 |
 
 ### Visualising the GSEA Results
 
@@ -781,11 +782,11 @@ geo2r_result_tab %>%
   head(3)
 ```
 
-| ID           | adj.P.Val | P.Value |    t |       B | logFC | Gene.symbol                  | Gene.title                                                                                                            |
-|:-------------|----------:|--------:|-----:|--------:|------:|:-----------------------------|:----------------------------------------------------------------------------------------------------------------------|
-| 1765336_s_at |    0.0186 | 2.4e-06 | 21.5 | 4.95769 |  3.70 | gnsB                         | Qin prophage; multicopy suppressor of secG(Cs) and fabA6(Ts)                                                          |
-| 1760422_s_at |    0.0186 | 3.8e-06 | 19.6 | 4.68510 |  3.14 | NA                           | NA                                                                                                                    |
-| 1764904_s_at |    0.0186 | 5.7e-06 | 18.2 | 4.43751 |  2.54 | sulA///sulA///sulA///ECs1042 | SOS cell division inhibitor///SOS cell division inhibitor///SOS cell division inhibitor///SOS cell division inhibitor |
+| ID | adj.P.Val | P.Value | t | B | logFC | Gene.symbol | Gene.title |
+|:---|---:|---:|---:|---:|---:|:---|:---|
+| 1765336_s_at | 0.0186 | 2.4e-06 | 21.5 | 4.95769 | 3.70 | gnsB | Qin prophage; multicopy suppressor of secG(Cs) and fabA6(Ts) |
+| 1760422_s_at | 0.0186 | 3.8e-06 | 19.6 | 4.68510 | 3.14 | NA | NA |
+| 1764904_s_at | 0.0186 | 5.7e-06 | 18.2 | 4.43751 | 2.54 | sulA///sulA///sulA///ECs1042 | SOS cell division inhibitor///SOS cell division inhibitor///SOS cell division inhibitor///SOS cell division inhibitor |
 
 ### **Data Preparation:**
 
@@ -824,11 +825,11 @@ geo2r_result_tab %>%
   head(3)
 ```
 
-| ID           | adj.P.Val |  P.Value |    t |       B | logFC | Gene.symbol | Gene.title                                                                                                                                |
-|:-------------|----------:|---------:|-----:|--------:|------:|:------------|:------------------------------------------------------------------------------------------------------------------------------------------|
-| 1765336_s_at |    0.0186 | 2.40e-06 | 21.5 | 4.95769 |  3.70 | gnsB        | Qin prophage; multicopy suppressor of secG(Cs) and fabA6(Ts)                                                                              |
-| 1764904_s_at |    0.0186 | 5.70e-06 | 18.2 | 4.43751 |  2.54 | sulA        | SOS cell division inhibitor///SOS cell division inhibitor///SOS cell division inhibitor///SOS cell division inhibitor                     |
-| 1761763_s_at |    0.0186 | 1.54e-05 | 15.0 | 3.73568 |  2.16 | recN        | recombination and repair protein///recombination and repair protein///recombination and repair protein///recombination and repair protein |
+| ID | adj.P.Val | P.Value | t | B | logFC | Gene.symbol | Gene.title |
+|:---|---:|---:|---:|---:|---:|:---|:---|
+| 1765336_s_at | 0.0186 | 2.40e-06 | 21.5 | 4.95769 | 3.70 | gnsB | Qin prophage; multicopy suppressor of secG(Cs) and fabA6(Ts) |
+| 1764904_s_at | 0.0186 | 5.70e-06 | 18.2 | 4.43751 | 2.54 | sulA | SOS cell division inhibitor///SOS cell division inhibitor///SOS cell division inhibitor///SOS cell division inhibitor |
+| 1761763_s_at | 0.0186 | 1.54e-05 | 15.0 | 3.73568 | 2.16 | recN | recombination and repair protein///recombination and repair protein///recombination and repair protein///recombination and repair protein |
 
 Following these formatting steps, the data frame is primed for further
 analysis.
@@ -942,7 +943,7 @@ ordered_set %>%
 
 ``` r
 sessionInfo()
-#> R version 4.4.1 (2024-06-14)
+#> R version 4.4.2 (2024-10-31)
 #> Platform: x86_64-pc-linux-gnu
 #> Running under: Ubuntu 22.04.5 LTS
 #> 
@@ -972,18 +973,18 @@ sessionInfo()
 #> loaded via a namespace (and not attached):
 #>  [1] fastmatch_1.1-4     gtable_0.3.5        xfun_0.47          
 #>  [4] ggrepel_0.9.6       lattice_0.22-6      tzdb_0.4.0         
-#>  [7] vctrs_0.6.5         tools_4.4.1         generics_0.1.3     
-#> [10] curl_5.2.2          parallel_4.4.1      fansi_1.0.6        
+#>  [7] vctrs_0.6.5         tools_4.4.2         generics_0.1.3     
+#> [10] curl_5.2.2          parallel_4.4.2      fansi_1.0.6        
 #> [13] highr_0.11          pkgconfig_2.0.3     Matrix_1.7-0       
-#> [16] data.table_1.16.0   lifecycle_1.0.4     compiler_4.4.1     
+#> [16] data.table_1.16.0   lifecycle_1.0.4     compiler_4.4.2     
 #> [19] farver_2.1.2        munsell_0.5.1       ggforce_0.4.2      
-#> [22] fgsea_1.30.0        graphlayouts_1.1.1  codetools_0.2-20   
+#> [22] fgsea_1.30.0        graphlayouts_1.2.0  codetools_0.2-20   
 #> [25] htmltools_0.5.8.1   yaml_2.3.10         crayon_1.5.3       
 #> [28] pillar_1.9.0        MASS_7.3-61         BiocParallel_1.38.0
 #> [31] cachem_1.1.0        viridis_0.6.5       tidyselect_1.2.1   
 #> [34] digest_0.6.37       stringi_1.8.4       labeling_0.4.3     
 #> [37] cowplot_1.1.3       polyclip_1.10-7     fastmap_1.2.0      
-#> [40] grid_4.4.1          colorspace_2.1-1    cli_3.6.3          
+#> [40] grid_4.4.2          colorspace_2.1-1    cli_3.6.3          
 #> [43] magrittr_2.0.3      ggraph_2.2.1        tidygraph_1.3.1    
 #> [46] utf8_1.2.4          withr_3.0.1         scales_1.3.0       
 #> [49] bit64_4.0.5         timechange_0.3.0    rmarkdown_2.28     
@@ -1001,9 +1002,10 @@ To cite package `mulea` in publications use:
 
 Turek, Cezary, Márton Ölbei, Tamás Stirling, Gergely Fekete, Ervin
 Tasnádi, Leila Gul, Balázs Bohár, Balázs Papp, Wiktor Jurkowski, and
-Eszter Ari. 2024. “mulea - an R Package for Enrichment Analysis Using
-Multiple Ontologies and Empirical FDR Correction.” *bioRxiv*, March.
-<https://doi.org/10.1101/2024.02.28.582444>.
+Eszter Ari. 2024. “mulea: An R Package for Enrichment Analysis Using
+Multiple Ontologies and Empirical False Discovery Rate.” *BMC
+Bioinformatics* 25 (1): 334.
+<https://doi.org/10.1186/s12859-024-05948-7>.
 
 # References
 
@@ -1052,9 +1054,10 @@ National Academy of Sciences* 102 (43): 15545–50.
 
 Turek, Cezary, Márton Ölbei, Tamás Stirling, Gergely Fekete, Ervin
 Tasnádi, Leila Gul, Balázs Bohár, Balázs Papp, Wiktor Jurkowski, and
-Eszter Ari. 2024. “Mulea - an R Package for Enrichment Analysis Using
-Multiple Ontologies and Empirical FDR Correction.” *bioRxiv*, March.
-<https://doi.org/10.1101/2024.02.28.582444>.
+Eszter Ari. 2024. “<span class="nocase">mulea</span>: An R Package for
+Enrichment Analysis Using Multiple Ontologies and Empirical False
+Discovery Rate.” *BMC Bioinformatics* 25 (1): 334.
+<https://doi.org/10.1186/s12859-024-05948-7>.
 
 </div>
 

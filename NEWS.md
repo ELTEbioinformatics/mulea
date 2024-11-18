@@ -1,3 +1,7 @@
+# mulea 1.1.1
+
+- Updated citation to the BMC Bioinformatics article.
+
 # mulea 1.1.0
 
 ## Minor Improvements

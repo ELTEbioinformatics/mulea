@@ -2,18 +2,24 @@
   "@context": "https://doi.org/10.5063/schema/codemeta-2.0",
   "@type": "SoftwareSourceCode",
   "identifier": "mulea",
-  "description": "Traditional gene set enrichment analyses are typically limited to a few ontologies and do not account for the interdependence of gene sets or terms, resulting in overcorrected p-values. To address these challenges, we introduce mulea, an R package offering comprehensive overrepresentation and functional enrichment analysis. mulea employs an innovative empirical false discovery rate (eFDR) correction method, specifically designed for interconnected biological data, to accurately identify significant terms within diverse ontologies. Beyond conventional tools, mulea incorporates a wide range of ontologies encompassing Gene Ontology, pathways, regulatory elements, genomic locations, and protein domains. This flexibility empowers researchers to tailor enrichment analysis to their specific questions, such as identifying enriched transcriptional regulators in gene expression data or overrepresented protein domains in protein sets. To facilitate seamless analysis, mulea provides gene sets (in standardized GMT format) for 27 model organisms, covering 16 databases and various identifiers. Additionally, the muleaData ExperimentData Bioconductor package simplifies access to these 879 pre-defined ontologies. Furthermore, mulea's architecture allows for easy integration of user-defined ontologies, expanding its applicability across diverse research areas.",
-  "name": "mulea: Enrichment Analysis using Multiple Ontologies and FDR Correction",
+  "description": "Background - Traditional gene set enrichment analyses are typically limited to a few ontologies and do not account for the interdependence of gene sets or terms, resulting in overcorrected p-values. To address these challenges, we introduce mulea, an R package offering comprehensive overrepresentation and functional enrichment analysis. Results - mulea employs a progressive empirical false discovery rate (eFDR) method, specifically designed for interconnected biological data, to accurately identify significant terms within diverse ontologies. mulea expands beyond traditional tools by incorporating a wide range of ontologies, encompassing Gene Ontology, pathways, regulatory elements, genomic locations, and protein domains. This flexibility enables researchers to tailor enrichment analysis to their specific questions, such as identifying enriched transcriptional regulators in gene expression data or overrepresented protein domains in protein sets. To facilitate seamless analysis, mulea provides gene sets (in standardised GMT format) for 27 model organisms, covering 22 ontology types from 16 databases and various identifiers resulting in almost 900 files. Additionally, the muleaData ExperimentData Bioconductor package simplifies access to these pre-defined ontologies. Finally, mulea's architecture allows for easy integration of user-defined ontologies, or GMT files from external sources (e.g., MSigDB or Enrichr), expanding its applicability across diverse research areas. Conclusions - mulea is distributed as a CRAN R package. It offers researchers a powerful and flexible toolkit for functional enrichment analysis, addressing limitations of traditional tools with its progressive eFDR and by supporting a variety of ontologies. Overall, mulea fosters the exploration of diverse biological questions across various model organisms.",
+  "name": "mulea: Enrichment Analysis Using Multiple Ontologies and False Discovery Rate",
   "codeRepository": "https://github.com/ELTEbioinformatics/mulea",
   "issueTracker": "https://github.com/ELTEbioinformatics/mulea/issues",
   "license": "https://spdx.org/licenses/GPL-2.0",
-  "version": "0.99.12",
+  "version": "1.1.1",
   "programmingLanguage": {
     "@type": "ComputerLanguage",
     "name": "R",
     "url": "https://r-project.org"
   },
-  "runtimePlatform": "R version 4.4.0 (2024-04-24)",
+  "runtimePlatform": "R version 4.2.2 Patched (2022-11-10 r83330)",
+  "provider": {
+    "@id": "https://cran.r-project.org",
+    "@type": "Organization",
+    "name": "Comprehensive R Archive Network (CRAN)",
+    "url": "https://cran.r-project.org"
+  },
   "author": [
     {
       "@type": "Person",
@@ -354,7 +360,7 @@
     },
     "SystemRequirements": null
   },
-  "fileSize": "6596.712KB",
+  "fileSize": "6767.184KB",
   "citation": [
     {
       "@type": "ScholarlyArticle",
@@ -411,17 +417,17 @@
           "familyName": "Ari"
         }
       ],
-      "name": "mulea - an R package for enrichment analysis using multiple \n        ontologies and empirical FDR correction.",
-      "identifier": "10.1101/2024.02.28.582444v1",
-      "url": "https://doi.org/10.1101/2024.02.28.582444",
-      "@id": "https://doi.org/10.1101/2024.02.28.582444v1",
-      "sameAs": "https://doi.org/10.1101/2024.02.28.582444v1",
+      "name": "mulea - an R package for enrichment analysis using multiple \n        ontologies and empirical false discovery rate.",
+      "url": "https://doi.org/10.1186/s12859-024-05948-7",
+      "pagination": "334",
       "isPartOf": {
         "@type": "PublicationIssue",
+        "issueNumber": "1",
         "datePublished": "2024",
         "isPartOf": {
           "@type": ["PublicationVolume", "Periodical"],
-          "name": "bioRxiv"
+          "volumeNumber": "25",
+          "name": "BMC Bioinformatics"
         }
       }
     }

@@ -41,7 +41,8 @@ setMethod("initialize", "SubramanianTest",
             .Object@gsea_power <- gsea_power
             .Object@element_score_type <- element_score_type
             .Object@test <- function(model) {
-                listmodelDfFromFile <- model@gmt$list_of_values
+                listmodelDfFromFile <- lapply(model@gmt$list_of_values, 
+                                              strsplit, split=" ", fixed=T)
                 names(listmodelDfFromFile) <- model@gmt$ontology_id
                 samplesToAnalisys <- model@element_scores
                 names(samplesToAnalisys) <- model@element_names

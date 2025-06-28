@@ -41,6 +41,8 @@ filterRelaxedResultsForPlotting <- function(reshaped_results,
 #' @param p_value_max_threshold Logical, indicating whether to apply a 
 #'   *p*-value threshold when filtering the resulting data. If TRUE, 
 #'   the function filters the data based on a *p*-value threshold.
+#' @param result_extend_colnames List of existing column names which you wish to
+#'   attached to results
 #' @seealso \code{\link{plot_graph}}, \code{\link{plot_barplot}},
 #'   \code{\link{plot_heatmap}}
 #' @importFrom data.table :=
@@ -90,7 +92,8 @@ filterRelaxedResultsForPlotting <- function(reshaped_results,
 reshape_results <- function(model = NULL, model_results = NULL,
     model_ontology_col_name = 'ontology_id', 
     ontology_id_colname = 'ontology_id',
-    p_value_type_colname = 'eFDR', p_value_max_threshold = TRUE) {
+    p_value_type_colname = 'eFDR', p_value_max_threshold = TRUE, 
+    result_extend_colnames = NULL) {
     genIdInOntology <- NULL
     model_with_res <- merge(x = model@gmt, y = model_results,
         by.x = model_ontology_col_name, by.y = ontology_id_colname, all = TRUE)
@@ -121,6 +124,14 @@ reshape_results <- function(model = NULL, model_results = NULL,
             genIdInOntology %in% model@element_names]}
     names(model_with_res_dt_relaxed) <- c("ontology_id", 
         "element_id_in_ontology", p_value_type_colname)
+    
+    if (!is.null(result_extend_colnames)) {
+        model_with_res_dt_relaxed <- merge(
+            ora_reshaped_results, 
+            ora_results[, c("ontology_id", result_extend_colnames)], 
+            by = "ontology_id", all.x = TRUE)  
+    }
+    
     model_with_res_dt_relaxed
 }
 
@@ -434,6 +445,8 @@ plot_barplot <- function(reshaped_results, ontology_id_colname = 'ontology_id',
 #' in the input data. Default is 'eFDR'.
 #' @param p_value_max_threshold Numeric, representing the maximum p-value 
 #' threshold for filtering data. Default is 0.05.
+#' @param plot_names_colname Column name used for representing labels of 
+#' ontologies.
 #' @importFrom magrittr %>%
 #' @importFrom magrittr %<>%
 #' @importFrom readr read_tsv
@@ -490,6 +503,7 @@ plot_barplot <- function(reshaped_results, ontology_id_colname = 'ontology_id',
 #'     p_value_type_colname = "eFDR")
 #' 
 plot_lollipop <- function(reshaped_results, ontology_id_colname = 'ontology_id',
+    plot_names_colname = NULL,
     selected_rows_to_plot = NULL, p_value_type_colname = 'eFDR',
     p_value_max_threshold = 0.05) {
     validate_column_names_and_function_args(data = reshaped_results,
@@ -500,9 +514,20 @@ plot_lollipop <- function(reshaped_results, ontology_id_colname = 'ontology_id',
         p_value_max_threshold = p_value_max_threshold)
     if (is.null(selected_rows_to_plot)) {
         selected_rows_to_plot <- seq_len(nrow(reshaped_results))}
-    unique_reshaped_results <- unique(
-        reshaped_results[selected_rows_to_plot, 
-            c(ontology_id_colname, p_value_type_colname), with = FALSE])
+    unique_reshaped_results <- NULL
+    if (is.null(plot_names_colname)) {
+      plot_names_colname <- ontology_id_colname
+      unique_reshaped_results <- unique(
+          reshaped_results[selected_rows_to_plot, 
+              c(ontology_id_colname, p_value_type_colname), 
+              with = FALSE])
+    } else {
+      unique_reshaped_results <- unique(
+          reshaped_results[selected_rows_to_plot, 
+              c(ontology_id_colname, p_value_type_colname, 
+                plot_names_colname), 
+              with = FALSE])
+    }
     unique_reshaped_results <- unique_reshaped_results %>%
         dplyr::arrange(dplyr::desc((!!as.name(p_value_type_colname))))
     unique_reshaped_results_df <- as.data.frame(unique_reshaped_results)
@@ -510,9 +535,9 @@ plot_lollipop <- function(reshaped_results, ontology_id_colname = 'ontology_id',
         unique_reshaped_results_df[[1]],
         levels = unique_reshaped_results_df[[1]])
     mulea_gg_plot <- ggplot(unique_reshaped_results_df,
-        aes_string(x = ontology_id_colname, y = p_value_type_colname)) +
-    geom_segment(aes(x = get(ontology_id_colname), 
-        xend = get(ontology_id_colname), y = 0, 
+        aes_string(x = plot_names_colname, y = p_value_type_colname)) +
+    geom_segment(aes(x = get(plot_names_colname), 
+        xend = get(plot_names_colname), y = 0, 
         yend = as.numeric(get(p_value_type_colname))), color = 'black') +
     geom_point(aes(size = 5, color = get(p_value_type_colname))) +
     guides(size = 'none')+

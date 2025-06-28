@@ -10,7 +10,8 @@ reshape_results(
   model_ontology_col_name = "ontology_id",
   ontology_id_colname = "ontology_id",
   p_value_type_colname = "eFDR",
-  p_value_max_threshold = TRUE
+  p_value_max_threshold = TRUE,
+  result_extend_colnames = NULL
 )
 }
 \arguments{
@@ -38,6 +39,9 @@ The default value is 'eFDR'.}
 \item{p_value_max_threshold}{Logical, indicating whether to apply a
 \emph{p}-value threshold when filtering the resulting data. If TRUE,
 the function filters the data based on a \emph{p}-value threshold.}
+
+\item{result_extend_colnames}{List of existing column names which you wish to
+attached to results}
 }
 \value{
 Return detailed and relaxed \code{data.table} where model and results are

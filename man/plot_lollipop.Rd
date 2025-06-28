@@ -7,6 +7,7 @@
 plot_lollipop(
   reshaped_results,
   ontology_id_colname = "ontology_id",
+  plot_names_colname = NULL,
   selected_rows_to_plot = NULL,
   p_value_type_colname = "eFDR",
   p_value_max_threshold = 0.05
@@ -19,6 +20,9 @@ barplot.}
 
 \item{ontology_id_colname}{Character, specifies the column name that contains
 ontology IDs in the input data.}
+
+\item{plot_names_colname}{Column name used for representing labels of
+ontologies.}
 
 \item{selected_rows_to_plot}{A numeric vector specifying which rows of the
 reshaped results data frame should be included in the plot. Default is NULL.

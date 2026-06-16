@@ -66,9 +66,17 @@ do_the_simulation <- function(list_of_all_genes, pool, select,DB, steps,
             sep = "\\")
             cl <- makeCluster(spec=nthread, type="PSOCK", outfile=cl_outfile)
         } else { cl <- makeCluster(spec = nthread, type = "PSOCK")}
+        # Propagate the host's library paths to the PSOCK workers before loading
+        # the package. PSOCK workers are fresh R sessions that do not inherit the
+        # parent's .libPaths(); without this, library("mulea") fails on them when
+        # the package lives outside the default library tree -- e.g. the temporary
+        # *.Rcheck library during R CMD check (notably on Windows), which aborts
+        # vignette re-building with "there is no package called 'mulea'".
+        worker_libpaths <- .libPaths()
         clusterExport(cl, c("DB","list_of_all_genes", "pool", "select",
-            "seeds_per_thread", "steps_per_thread"), envir = environment())
-        clusterEvalQ(cl, library("mulea"))
+            "seeds_per_thread", "steps_per_thread", "worker_libpaths"),
+            envir = environment())
+        clusterEvalQ(cl, { .libPaths(worker_libpaths); library("mulea") })
         result_of_paralel <- clusterApplyLB(cl = cl, seq_len(nthread), 
             function(idx) {simulation_result_tbl <- tryCatch(
                 enrichment_test_simulation(DB, list_of_all_genes, pool, 

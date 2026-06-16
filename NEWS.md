@@ -1,3 +1,13 @@
+# mulea 1.1.2
+
+## Bug Fixes
+
+- The resampling eFDR's parallel backend now propagates the host's library paths to
+  the PSOCK worker processes before loading the package. This fixes vignette
+  re-building under `R CMD check` on Windows, which failed with "there is no package
+  called 'mulea'" because the workers could not locate the package in the temporary
+  `*.Rcheck` library.
+
 # mulea 1.1.1
 
 - Updated citation to the BMC Bioinformatics article.
